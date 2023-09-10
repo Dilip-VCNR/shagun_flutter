@@ -48,6 +48,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   salomon_bottom_bar: ^3.3.2
   url_launcher: ^6.1.12
+  firebase_core: ^2.15.1
 
 dev_dependencies:
   flutter_test:
