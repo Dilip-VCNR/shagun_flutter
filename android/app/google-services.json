@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1040028038022-4ti8u0966r655tv58fjhk2rtqnj1dib8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appisode.shagun.shagun_mobile",
+            "certificate_hash": "84d2f804e5d374611e4a9b9214074d2bbd5177b9"
+          }
+        },
+        {
           "client_id": "1040028038022-ii6lb13qa2vqql4p7b27vi9pasu79rhp.apps.googleusercontent.com",
           "client_type": 3
         }

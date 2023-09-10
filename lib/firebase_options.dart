@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1040028038022',
     projectId: 'shagun-20c2a',
     storageBucket: 'shagun-20c2a.appspot.com',
-    androidClientId: '1040028038022-n2u6a5p637uffi2vc42btb4me4gsm2do.apps.googleusercontent.com',
+    androidClientId: '1040028038022-4ti8u0966r655tv58fjhk2rtqnj1dib8.apps.googleusercontent.com',
     iosClientId: '1040028038022-47llmmg8pjj98dj1frft416kiur2vkrg.apps.googleusercontent.com',
     iosBundleId: 'com.appisode.shagun.shagunMobile',
   );
