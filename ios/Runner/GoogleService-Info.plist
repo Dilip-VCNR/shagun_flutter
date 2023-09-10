@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1040028038022-47llmmg8pjj98dj1frft416kiur2vkrg.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1040028038022-47llmmg8pjj98dj1frft416kiur2vkrg</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1040028038022-n2u6a5p637uffi2vc42btb4me4gsm2do.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDhSnxOJ-RMr3Scq8g2_IawGlXQ2h9AV4Q</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1040028038022</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.appisode.shagun.shagunMobile</string>
+	<key>PROJECT_ID</key>
+	<string>shagun-20c2a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>shagun-20c2a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1040028038022:ios:1a9abae1c2dfd64333f207</string>
+</dict>
+</plist>

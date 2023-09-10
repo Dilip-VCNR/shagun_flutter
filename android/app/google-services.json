@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "1040028038022",
+    "project_id": "shagun-20c2a",
+    "storage_bucket": "shagun-20c2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040028038022:android:d79d5c75cd3cd9a533f207",
+        "android_client_info": {
+          "package_name": "com.appisode.shagun.shagun_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1040028038022-ii6lb13qa2vqql4p7b27vi9pasu79rhp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAhgM4OODrlwdUrKv97LQtlbQaNN35y3w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1040028038022-59kjblq4jrnpk76cdjje8sth8toqevo5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1040028038022-47llmmg8pjj98dj1frft416kiur2vkrg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.appisode.shagun.shagunMobile"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040028038022:android:f4269df1463ee25733f207",
+        "android_client_info": {
+          "package_name": "com.shagun.mobile.shagun_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1040028038022-n2u6a5p637uffi2vc42btb4me4gsm2do.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shagun.mobile.shagun_mobile",
+            "certificate_hash": "84d2f804e5d374611e4a9b9214074d2bbd5177b9"
+          }
+        },
+        {
+          "client_id": "1040028038022-ii6lb13qa2vqql4p7b27vi9pasu79rhp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAhgM4OODrlwdUrKv97LQtlbQaNN35y3w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1040028038022-59kjblq4jrnpk76cdjje8sth8toqevo5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1040028038022-47llmmg8pjj98dj1frft416kiur2vkrg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.appisode.shagun.shagunMobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

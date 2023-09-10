@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,12 +14,16 @@ import 'dashboard/dashboard_screen.dart';
 import 'dashboard/my_events/view/all_invitations.dart';
 import 'dashboard/my_events/view/event_details.dart';
 import 'dashboard/notification/view/notifications_screen.dart';
+import 'firebase_options.dart';
 import 'gift_flow/view/check_out_screen.dart';
 import 'gift_flow/view/greeting_card_detail.dart';
 import 'gift_flow/view/select_greeting_card.dart';
 import 'gift_flow/view/wish_input_screen.dart';
 
-void main() {
+Future<void> main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
