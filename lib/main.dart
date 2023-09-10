@@ -21,6 +21,7 @@ import 'gift_flow/view/select_greeting_card.dart';
 import 'gift_flow/view/wish_input_screen.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
