@@ -77,7 +77,7 @@ class _EventDetailsState extends State<EventDetails> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Column(
@@ -85,8 +85,8 @@ class _EventDetailsState extends State<EventDetails> {
                             Row(
                               children: [
                                 Container(
-                                  width: 80,
-                                  height: 80,
+                                  width: 70,
+                                  height: 70,
                                   decoration: const ShapeDecoration(
                                     image: DecorationImage(
                                       image: NetworkImage(
@@ -100,7 +100,7 @@ class _EventDetailsState extends State<EventDetails> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  width: 20,
+                                  width: 10,
                                 ),
                                 const SizedBox(
                                   width: 100,
@@ -118,10 +118,10 @@ class _EventDetailsState extends State<EventDetails> {
                             Row(
                               children: [
                                 Container(
-                                  width: 80,
+                                  width: 70,
                                 ),
                                 const SizedBox(
-                                  width: 20,
+                                  width: 10,
                                 ),
                                 const SizedBox(
                                   width: 100,
@@ -139,8 +139,8 @@ class _EventDetailsState extends State<EventDetails> {
                             Row(
                               children: [
                                 Container(
-                                  width: 80,
-                                  height: 80,
+                                  width: 70,
+                                  height: 70,
                                   decoration: const ShapeDecoration(
                                     image: DecorationImage(
                                       image: NetworkImage(
@@ -154,7 +154,7 @@ class _EventDetailsState extends State<EventDetails> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  width: 20,
+                                  width: 10,
                                 ),
                                 const SizedBox(
                                   width: 100,
