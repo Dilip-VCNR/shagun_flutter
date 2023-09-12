@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -83,7 +82,6 @@ class ApiCalls {
       UrlConstant.userHomePage,
       jsonEncode(<String, String>{'uid': prefModel.userData!.user!.userId!}),
     ).then((response) {
-      log(response.body);
       if (response.statusCode == 200) {
         return HomeDataModel.fromJson(json.decode(response.body));
       } else if (response.statusCode == 401) {
@@ -330,7 +328,6 @@ class ApiCalls {
       UrlConstant.getUserProfile,
       jsonEncode(<String, String>{'uid': prefModel.userData!.user!.userId!}),
     ).then((response) {
-      print(response.body);
       if (response.statusCode == 200) {
         return ProfileDataModel.fromJson(json.decode(response.body));
       } else if (response.statusCode == 401) {
