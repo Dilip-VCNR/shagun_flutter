@@ -75,18 +75,18 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.all(8),
-                    child: IconButton(
-                        onPressed: () async {
-                          setState(() {});
-                        },
-                        icon: const Icon(
-                          Icons.insert_photo_outlined,
-                          color: Colors.white,
-                          size: 30,
-                        )),
-                  ),
+                  // Container(
+                  //   margin: const EdgeInsets.all(8),
+                  //   child: IconButton(
+                  //       onPressed: () async {
+                  //         setState(() {});
+                  //       },
+                  //       icon: const Icon(
+                  //         Icons.insert_photo_outlined,
+                  //         color: Colors.white,
+                  //         size: 30,
+                  //       )),
+                  // ),
                   Container(
                     margin: const EdgeInsets.all(8),
                     child: IconButton(
