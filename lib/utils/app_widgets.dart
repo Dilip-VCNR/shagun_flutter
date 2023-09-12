@@ -35,12 +35,12 @@ showLoaderDialog(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Lottie.asset('assets/lottie/loading_delivery_boy.json',
+                Lottie.asset('assets/lottie/loading.json',
                     height: 150),
                 const Text(
                   "Loading...",
                   style: TextStyle(
-                      color: AppColors.secondaryColor,
+                      color: AppColors.primaryColor,
                       fontSize: 22,
                       fontWeight: FontWeight.bold),
                 )

@@ -116,7 +116,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             if (firstStateEnabled) {
                               showLoaderDialog(context);
                               await authController.resendOtp(
-                                  context, phone, countryCode, screenSize);
+                                  context, phone, countryCode);
                               setState(() {
                                 firstStateEnabled = false;
                                 controller.restart(); // Restart the countdown

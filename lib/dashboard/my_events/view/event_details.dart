@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:shagun_mobile/utils/app_colors.dart';
+import 'package:shagun_mobile/utils/url_constants.dart';
 
 import '../../../utils/routes.dart';
+import '../model/single_event_model.dart';
 
 class EventDetails extends StatefulWidget {
   const EventDetails({Key? key}) : super(key: key);
@@ -11,17 +15,16 @@ class EventDetails extends StatefulWidget {
 }
 
 class _EventDetailsState extends State<EventDetails> {
+  SingleEventDataModel? eventData;
+
   @override
   Widget build(BuildContext context) {
-    final arguments = (ModalRoute
-        .of(context)
-        ?.settings
-        .arguments ??
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     String type = arguments['type'];
-    Size screenSize = MediaQuery
-        .of(context)
-        .size;
+    eventData = arguments['eventData'];
+
+    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
@@ -63,10 +66,10 @@ class _EventDetailsState extends State<EventDetails> {
                         ),
                       ),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        'Bharath invited you ',
-                        style: TextStyle(
+                        '${eventData!.event!.name} invited you ',
+                        style: const TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
@@ -87,13 +90,15 @@ class _EventDetailsState extends State<EventDetails> {
                                 Container(
                                   width: 70,
                                   height: 70,
-                                  decoration: const ShapeDecoration(
+                                  decoration: ShapeDecoration(
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          "https://via.placeholder.com/80x80"),
+                                          UrlConstant.imageBaseUrl +
+                                              eventData!
+                                                  .event!.admins![0].profile!),
                                       fit: BoxFit.fill,
                                     ),
-                                    shape: OvalBorder(
+                                    shape: const OvalBorder(
                                       side: BorderSide(
                                           width: 5, color: Color(0xFF9F813C)),
                                     ),
@@ -102,11 +107,11 @@ class _EventDetailsState extends State<EventDetails> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                const SizedBox(
+                                SizedBox(
                                   width: 100,
                                   child: Text(
-                                    'Bharath\nKumar',
-                                    style: TextStyle(
+                                    '${eventData!.event!.admins![0].name}',
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w700,
@@ -123,11 +128,11 @@ class _EventDetailsState extends State<EventDetails> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                const SizedBox(
+                                SizedBox(
                                   width: 100,
                                   child: Text(
-                                    'WEDS',
-                                    style: TextStyle(
+                                    '${eventData!.event!.eventType}',
+                                    style: const TextStyle(
                                       color: AppColors.secondaryColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w700,
@@ -136,39 +141,44 @@ class _EventDetailsState extends State<EventDetails> {
                                 )
                               ],
                             ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 70,
-                                  height: 70,
-                                  decoration: const ShapeDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          "https://via.placeholder.com/80x80"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                    shape: OvalBorder(
-                                      side: BorderSide(
-                                          width: 5, color: Color(0xFF9F813C)),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                const SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    'Smitha\nRao',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+                            eventData!.event!.admins!.length > 1
+                                ? Row(
+                                    children: [
+                                      Container(
+                                        width: 70,
+                                        height: 70,
+                                        decoration: ShapeDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                                UrlConstant.imageBaseUrl +
+                                                    eventData!
+                                                        .event!.admins![1].profile!),
+                                            fit: BoxFit.fill,
+                                          ),
+                                          shape: const OvalBorder(
+                                            side: BorderSide(
+                                                width: 5,
+                                                color: Color(0xFF9F813C)),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const SizedBox(
+                                        width: 100,
+                                        child: Text(
+                                          'Smitha\nRao',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : const SizedBox.shrink(),
                           ],
                         ),
                         Container(
@@ -189,9 +199,12 @@ class _EventDetailsState extends State<EventDetails> {
                           padding: const EdgeInsets.all(20),
                           child: Column(
                             children: [
-                              const Text(
-                                '13\nOCT\nFriday',
-                                style: TextStyle(
+                              Text(
+                                DateFormat("d\nMMM\nEEEE").format(
+                                    DateTime.parse(eventData!.event!.eventDate
+                                        .toString())),
+                                // '13\nOCT\nFriday',
+                                style: const TextStyle(
                                   color: AppColors.primaryColor,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
@@ -209,9 +222,10 @@ class _EventDetailsState extends State<EventDetails> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                child: const Text(
-                                  '12 PM',
-                                  style: TextStyle(
+                                child: Text(
+                                  DateFormat("hh:mm a").format(DateTime.parse(
+                                      eventData!.event!.eventDate.toString())),
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w700,
@@ -227,7 +241,9 @@ class _EventDetailsState extends State<EventDetails> {
                 ],
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             const Text(
               'Event venue',
               style: TextStyle(
@@ -235,35 +251,51 @@ class _EventDetailsState extends State<EventDetails> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const Text(
-              'Agarwal Bhavan\nNo. 81, NH 4, Tumkur Road, Dasanpura, \nBengaluru, Karnataka 560123',
-              style: TextStyle(
+            Text(
+              '${eventData!.event!.addressLine1}\n${eventData!.event!.addressLine2}',
+              style: const TextStyle(
                 color: Colors.black,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
               ),
             ),
-            const SizedBox(height: 10,),
-            Container(
-              width: screenSize.width / 2,
-              height: 40,
-              decoration: ShapeDecoration(
-                color: AppColors.secondaryColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7)),
-              ),
-              child: const Center(
-                child: Text(
-                  'Navigate on maps',
-                  style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+            const SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                final String coordinates = eventData!.event!.eventLatLng!;
+                List<String> parts = coordinates.split(', ');
+                String latitudePart = parts[0].split(': ')[1];
+                String longitudePart = parts[1].split(': ')[1];
+
+                double latitude = double.parse(latitudePart);
+                double longitude = double.parse(longitudePart);
+                MapsLauncher.launchCoordinates(latitude, longitude);
+              },
+              child: Container(
+                width: screenSize.width / 2,
+                height: 40,
+                decoration: ShapeDecoration(
+                  color: AppColors.secondaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7)),
+                ),
+                child: const Center(
+                  child: Text(
+                    'Navigate on maps',
+                    style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             const Text(
               'Events',
               style: TextStyle(
@@ -271,58 +303,63 @@ class _EventDetailsState extends State<EventDetails> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 10,),
-            const Text(
-              'Reception',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const Text(
-              '12 October 2023\n8 : 00 PM to 10 : 00 PM',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            const SizedBox(height: 10,),
-            const Text(
-              'Muhurtham',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const Text(
-              '12 October 2023\n8 : 00 PM to 10 : 00 PM',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-
-            const SizedBox(height: 30,),
-            type != 'own' ? GestureDetector(
-              onTap: (){
-                Navigator.pushNamed(context, Routes.selectGreetingCardRoute);
-              },
-              child: Container(
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFEAB948),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            for (int i = 0; i < eventData!.event!.subEvents!.length; i++)
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 10,
                   ),
-                  width: screenSize.width,
-                padding: const EdgeInsets.symmetric(vertical: 15),child: const Center(child: Text(
-                    'Send shagun to Bharath',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: AppColors.primaryColor,
+                  Text(
+                    eventData!.event!.subEvents![i].subEventName!,
+                    style: const TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w700,
                     ),
-                  ),)),
-            ):const SizedBox.shrink()
+                  ),
+                  Text(
+                    '${DateFormat('dd-MM-yyyy hh:mm a').format(DateTime.parse(eventData!.event!.subEvents![i].startTime!))}\nTo\n${DateFormat('dd-MM-yyyy hh:mm a').format(DateTime.parse(eventData!.event!.subEvents![i].endTime!))}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            const SizedBox(
+              height: 30,
+            ),
+            type != 'own'
+                ? GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, Routes.selectGreetingCardRoute);
+                    },
+                    child: Container(
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFFEAB948),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                        ),
+                        width: screenSize.width,
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Center(
+                          child: Text(
+                            'Send shagun to ${eventData!.event!.name}',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: AppColors.primaryColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )),
+                  )
+                : const SizedBox.shrink()
           ],
         ),
       ),

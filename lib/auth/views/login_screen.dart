@@ -2,6 +2,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shagun_mobile/utils/app_colors.dart';
+import 'package:shagun_mobile/utils/app_widgets.dart';
 
 import '../../utils/routes.dart';
 import '../../utils/url_constants.dart';
@@ -127,12 +128,10 @@ class _LoginScreenState extends State<LoginScreen> {
             GestureDetector(
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  Navigator.pushNamed(context, Routes.otpScreenRoute,
-                      arguments: {
-                        'phone': phoneNumberController.text,
-                        'selectedCountryCode': selectedCountryCode,
-                        'verificationId': ""
-                      });
+                  FocusScope.of(context).unfocus();
+                  showLoaderDialog(context);
+                  authController.loginWithPhoneNumber(
+                      context, phoneNumberController.text, selectedCountryCode);
                 }
               },
               child: Container(
@@ -177,6 +176,10 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20,
             ),
             GestureDetector(
+              onTap: (){
+                showLoaderDialog(context);
+                authController.signInWithGoogle(context);
+              },
               child: Container(
                 width: screenSize.width,
                 padding:

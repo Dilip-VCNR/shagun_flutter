@@ -1,24 +1,25 @@
 class UrlConstant {
-  static const String googleApiKey = "AIzaSyC6O2CG9zBAksJH4SCgCZlbx3XRWVwzY1E";
-
-  static const String websiteBaseUrl =
-      "http://santhuofficial123.pythonanywhere.com/";
-  static const String imageBaseUrl = "http://103.74.138.223:8012";
-  static const String apiBaseUrl = "http://103.74.138.223:8012/api/";
+  static const String websiteBaseUrl = "http://santhuofficial123.pythonanywhere.com/";
+  static const String imageBaseUrl = "http://santhuofficial123.pythonanywhere.com/media/";
+  static const String apiBaseUrl = "http://santhuofficial123.pythonanywhere.com/api/";
   static const String compatibility = "${apiBaseUrl}app_compatibility";
-  static const String registerCustomer = "${apiBaseUrl}customer/registerUser";
-  static const String getUser = "${apiBaseUrl}customer/getUser";
-  static const String updateUser = "${apiBaseUrl}customer/updateUser";
-  static const String addNewAddress =
-      "${apiBaseUrl}customer/customerNewAddress";
-  static const String userHomePage = "${apiBaseUrl}customer/userHomepage";
-  static const String searchApi = "${apiBaseUrl}store/searchApi";
-  static const String inStore = "${apiBaseUrl}store/getCategoryAndProductOnStore";
-  static const String orderHistory = "${apiBaseUrl}customer/customerOrderHistory";
-  static const String getCustomerPoints = "${apiBaseUrl}customerPoint/getCustomerPoints";
-  static const String placeOrder = "${apiBaseUrl}order/placeOrder";
+  static const String userDetails = "${apiBaseUrl}check_user";
+  static const String registerUser = "${apiBaseUrl}user_register";
+  static const String userHomePage = "${apiBaseUrl}user_home_page";
+  static const String giftReceivedList = "${apiBaseUrl}gift_received_list";
+  static const String giftSentList = "${apiBaseUrl}gift_sent_list";
+  static const String getMyEventList = "${apiBaseUrl}get_my_event_list";
+  static const String getUserProfile = "${apiBaseUrl}get_user_profile";
+  static const String requestCallBack = "${apiBaseUrl}request_callback";
+  static const String searchApi = "${apiBaseUrl}get_users_by_name_or_phone";
+  static const String getUserEvents = "${apiBaseUrl}search_user_event";
+  static const String getSingleEventDetails = "${apiBaseUrl}get_single_event";
+  static const String getGreetingCards = "${apiBaseUrl}get_greeting_cards";
+  static const String createOrder = "${apiBaseUrl}add_transaction_history";
+  static const String getAllInvitedEvents = "${apiBaseUrl}get_my_all_invited_events";
   static const String privacyPolicy = "${websiteBaseUrl}p/privacy-policy";
   static const String termsOfUse = "${websiteBaseUrl}p/t-c";
-  static const String faq = "${websiteBaseUrl}p/t-c";
-  static const String about = "${websiteBaseUrl}p/t-c";
+  static const String ipLocation = "https://api.ipregistry.co/?key=2tev2ltdlff985kx";
+  static const String about = "https://api.ipregistry.co/?key=2tev2ltdlff985kx";
+  static const String faq = "https://api.ipregistry.co/?key=2tev2ltdlff985kx";
 }

@@ -49,6 +49,12 @@ dependencies:
   salomon_bottom_bar: ^3.3.2
   url_launcher: ^6.1.12
   firebase_core: ^2.15.1
+  firebase_auth: ^4.9.0
+  firebase_messaging: ^14.6.7
+  http: ^1.1.0
+  intl: ^0.18.1
+  maps_launcher: ^2.2.0
+  month_picker_dialog: ^2.0.2
 
 dev_dependencies:
   flutter_test:

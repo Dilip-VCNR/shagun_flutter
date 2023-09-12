@@ -1,6 +1,8 @@
 
+import 'package:shagun_mobile/auth/model/user_details_model.dart';
+
 class PrefModel {
-  String? userData;
+  UserDetailsModel? userData;
 
   PrefModel({
     this.userData,
@@ -8,13 +10,15 @@ class PrefModel {
 
   factory PrefModel.fromJson(Map<String, dynamic> parsedJson) {
     return PrefModel(
-      userData: parsedJson["userData"],
+      userData: parsedJson["userData"] == null
+          ? null
+          : UserDetailsModel.fromJson(parsedJson["userData"]),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "userData": userData
+      "userData": userData?.toJson(),
     };
   }
 }
