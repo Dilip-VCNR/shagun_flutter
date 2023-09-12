@@ -13,4 +13,6 @@ class Routes {
   static const String greetingCardDetailRoute = "/greetingCardDetail";
   static const String wishInputRoute = "/wishInput";
   static const String checkOutRoute = "/checkOut";
+  static const String profileSearchRoute = "/profileSearch";
+  static const String userEventsRoute = "/userEvents";
 }

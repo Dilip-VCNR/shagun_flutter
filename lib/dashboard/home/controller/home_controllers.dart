@@ -19,4 +19,8 @@ class HomeControllers{
     return apiCalls.getSingleEventDataFromHome(context,eventId,invitedByPhone);
   }
 
+  getUserEvents(BuildContext context, String? searchUid) {
+    return apiCalls.getUserEventsData(context,searchUid);
+  }
+
 }

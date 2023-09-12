@@ -11,8 +11,10 @@ import 'auth/views/login_screen.dart';
 import 'auth/views/otp_screen.dart';
 import 'auth/views/register_screen.dart';
 import 'dashboard/dashboard_screen.dart';
+import 'dashboard/home/view/profile_search_screen.dart';
 import 'dashboard/my_events/view/all_invitations.dart';
 import 'dashboard/my_events/view/event_details.dart';
+import 'dashboard/my_events/view/user_events_screen.dart';
 import 'dashboard/notification/view/notifications_screen.dart';
 import 'database/app_pref.dart';
 import 'firebase_options.dart';
@@ -64,6 +66,8 @@ class MyApp extends StatelessWidget {
         Routes.greetingCardDetailRoute: (context) => const GreetingCardDetail(),
         Routes.wishInputRoute: (context) => const WishInputScreen(),
         Routes.checkOutRoute: (context) => const CheckOutScreen(),
+        Routes.profileSearchRoute: (context) => const ProfileSearchScreen(),
+        Routes.userEventsRoute: (context) => const UserEventsScreen(),
       },
     );
   }

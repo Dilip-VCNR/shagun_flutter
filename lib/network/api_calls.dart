@@ -7,6 +7,7 @@ import 'package:shagun_mobile/utils/app_widgets.dart';
 
 import '../auth/model/ip_location_model.dart';
 import '../auth/model/user_details_model.dart';
+import '../dashboard/my_events/controller/user_events_model.dart';
 import '../dashboard/my_events/model/all_invites_data_model.dart';
 import '../dashboard/home/model/home_data_model.dart';
 import '../dashboard/home/model/search_data_model.dart';
@@ -387,6 +388,88 @@ class ApiCalls {
         "statusCode": response.statusCode,
         "data": UserDetailsModel.fromJson(json.decode(response.body)),
       };
+    });
+  }
+  Future<UserEventsDataModel>? getUserEventsData(
+      BuildContext context, String? searchUid) {
+    return hitApi(
+      true,
+      UrlConstant.getUserEvents,
+      jsonEncode({'search_uid': searchUid, 'uid': prefModel.userData!.user!.userId!}),
+    ).then((response) {
+      if (response.statusCode == 200) {
+        return UserEventsDataModel.fromJson(json.decode(response.body));
+      } else if (response.statusCode == 401) {
+        return getRefreshToken().then((_) {
+          return hitApi(
+            true,
+            UrlConstant.getUserEvents,
+            jsonEncode({
+              'search_uid': searchUid,
+              'uid': prefModel.userData!.user!.userId!,
+            }),
+          ).then((reResponse) {
+            if (reResponse.statusCode == 200) {
+              return UserEventsDataModel.fromJson(json.decode(reResponse.body));
+            } else {
+              if (context.mounted) {
+                showErrorToast(context,"Something Went Wrong");
+              }
+              throw Exception('Failed to fetch');
+            }
+          });
+        });
+      } else {
+        if (context.mounted) {
+          showErrorToast(context,"Something Went Wrong");
+        }
+        throw Exception('Failed to fetch');
+      }
+    });
+  }
+
+
+  Future<SingleEventDataModel> getSingleEventData(
+      BuildContext context, UpcomingEvent upcomingEvent) {
+    return hitApi(
+      true,
+      UrlConstant.getSingleEventDetails,
+      jsonEncode({
+        'event_id': upcomingEvent.eventId,
+        'uid': prefModel.userData!.user!.userId!,
+        'phone': upcomingEvent.phone
+      }),
+    ).then((response) {
+      if (response.statusCode == 200) {
+        return SingleEventDataModel.fromJson(json.decode(response.body));
+      } else if (response.statusCode == 401) {
+        return getRefreshToken().then((_) {
+          return hitApi(
+            true,
+            UrlConstant.getSingleEventDetails,
+            jsonEncode({
+              'event_id': upcomingEvent.eventId,
+              'uid': prefModel.userData!.user!.userId!,
+              'phone': upcomingEvent.phone
+            }),
+          ).then((reResponse) {
+            if (reResponse.statusCode == 200) {
+              return SingleEventDataModel.fromJson(
+                  json.decode(reResponse.body));
+            } else {
+              if (context.mounted) {
+                showErrorToast(context,"Something Went Wrong");
+              }
+              throw Exception('Failed to fetch');
+            }
+          });
+        });
+      } else {
+        if (context.mounted) {
+          showErrorToast(context,"Something Went Wrong");
+        }
+        throw Exception('Failed to fetch');
+      }
     });
   }
 

@@ -172,28 +172,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                     width: 10,
                                   ),
                                   Expanded(
-                                    child: TextField(
-                                      enabled: false,
-                                      decoration: InputDecoration(
-                                        errorStyle: const TextStyle(
-                                            color: AppColors.secondaryColor),
-                                        suffixIcon: const Icon(Icons.search),
-                                        hintText: 'Search name or phone',
-                                        counterText: "",
-                                        isCollapsed: true,
-                                        filled: true,
-                                        fillColor: AppColors.inputFieldColor,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          borderSide: BorderSide.none,
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.pushNamed(context, Routes.profileSearchRoute);
+                                      },
+                                      child: TextField(
+                                        enabled: false,
+                                        decoration: InputDecoration(
+                                          errorStyle: const TextStyle(
+                                              color: AppColors.secondaryColor),
+                                          suffixIcon: const Icon(Icons.search),
+                                          hintText: 'Search name or phone',
+                                          counterText: "",
+                                          isCollapsed: true,
+                                          filled: true,
+                                          fillColor: AppColors.inputFieldColor,
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            borderSide: BorderSide.none,
+                                          ),
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 16.0),
                                         ),
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 16.0),
+                                        textAlignVertical:
+                                            TextAlignVertical.center,
                                       ),
-                                      textAlignVertical:
-                                          TextAlignVertical.center,
                                     ),
                                   )
                                 ],

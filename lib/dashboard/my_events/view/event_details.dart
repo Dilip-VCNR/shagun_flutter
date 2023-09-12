@@ -68,7 +68,9 @@ class _EventDetailsState extends State<EventDetails> {
                     ),
                     child: Center(
                       child: Text(
-                        '${eventData!.event!.name} invited you ',
+                        type == 'invited'
+                            ? '${eventData!.event!.name} invited you '
+                            : '${eventData!.event!.eventType}',
                         style: const TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 20,
@@ -151,8 +153,8 @@ class _EventDetailsState extends State<EventDetails> {
                                           image: DecorationImage(
                                             image: NetworkImage(
                                                 UrlConstant.imageBaseUrl +
-                                                    eventData!
-                                                        .event!.admins![1].profile!),
+                                                    eventData!.event!.admins![1]
+                                                        .profile!),
                                             fit: BoxFit.fill,
                                           ),
                                           shape: const OvalBorder(
