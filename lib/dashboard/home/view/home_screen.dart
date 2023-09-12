@@ -152,7 +152,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.pushNamed(context, Routes.qrScannerRoute);
+                                          },
                                           icon: const Icon(
                                             Icons.qr_code_scanner,
                                             size: 40,

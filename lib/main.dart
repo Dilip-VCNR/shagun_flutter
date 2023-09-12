@@ -12,6 +12,7 @@ import 'auth/views/otp_screen.dart';
 import 'auth/views/register_screen.dart';
 import 'dashboard/dashboard_screen.dart';
 import 'dashboard/home/view/profile_search_screen.dart';
+import 'dashboard/home/view/qr_scanner_screen.dart';
 import 'dashboard/my_events/view/all_invitations.dart';
 import 'dashboard/my_events/view/event_details.dart';
 import 'dashboard/my_events/view/user_events_screen.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
         Routes.checkOutRoute: (context) => const CheckOutScreen(),
         Routes.profileSearchRoute: (context) => const ProfileSearchScreen(),
         Routes.userEventsRoute: (context) => const UserEventsScreen(),
+        Routes.qrScannerRoute: (context) => const QrScannerScreen(),
       },
     );
   }

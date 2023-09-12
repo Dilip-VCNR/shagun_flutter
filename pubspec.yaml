@@ -57,6 +57,7 @@ dependencies:
   month_picker_dialog: ^2.0.2
   image_picker: ^1.0.4
   permission_handler: ^11.0.0
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:
