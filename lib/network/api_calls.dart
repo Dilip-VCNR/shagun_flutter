@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shagun_mobile/utils/app_widgets.dart';
 
+import '../auth/model/ip_location_model.dart';
 import '../auth/model/user_details_model.dart';
 import '../dashboard/my_events/model/all_invites_data_model.dart';
 import '../dashboard/home/model/home_data_model.dart';
@@ -350,6 +351,42 @@ class ApiCalls {
         }
         throw Exception('Failed to load Profile Data');
       }
+    });
+  }
+
+  Future<Map<String, dynamic>> registerUser(
+      String uid,
+      String fcmToken,
+      String name,
+      String phone,
+      String email,
+      String authType,
+      ) async {
+    var ipResponse = await http.get(
+      Uri.parse(UrlConstant.ipLocation),
+      headers: getHeaders(false),
+    );
+    String city = IpLocationModel.fromJson(json.decode(ipResponse.body)).location!.city!;
+
+    return hitApi(
+      false,
+      UrlConstant.registerUser,
+      jsonEncode({
+        'uid': uid,
+        'name': name,
+        'email': email,
+        'phone': phone,
+        'profile': "",
+        'auth_type': authType,
+        'role': 3,
+        'city': city,
+        'fcm_token': fcmToken,
+      }),
+    ).then((response) {
+      return {
+        "statusCode": response.statusCode,
+        "data": UserDetailsModel.fromJson(json.decode(response.body)),
+      };
     });
   }
 

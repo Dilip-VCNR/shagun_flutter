@@ -151,4 +151,41 @@ class AuthController {
           userCredential.user!.email!, "Google");
     }
   }
+
+  Future<void> apiCallForRegisterUser(
+      String? uid,
+      String? fcmToken,
+      String name,
+      String phone,
+      String email,
+      String authType,
+      BuildContext context) async {
+    var result = await apiCalls.registerUser(
+        uid!, fcmToken!, name, phone, email, authType);
+    switch (result['statusCode']) {
+      case 200:
+        UserDetailsModel userData = result['data'];
+        PrefModel prefModel = AppPref.getPref();
+        prefModel.userData = userData;
+        await AppPref.setPref(prefModel);
+        if (context.mounted) {
+          Navigator.pop(context);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(Routes.dashboardRoute, (route) => false);
+        }
+        break;
+      case 301:
+        if (context.mounted) {
+          Navigator.pop(context);
+          showErrorToast(context,"User already exist !");
+        }
+        break;
+      default:
+        if (context.mounted) {
+          Navigator.pop(context);
+          showErrorToast(context,"Something Went wrong");
+        }
+    }
+  }
+
 }

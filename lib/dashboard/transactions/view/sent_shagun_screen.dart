@@ -168,6 +168,7 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                       const SizedBox(
                         height: 20,
                       ),
+                      snapshot.data!.sentGifts!.isNotEmpty?
                       ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -300,6 +301,8 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                             height: 15,
                           );
                         },
+                      ):const Center(
+                        child: Text("No records found !",style: TextStyle(fontSize: 18),textAlign: TextAlign.center,),
                       )
                     ],
                   ),

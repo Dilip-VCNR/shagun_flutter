@@ -259,9 +259,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text(
-                          'Need to create your event and \nstart receiving shagun?',
-                          style: TextStyle(
+                        Text(
+                          snapshot.data!.kycStatus != 1
+                              ? 'Need to create your event and \nstart receiving shagun?'
+                              : 'KYC Completed',
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
@@ -270,19 +272,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text.rich(
+                        Text.rich(
                           TextSpan(
                             children: [
                               TextSpan(
-                                text:
-                                    'We noticed you have not initiated your KYC process,\nto create your event and start receiving shagun please\n',
-                                style: TextStyle(
+                                text: snapshot.data!.kycStatus != 1
+                                    ? 'We noticed you have not initiated your KYC process,\nto create your event and start receiving shagun please\n'
+                                    : "Congratulations! Your KYC is successfully completed, Now you can start sending and receiving gifts!\nIf need to update anything? ",
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              TextSpan(
+                              const TextSpan(
                                 text: '“Request for callback”',
                                 style: TextStyle(
                                   color: Colors.black,
@@ -290,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              TextSpan(
+                              const TextSpan(
                                 text:
                                     ' so our backoffice will contact you\nand guide.',
                                 style: TextStyle(
@@ -327,6 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 20,
                         ),
+                        snapshot.data!.eventsInviteList!.isNotEmpty?
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -361,7 +365,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                               )
-                            ]),
+                            ]):const SizedBox.shrink(),
+                        snapshot.data!.eventsInviteList!.isNotEmpty?
                         Text(
                           '${snapshot.data!.eventsInviteList!.length} People invited you for events',
                           style: const TextStyle(
@@ -369,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                           ),
-                        ),
+                        ):const SizedBox.shrink(),
                         const SizedBox(
                           height: 20,
                         ),

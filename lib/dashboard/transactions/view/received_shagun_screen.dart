@@ -157,7 +157,7 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                               child: Center(
                                 child: Text(
                                   "${selectedDate.month}-${selectedDate.year}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
@@ -171,6 +171,7 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                       const SizedBox(
                         height: 20,
                       ),
+                      snapshot.data!.receivedGifts!.isNotEmpty?
                       ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -237,14 +238,14 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                                                     children: [
                                                       TextSpan(
                                                         text: '${snapshot.data!.receivedGifts![index].name}',
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 16,
                                                           fontWeight:
                                                               FontWeight.w700,
                                                         ),
                                                       ),
-                                                      TextSpan(
+                                                      const TextSpan(
                                                         text: ' sent you shagun',
                                                         style: TextStyle(
                                                           color: Colors.black,
@@ -259,7 +260,7 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                                               ),
                                               Text(
                                                 'On your ${snapshot.data!.receivedGifts![index].eventTypeName}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
@@ -267,7 +268,7 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                                               ),
                                               Text(
                                                 '₹${snapshot.data!.receivedGifts![index].shagunAmount}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Color(0xFFBE9535),
                                                   fontSize: 22,
                                                   fontWeight: FontWeight.w700,
@@ -280,7 +281,7 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                                                           .receivedGifts![index]
                                                           .createdOn
                                                           .toString())),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w400,
@@ -303,6 +304,8 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                             height: 15,
                           );
                         },
+                      ):const Center(
+                        child: Text("No records found !",style: TextStyle(fontSize: 18),textAlign: TextAlign.center,),
                       )
                     ],
                   ),

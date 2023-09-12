@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shagun_mobile/utils/app_colors.dart';
 
 import '../../utils/app_widgets.dart';
@@ -22,11 +26,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   AuthController authController = AuthController();
+  bool isLoaded = false;
+  String? phone;
+  String? countryCode;
+  String? uid;
+  String? email;
+  String? authType;
+  File? _selectedImage;
+
+  Future<void> _getImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    var screenSize = MediaQuery.of(context).size;
 
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    if (!isLoaded) {
+      phone = arguments['phone'];
+      countryCode = arguments['countryCode'];
+      uid = arguments['uid'];
+      email = arguments['email'];
+      authType = arguments['authType'];
+
+      emailController.text = email == null ? "" : email!;
+      phoneController.text = phone == null ? "" : phone!;
+      isLoaded = true;
+    }
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       appBar: AppBar(
@@ -151,10 +185,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return;
                     }
                     showLoaderDialog(context);
+                    final fcmToken =
+                        await FirebaseMessaging.instance.getToken();
                     if (context.mounted) {
-                      Navigator.pop(context);
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          Routes.dashboardRoute, (route) => false);
+                      authController.apiCallForRegisterUser(
+                          uid,
+                          fcmToken,
+                          nameController.text,
+                          phoneController.text,
+                          emailController.text,
+                          authType!,
+                          context);
                     }
                   }
                 },
@@ -173,7 +214,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Text(
                         'Finish, Good to go',
                         style: TextStyle(
-                            color: AppColors.primaryColor, fontSize: 17,fontWeight: FontWeight.bold),
+                            color: AppColors.primaryColor,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -197,28 +240,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    Stack(
-                      children: [
-                        const CircleAvatar(
-                          radius: 50,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Positioned(
-                            bottom: 2,
-                            right: 2,
-                            child: CircleAvatar(
-                                radius: 15,
-                                backgroundColor: Colors.grey,
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.edit,
-                                      size: 15,
-                                    ),
-                                    color: Colors.black)))
-                      ],
+                    GestureDetector(
+                      onTap: _getImageFromGallery,
+                      child: Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage: _selectedImage != null
+                                ? FileImage(_selectedImage!)
+                                : null,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Positioned(
+                              bottom: 2,
+                              right: 2,
+                              child: CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: Colors.grey.shade400,
+                                  child: IconButton(
+                                      onPressed: () {},
+                                      icon: const Icon(
+                                        Icons.file_upload_outlined,
+                                        size: 15,
+                                      ),
+                                      color: Colors.black)))
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
@@ -235,7 +284,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        errorStyle: const TextStyle(color: AppColors.secondaryColor),
+                        errorStyle:
+                            const TextStyle(color: AppColors.secondaryColor),
                         prefixIcon: const Icon(Icons.person_2_outlined),
                         hintText: 'Full Name',
                         counterText: "",
@@ -255,6 +305,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 20,
                     ),
                     TextFormField(
+                      enabled: authType == 'Google' ? false : true,
                       controller: emailController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -266,7 +317,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        errorStyle: const TextStyle(color: AppColors.secondaryColor),
+                        errorStyle:
+                            const TextStyle(color: AppColors.secondaryColor),
                         prefixIcon: const Icon(Icons.email_outlined),
                         hintText: 'Email',
                         counterText: "",
@@ -286,6 +338,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 20,
                     ),
                     TextFormField(
+                      enabled: authType == 'Phone' ? false : true,
                       controller: phoneController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -299,7 +352,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       keyboardType: TextInputType.number,
                       maxLength: 10,
                       decoration: InputDecoration(
-                        errorStyle: const TextStyle(color: AppColors.secondaryColor),
+                        errorStyle:
+                            const TextStyle(color: AppColors.secondaryColor),
                         prefixIcon: const Icon(Icons.phone_outlined),
                         hintText: 'Phone number',
                         counterText: "",

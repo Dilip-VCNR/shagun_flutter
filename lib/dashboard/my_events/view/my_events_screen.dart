@@ -22,6 +22,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
   late Future<EventsScreenModel>? eventsData;
 
   HomeControllers homeControllers = HomeControllers();
+
   @override
   void initState() {
     super.initState();
@@ -99,213 +100,240 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
               }
               if (snapshot.hasData) {
                 return SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'Invitations',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, Routes.allInvitationsRoute);
-                                  },
-                                  child: const Row(
-                                    children: [
-                                      Text(
-                                        'View All',
+                          snapshot.data!.invitedEvents!.isNotEmpty
+                              ? Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                      const Text(
+                                        'Invitations',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 16,
+                                          fontSize: 20,
                                           fontWeight: FontWeight.w700,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Icon(Icons.navigate_next)
-                                    ],
-                                  ),
-                                )
-                              ]),
-                          Text(
-                            '${snapshot.data!.invitedEvents!.length} People invited you for events',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: 2,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () async {
-                                  showLoaderDialog(context);
-                                  SingleEventDataModel eventData =
-                                  await homeControllers
-                                      .getEventDetailsFromHome(
-                                      context,
-                                      snapshot
-                                          .data!
-                                          .invitedEvents![index]
-                                          .eventId!,
-                                      snapshot
-                                          .data!
-                                          .invitedEvents![index]
-                                          .invitedBy!);
-                                  if(context.mounted){
-                                    Navigator.pop(context);
-                                    Navigator.pushNamed(
-                                        context, Routes.eventDetailsRoute,
-                                        arguments: {
-                                          'type': 'invited',
-                                          'eventData': eventData
-                                        });
-                                  }
-                                },
-                                child: Container(
-                                  decoration: ShapeDecoration(
-                                    color: AppColors.primaryColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width: screenSize.width / 5,
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10, horizontal: 10),
-                                        child: Text(
-                                          DateFormat("d \nMMM").format(
-                                              DateTime.parse(snapshot
-                                                  .data!
-                                                  .invitedEvents![index]
-                                                  .eventDate
-                                                  .toString())),                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          width: double.infinity,
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: ShapeDecoration(
-                                            color: AppColors.cardBgColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    width: 40,
-                                                    height: 40,
-                                                    decoration:
-                                                        const ShapeDecoration(
-                                                      image: DecorationImage(
-                                                        image: NetworkImage(
-                                                            "https://via.placeholder.com/40x40"),
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                                      shape: OvalBorder(),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      SizedBox(
-                                                        width:
-                                                            screenSize.width /
-                                                                2.5,
-                                                        child: Text(
-                                                          'Bharath invited you to his ${snapshot.data!.invitedEvents![index].eventName}',
-                                                          style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                            screenSize.width /
-                                                                2.5,
-                                                        child: const Text(
-                                                          'Send your greetings with shagun',
-                                                          style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  )
-                                                ],
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(context,
+                                              Routes.allInvitationsRoute);
+                                        },
+                                        child: const Row(
+                                          children: [
+                                            Text(
+                                              'View All',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
                                               ),
-                                              const Icon(Icons.navigate_next)
-                                            ],
-                                          ),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Icon(Icons.navigate_next)
+                                          ],
                                         ),
                                       )
-                                    ],
+                                    ])
+                              : SizedBox.shrink(),
+                          snapshot.data!.invitedEvents!.isNotEmpty
+                              ? Text(
+                                  '${snapshot.data!.invitedEvents!.length} People invited you for events',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const SizedBox(
-                                height: 15,
-                              );
-                            },
-                          ),
+                                )
+                              : SizedBox.shrink(),
+                          snapshot.data!.invitedEvents!.isNotEmpty
+                              ? const SizedBox(
+                                  height: 20,
+                                )
+                              : SizedBox.shrink(),
+                          snapshot.data!.invitedEvents!.isNotEmpty
+                              ? ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      snapshot.data!.invitedEvents!.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        showLoaderDialog(context);
+                                        SingleEventDataModel eventData =
+                                            await homeControllers
+                                                .getEventDetailsFromHome(
+                                                    context,
+                                                    snapshot
+                                                        .data!
+                                                        .invitedEvents![index]
+                                                        .eventId!,
+                                                    snapshot
+                                                        .data!
+                                                        .invitedEvents![index]
+                                                        .invitedBy!);
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                          Navigator.pushNamed(
+                                              context, Routes.eventDetailsRoute,
+                                              arguments: {
+                                                'type': 'invited',
+                                                'eventData': eventData
+                                              });
+                                        }
+                                      },
+                                      child: Container(
+                                        decoration: ShapeDecoration(
+                                          color: AppColors.primaryColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: screenSize.width / 5,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 10),
+                                              child: Text(
+                                                DateFormat("d \nMMM").format(
+                                                    DateTime.parse(snapshot
+                                                        .data!
+                                                        .invitedEvents![index]
+                                                        .eventDate
+                                                        .toString())),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                width: double.infinity,
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                decoration: ShapeDecoration(
+                                                  color: AppColors.cardBgColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Container(
+                                                          width: 40,
+                                                          height: 40,
+                                                          decoration:
+                                                              const ShapeDecoration(
+                                                            image:
+                                                                DecorationImage(
+                                                              image: NetworkImage(
+                                                                  "https://via.placeholder.com/40x40"),
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                            shape: OvalBorder(),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            SizedBox(
+                                                              width: screenSize
+                                                                      .width /
+                                                                  2.5,
+                                                              child: Text(
+                                                                'Bharath invited you to his ${snapshot.data!.invitedEvents![index].eventName}',
+                                                                style:
+                                                                    const TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: screenSize
+                                                                      .width /
+                                                                  2.5,
+                                                              child: const Text(
+                                                                'Send your greetings with shagun',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                    const Icon(
+                                                        Icons.navigate_next)
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return const SizedBox(
+                                      height: 15,
+                                    );
+                                  },
+                                )
+                              : SizedBox.shrink(),
+                          snapshot.data!.invitedEvents!.isNotEmpty?
                           const SizedBox(
                             height: 20,
-                          ),
+                          ):SizedBox.shrink(),
                           const Text(
                             'My Events',
                             style: TextStyle(

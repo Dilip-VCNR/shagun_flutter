@@ -55,6 +55,8 @@ dependencies:
   intl: ^0.18.1
   maps_launcher: ^2.2.0
   month_picker_dialog: ^2.0.2
+  image_picker: ^1.0.4
+  permission_handler: ^11.0.0
 
 dev_dependencies:
   flutter_test:
