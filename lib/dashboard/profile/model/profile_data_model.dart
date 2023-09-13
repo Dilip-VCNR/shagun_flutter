@@ -18,6 +18,8 @@ class ProfileDataModel {
   User? user;
   List<BankDatum>? bankData;
   KycData? kycData;
+  bool? isActiveKycRequest;
+
 
   ProfileDataModel({
     this.status,
@@ -29,6 +31,7 @@ class ProfileDataModel {
     this.user,
     this.bankData,
     this.kycData,
+    this.isActiveKycRequest
   });
 
   factory ProfileDataModel.fromJson(Map<String, dynamic> json) => ProfileDataModel(
@@ -41,6 +44,7 @@ class ProfileDataModel {
     user: json["user"] == null ? null : User.fromJson(json["user"]),
     bankData: json["bank_data"] == null ? [] : List<BankDatum>.from(json["bank_data"]!.map((x) => BankDatum.fromJson(x))),
     kycData: json["kyc_data"] == null ? null : KycData.fromJson(json["kyc_data"]),
+    isActiveKycRequest: json['is_active_kyc_request'],
   );
 
   Map<String, dynamic> toJson() => {
@@ -53,6 +57,7 @@ class ProfileDataModel {
     "user": user?.toJson(),
     "bank_data": bankData == null ? [] : List<dynamic>.from(bankData!.map((x) => x.toJson())),
     "kyc_data": kycData?.toJson(),
+    "is_active_kyc_request": isActiveKycRequest,
   };
 }
 

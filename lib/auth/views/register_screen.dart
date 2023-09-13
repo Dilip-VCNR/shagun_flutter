@@ -184,6 +184,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           "Please read the privacy policy and terms and conditions and apply check to proceed further");
                       return;
                     }
+                    if(_selectedImage==null){
+                      showErrorToast(context,
+                          "Please upload a profile picture");
+                      return;
+                    }
                     showLoaderDialog(context);
                     final fcmToken =
                         await FirebaseMessaging.instance.getToken();

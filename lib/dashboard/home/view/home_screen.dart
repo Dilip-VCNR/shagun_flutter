@@ -6,6 +6,7 @@ import 'package:shagun_mobile/utils/app_widgets.dart';
 import 'package:shagun_mobile/utils/routes.dart';
 import 'package:shagun_mobile/utils/url_constants.dart';
 
+import '../../../auth/controller/auth_controller.dart';
 import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 import '../../my_events/model/single_event_model.dart';
@@ -76,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 60,
                                   height: 60,
                                   decoration: ShapeDecoration(
+                                    color: AppColors.secondaryColor,
                                     image: DecorationImage(
                                       image: NetworkImage(
                                           "${UrlConstant.imageBaseUrl}${prefModel.userData!.user!.profile}"),
@@ -227,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Text(
-                                        '₹${snapshot.data!.totalRecievedAmount}',
+                                        '₹${snapshot.data!.totalReceivedAmount}',
                                         style: const TextStyle(
                                           color: Color(0xFFEAB948),
                                           fontSize: 20,
@@ -315,21 +317,41 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          width: screenSize.width / 2,
-                          height: 40,
-                          decoration: ShapeDecoration(
-                            color: AppColors.secondaryColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(7)),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'Request callback',
-                              style: TextStyle(
-                                color: AppColors.primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
+                        GestureDetector(
+                          onTap: () async {
+                            if(snapshot.data!.isActiveKycRequest==false){
+                              AuthController authController =
+                              AuthController();
+                              showLoaderDialog(context);
+                              await authController
+                                  .requestKycCallBack(context);
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                showSuccessToast(context,
+                                  "Successfully raised the request\nOur back office will get in touch with you soon !",
+                                );
+                                _pullRefresh();
+                              }
+                            }else{
+                              showErrorToast(context, "You already have an active request !\nOur back office will contact you soon");
+                            }
+                          },
+                          child: Container(
+                            width: screenSize.width / 2,
+                            height: 40,
+                            decoration: ShapeDecoration(
+                              color: !snapshot.data!.isActiveKycRequest!?AppColors.secondaryColor:Colors.grey,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(7)),
+                            ),
+                            child:  Center(
+                              child: Text(
+                                !snapshot.data!.isActiveKycRequest!?'Request callback':"Already requested",
+                                style: const TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
@@ -468,13 +490,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   width: 40,
                                                   height: 40,
                                                   decoration:
-                                                      const ShapeDecoration(
+                                                      ShapeDecoration(
                                                     image: DecorationImage(
                                                       image: NetworkImage(
-                                                          "https://via.placeholder.com/40x40"),
+                                                          "${UrlConstant.imageBaseUrl}${snapshot.data!.eventsInviteList![index].invitedByProfilePic}"),
                                                       fit: BoxFit.fill,
                                                     ),
-                                                    shape: OvalBorder(),
+                                                    shape: const OvalBorder(),
                                                   ),
                                                 ),
                                                 const SizedBox(
@@ -490,7 +512,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       width: screenSize.width /
                                                           2.5,
                                                       child: Text(
-                                                        'Bharath invited you to his ${snapshot.data!.eventsInviteList![index].eventName}',
+                                                        '${snapshot.data!.eventsInviteList![index].invitedByName} invited you to his ${snapshot.data!.eventsInviteList![index].eventName}',
                                                         style: const TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 16,

@@ -88,6 +88,7 @@ class ApiCalls {
       UrlConstant.userHomePage,
       jsonEncode(<String, String>{'uid': prefModel.userData!.user!.userId!}),
     ).then((response) {
+      print(response.body);
       if (response.statusCode == 200) {
         return HomeDataModel.fromJson(json.decode(response.body));
       } else if (response.statusCode == 401) {
@@ -370,7 +371,7 @@ class ApiCalls {
     String phone,
     String email,
     String authType,
-    File? selectedImage,
+    File? selectedImage, BuildContext context,
   ) async {
     var ipResponse = await http.get(
       Uri.parse(UrlConstant.ipLocation),
@@ -387,9 +388,8 @@ class ApiCalls {
     request.fields['name'] = name;
     request.fields['email'] = email;
     request.fields['phone'] = phone;
-    request.fields['profile'] = "";
     request.fields['auth_type'] = authType;
-    request.fields['role'] = '3'; // Note: Convert to string
+    request.fields['role'] = '3';
     request.fields['city'] = city;
     request.fields['fcm_token'] = fcmToken;
 
@@ -420,6 +420,8 @@ class ApiCalls {
         "data": UserDetailsModel.fromJson(responseJson),
       };
     } else {
+      Navigator.pop(context);
+      showErrorToast(context, "Something went wrong");
       throw Exception('Failed to upload image');
     }
   }
@@ -529,6 +531,99 @@ class ApiCalls {
           );
         }
         throw Exception('COMPATIBILITY API FAILED LOADING');
+      }
+    });
+  }
+
+
+  requestKycCallBack(String s, BuildContext context) {
+    return hitApi(
+      true,
+      UrlConstant.requestCallBack,
+      jsonEncode({
+        'uid': prefModel.userData!.user!.userId!,
+        'type': 'KYC',
+        'event_date': null,
+        'event_type': null,
+        'city': null
+      }),
+    ).then((response) {
+      if (response.statusCode == 200) {
+        return response.body;
+      } else if (response.statusCode == 401) {
+        return getRefreshToken().then((_) {
+          return hitApi(
+            true,
+            UrlConstant.requestCallBack,
+            jsonEncode({
+              'uid': prefModel.userData!.user!.userId!,
+              'type': 'KYC',
+              'event_date': 'null',
+              'event_type': 'null',
+              'city': 'null'
+            }),
+          ).then((reResponse) {
+            if (reResponse.statusCode == 200) {
+              return response.body;
+            } else {
+              if (context.mounted) {
+                Navigator.pop(context);
+                showErrorToast(context,"Failed to Request for KYC");
+              }
+              throw Exception('Failed to Request for KYC');
+            }
+          });
+        });
+      } else {
+        if (context.mounted) {
+          Navigator.pop(context);
+          showErrorToast(context,"Something Went Wrong");
+        }
+        throw Exception('Failed to Request for KYC');
+      }
+    });
+  }
+
+  requestEventCallBack(BuildContext context, String? eventTypeName) {
+    return hitApi(
+      true,
+      UrlConstant.requestCallBack,
+      jsonEncode({
+        'uid': prefModel.userData!.user!.userId!,
+        'type': 'EVENT',
+        'event_type': eventTypeName,
+      }),
+    ).then((response) {
+      if (response.statusCode == 200) {
+        return response.body;
+      } else if (response.statusCode == 401) {
+        return getRefreshToken().then((_) {
+          return hitApi(
+            true,
+            UrlConstant.requestCallBack,
+            jsonEncode({
+              'uid': prefModel.userData!.user!.userId!,
+              'type': 'EVENT',
+              'event_type': eventTypeName,
+            }),
+          ).then((reResponse) {
+            if (reResponse.statusCode == 200) {
+              return response.body;
+            } else {
+              if (context.mounted) {
+                Navigator.pop(context);
+                showErrorToast(context,"Failed to Request for Event");
+              }
+              throw Exception('Failed to Request for KYC');
+            }
+          });
+        });
+      } else {
+        if (context.mounted) {
+          Navigator.pop(context);
+          showErrorToast(context,"Something Went Wrong");
+        }
+        throw Exception('Failed to Request for Event');
       }
     });
   }

@@ -3,7 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shagun_mobile/dashboard/home/controller/home_controllers.dart';
 import 'package:shagun_mobile/dashboard/my_events/controller/my_events_controller.dart';
+import 'package:shagun_mobile/utils/url_constants.dart';
 
+import '../../../database/app_pref.dart';
+import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_widgets.dart';
 import '../../../utils/routes.dart';
@@ -22,6 +25,9 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
   late Future<EventsScreenModel>? eventsData;
 
   HomeControllers homeControllers = HomeControllers();
+  PrefModel prefModel = AppPref.getPref();
+
+  var eventTypes;
 
   @override
   void initState() {
@@ -44,33 +50,110 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
           ),
         ),
         actions: [
-          Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              decoration: ShapeDecoration(
-                color: AppColors.primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+          GestureDetector(
+            onTap: () {
+              showDialog<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  int selectedRadio = 0;
+                  return AlertDialog(
+                    content: StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: List<Widget>.generate(
+                          eventTypes.length,
+                              (int index) {
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedRadio = index;
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Radio<int>(
+                                    value: index,
+                                    groupValue: selectedRadio,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedRadio = value!;
+                                      });
+                                    },
+                                  ),
+                                  Text(eventTypes[index]
+                                      .eventTypeName!)
+                                ],
+                              ),
+                            );
+                          }),
+                        );
+                      },
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          // Cancel button action here (discard changes)
+                          Navigator.pop(
+                              context); // Close the dialog without saving
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          // Submit button action here (save the selected event type)
+                          showLoaderDialog(context);
+                          await myEventsController.requestEvent(
+                              eventTypes[selectedRadio]
+                                  .eventTypeName,
+                              context);
+                          if (context.mounted) {
+                            Navigator.pop(
+                                context); // Close the dialog after submitting
+                            Navigator.pop(
+                                context); // Close the dialog after submitting
+                            showSuccessToast(
+                              context,
+                              "Request for event is successfull\nOur Back office will contact you soon !",
+                            );
+                          }
+                        },
+                        child: const Text('Submit'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                decoration: ShapeDecoration(
+                  color: AppColors.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Create event",
-                    style: TextStyle(
-                        fontSize: 16, color: AppColors.scaffoldBackground),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.add,
-                    color: AppColors.scaffoldBackground,
-                  ),
-                ],
-              ))
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Create event",
+                      style: TextStyle(
+                          fontSize: 16, color: AppColors.scaffoldBackground),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon(
+                      Icons.add,
+                      color: AppColors.scaffoldBackground,
+                    ),
+                  ],
+                )),
+          )
         ],
       ),
       body: SafeArea(
@@ -99,6 +182,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                 );
               }
               if (snapshot.hasData) {
+                eventTypes = snapshot.data!.eventTypeList;
                 return SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
@@ -142,22 +226,22 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                         ),
                                       )
                                     ])
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                           snapshot.data!.invitedEvents!.isNotEmpty
                               ? Text(
                                   '${snapshot.data!.invitedEvents!.length} People invited you for events',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 )
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                           snapshot.data!.invitedEvents!.isNotEmpty
                               ? const SizedBox(
                                   height: 20,
                                 )
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                           snapshot.data!.invitedEvents!.isNotEmpty
                               ? ListView.separated(
                                   shrinkWrap: true,
@@ -219,7 +303,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                         .eventDate
                                                         .toString())),
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
@@ -252,14 +336,15 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                           width: 40,
                                                           height: 40,
                                                           decoration:
-                                                              const ShapeDecoration(
+                                                              ShapeDecoration(
                                                             image:
                                                                 DecorationImage(
                                                               image: NetworkImage(
-                                                                  "https://via.placeholder.com/40x40"),
+                                                                  "${UrlConstant.imageBaseUrl}${snapshot.data!.invitedEvents![index].invitedByProfilePic}"),
                                                               fit: BoxFit.fill,
                                                             ),
-                                                            shape: OvalBorder(),
+                                                            shape:
+                                                                const OvalBorder(),
                                                           ),
                                                         ),
                                                         const SizedBox(
@@ -278,7 +363,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                                       .width /
                                                                   2.5,
                                                               child: Text(
-                                                                'Bharath invited you to his ${snapshot.data!.invitedEvents![index].eventName}',
+                                                                '${snapshot.data!.invitedEvents![index].invitedByName} invited you to his ${snapshot.data!.invitedEvents![index].eventName}',
                                                                 style:
                                                                     const TextStyle(
                                                                   color: Colors
@@ -329,243 +414,336 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                     );
                                   },
                                 )
-                              : SizedBox.shrink(),
-                          snapshot.data!.invitedEvents!.isNotEmpty?
-                          const SizedBox(
-                            height: 20,
-                          ):SizedBox.shrink(),
-                          const Text(
-                            'My Events',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                              : const SizedBox.shrink(),
+                          snapshot.data!.invitedEvents!.isNotEmpty
+                              ? const SizedBox(
+                                  height: 20,
+                                )
+                              : const SizedBox.shrink(),
+                          snapshot.data!.myEvents!.isNotEmpty
+                              ? const Text(
+                                  'My Events',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
                           const SizedBox(
                             height: 10,
                           ),
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: 2,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.eventDetailsRoute,
-                                      arguments: {'type': 'own'});
-                                },
-                                child: Container(
-                                  width: screenSize.width,
-                                  padding: const EdgeInsets.all(20),
-                                  decoration: ShapeDecoration(
-                                    color: const Color(0xFFD9D9D9),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Column(
-                                            children: [
-                                              SizedBox(
-                                                width: 100,
-                                                height: 70,
-                                                child: Stack(
+                          snapshot.data!.myEvents!.isNotEmpty
+                              ? ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: snapshot.data!.myEvents!.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        showLoaderDialog(context);
+                                        SingleEventDataModel eventData =
+                                            await homeControllers
+                                                .getEventDetailsFromHome(
+                                                    context,
+                                                    snapshot
+                                                        .data!
+                                                        .myEvents![index]
+                                                        .eventId!,
+                                                    prefModel.userData!.user!
+                                                        .userId!);
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                          Navigator.pushNamed(
+                                              context, Routes.eventDetailsRoute,
+                                              arguments: {
+                                                'type': 'own',
+                                                'eventData': eventData
+                                              });
+                                        }
+                                      },
+                                      child: Container(
+                                        width: screenSize.width,
+                                        padding: const EdgeInsets.all(20),
+                                        decoration: ShapeDecoration(
+                                          color: const Color(0xFFD9D9D9),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
                                                   children: [
-                                                    for (int i = 0; i < 2; i++)
-                                                      Positioned(
-                                                        left: i * 40,
-                                                        child: ClipOval(
-                                                          child: CircleAvatar(
-                                                            backgroundColor: i ==
-                                                                    1
-                                                                ? AppColors
-                                                                    .secondaryColor
-                                                                : AppColors
-                                                                    .primaryColor,
-                                                            radius: 30,
+                                                    SizedBox(
+                                                        width: snapshot
+                                                                    .data!
+                                                                    .myEvents![
+                                                                        index]
+                                                                    .admins!
+                                                                    .length >
+                                                                1
+                                                            ? 100
+                                                            : 60,
+                                                        height: 70,
+                                                        child: Stack(
+                                                          children: [
+                                                            for (int i = 0;
+                                                                i <
+                                                                    snapshot
+                                                                        .data!
+                                                                        .myEvents![
+                                                                            index]
+                                                                        .admins!
+                                                                        .length;
+                                                                i++)
+                                                              Positioned(
+                                                                left: i * 40,
+                                                                child: ClipOval(
+                                                                  child:
+                                                                      CircleAvatar(
+                                                                    backgroundImage: NetworkImage(UrlConstant
+                                                                            .imageBaseUrl +
+                                                                        snapshot
+                                                                            .data!
+                                                                            .myEvents![index]
+                                                                            .admins![i]
+                                                                            .profile!),
+                                                                    backgroundColor: i ==
+                                                                            1
+                                                                        ? AppColors
+                                                                            .secondaryColor
+                                                                        : AppColors
+                                                                            .primaryColor,
+                                                                    radius: 30,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                          ],
+                                                        )),
+                                                    Container(
+                                                      width: 100,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color: AppColors
+                                                            .secondaryColor,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            7)),
+                                                      ),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 7),
+                                                      child: const Center(
+                                                        child: Text(
+                                                          "View Gifts",
+                                                          style: TextStyle(
+                                                            color: AppColors
+                                                                .primaryColor,
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight.w700,
                                                           ),
                                                         ),
                                                       ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Container(
+                                                      width: 100,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            7)),
+                                                      ),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 7),
+                                                      child: const Center(
+                                                        child: Text(
+                                                          "Show QR",
+                                                          style: TextStyle(
+                                                            color: AppColors
+                                                                .scaffoldBackground,
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
                                                   ],
                                                 ),
-                                              ),
-                                              Container(
-                                                width: 100,
-                                                decoration: ShapeDecoration(
-                                                  color:
-                                                      AppColors.secondaryColor,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              7)),
+                                                const SizedBox(
+                                                  width: 20,
                                                 ),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 7),
-                                                child: const Center(
-                                                  child: Text(
-                                                    "View Gifts",
-                                                    style: TextStyle(
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Container(
-                                                width: 100,
-                                                decoration: ShapeDecoration(
-                                                  color: AppColors.primaryColor,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              7)),
-                                                ),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 7),
-                                                child: const Center(
-                                                  child: Text(
-                                                    "Show QR",
-                                                    style: TextStyle(
-                                                      color: AppColors
-                                                          .scaffoldBackground,
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                'Wedding',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              const Text(
-                                                'Bharath and Priya',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              const Row(
-                                                children: [
-                                                  Text(
-                                                    '₹1100',
-                                                    style: TextStyle(
-                                                      color: Color(0xFFBE9535),
-                                                      fontSize: 22,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    'Shagun received',
-                                                    style: TextStyle(
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      snapshot
+                                                          .data!
+                                                          .myEvents![index]
+                                                          .eventName!,
+                                                      style: const TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: 14,
+                                                        fontSize: 16,
                                                         fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                width: screenSize.width / 2,
-                                                child: const Text(
-                                                  '160 people have sent you shagun',
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                              const Row(
-                                                children: [
-                                                  Text(
-                                                    'Event on : ',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                            FontWeight.w700,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    '09 - October - 2023',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400,
+                                                    const Text(
+                                                      'Bharath and Priya',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                width: screenSize.width / 2,
-                                                child: const Text(
-                                                  'Active',
-                                                  style: TextStyle(
-                                                    color: Colors.green,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          '₹${snapshot.data!.myEvents![index].totalRecievedAmount}',
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Color(
+                                                                0xFFBE9535),
+                                                            fontSize: 22,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        const Text(
+                                                          'Shagun received',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width:
+                                                          screenSize.width / 2,
+                                                      child: Text(
+                                                        '${snapshot.data!.myEvents![index].totalSendersCount} people have sent you shagun',
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        const Text(
+                                                          'Event on : ',
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          DateFormat(
+                                                                  "dd MMM yyyy")
+                                                              .format(DateTime
+                                                                  .parse(snapshot
+                                                                      .data!
+                                                                      .myEvents![
+                                                                          index]
+                                                                      .eventDate
+                                                                      .toString())),
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width:
+                                                          screenSize.width / 2,
+                                                      child: Text(
+                                                        snapshot
+                                                                    .data!
+                                                                    .myEvents![
+                                                                        index]
+                                                                    .status ==
+                                                                1
+                                                            ? 'Active'
+                                                            : "In Active",
+                                                        style: const TextStyle(
+                                                          color: Colors.green,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ],
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return const SizedBox(
+                                      height: 15,
+                                    );
+                                  },
+                                )
+                              : const Center(
+                                  child: Text(
+                                    "No records found",
+                                    style: TextStyle(fontSize: 16),
                                   ),
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const SizedBox(
-                                height: 15,
-                              );
-                            },
-                          )
+                                )
                         ]));
               } else if (snapshot.hasError) {
                 return Center(

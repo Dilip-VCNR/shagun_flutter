@@ -10,31 +10,27 @@ String eventsScreenModelToJson(EventsScreenModel data) => json.encode(data.toJso
 
 class EventsScreenModel {
   bool? status;
-  List<EventS>? pastEvents;
-  List<EventS>? upcomingEvents;
+  List<EventS>? myEvents;
   List<InvitedEvent>? invitedEvents;
   List<EventTypeList>? eventTypeList;
 
   EventsScreenModel({
     this.status,
-    this.pastEvents,
-    this.upcomingEvents,
+    this.myEvents,
     this.invitedEvents,
     this.eventTypeList,
   });
 
   factory EventsScreenModel.fromJson(Map<String, dynamic> json) => EventsScreenModel(
     status: json["status"],
-    pastEvents: json["past_events"] == null ? [] : List<EventS>.from(json["past_events"]!.map((x) => EventS.fromJson(x))),
-    upcomingEvents: json["upcoming_events"] == null ? [] : List<EventS>.from(json["upcoming_events"]!.map((x) => EventS.fromJson(x))),
+    myEvents: json["my_events"] == null ? [] : List<EventS>.from(json["my_events"]!.map((x) => EventS.fromJson(x))),
     invitedEvents: json["invited_events"] == null ? [] : List<InvitedEvent>.from(json["invited_events"]!.map((x) => InvitedEvent.fromJson(x))),
     eventTypeList: json["event_type_list"] == null ? [] : List<EventTypeList>.from(json["event_type_list"]!.map((x) => EventTypeList.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
-    "past_events": pastEvents == null ? [] : List<dynamic>.from(pastEvents!.map((x) => x.toJson())),
-    "upcoming_events": upcomingEvents == null ? [] : List<dynamic>.from(upcomingEvents!.map((x) => x.toJson())),
+    "my_events": myEvents == null ? [] : List<dynamic>.from(myEvents!.map((x) => x.toJson())),
     "invited_events": invitedEvents == null ? [] : List<dynamic>.from(invitedEvents!.map((x) => x.toJson())),
     "event_type_list": eventTypeList == null ? [] : List<dynamic>.from(eventTypeList!.map((x) => x.toJson())),
   };
@@ -66,6 +62,8 @@ class InvitedEvent {
   int? eventId;
   int? isGifted;
   String? invitedBy;
+  String? invitedByName;
+  String? invitedByProfilePic;
   List<Admin>? eventAdmins;
 
   InvitedEvent({
@@ -74,6 +72,8 @@ class InvitedEvent {
     this.eventId,
     this.isGifted,
     this.invitedBy,
+    this.invitedByName,
+    this.invitedByProfilePic,
     this.eventAdmins,
   });
 
@@ -83,6 +83,8 @@ class InvitedEvent {
     eventId: json["event_id"],
     isGifted: json["is_gifted"],
     invitedBy: json["invited_by"],
+    invitedByName: json["invited_by_name"],
+    invitedByProfilePic: json["invited_by_profile"],
     eventAdmins: json["event_admins"] == null ? [] : List<Admin>.from(json["event_admins"]!.map((x) => Admin.fromJson(x))),
   );
 
@@ -92,6 +94,8 @@ class InvitedEvent {
     "event_id": eventId,
     "is_gifted": isGifted,
     "invited_by": invitedBy,
+    "invited_by_name": invitedByName,
+    "invited_by_profile": invitedByProfilePic,
     "event_admins": eventAdmins == null ? [] : List<dynamic>.from(eventAdmins!.map((x) => x.toJson())),
   };
 }

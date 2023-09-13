@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:shagun_mobile/utils/app_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../auth/controller/auth_controller.dart';
 import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
@@ -201,21 +202,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          width: screenSize.width / 2,
-                          height: 40,
-                          decoration: ShapeDecoration(
-                            color: AppColors.secondaryColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(7)),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'Request callback',
-                              style: TextStyle(
-                                color: AppColors.primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
+                        GestureDetector(
+                          onTap: () async {
+                            if(snapshot.data!.isActiveKycRequest==false){
+                              AuthController authController =
+                              AuthController();
+                              showLoaderDialog(context);
+                              await authController
+                                  .requestKycCallBack(context);
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                showSuccessToast(context,
+                                  "Successfully raised the request\nOur back office will get in touch with you soon !",
+                                );
+                                _pullRefresh();
+                              }
+                            }else{
+                              showErrorToast(context, "You already have an active request !\nOur back office will contact you soon");
+                            }
+                          },
+                          child: Container(
+                            width: screenSize.width / 2,
+                            height: 40,
+                            decoration: ShapeDecoration(
+                              color: !snapshot.data!.isActiveKycRequest!?AppColors.secondaryColor:Colors.grey,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(7)),
+                            ),
+                            child: Center(
+                              child: Text(
+                                !snapshot.data!.isActiveKycRequest!?'Request callback':"Already requested",
+                                style: const TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),

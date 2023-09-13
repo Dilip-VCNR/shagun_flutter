@@ -5,6 +5,7 @@ import 'package:shagun_mobile/dashboard/home/controller/home_controllers.dart';
 import 'package:shagun_mobile/dashboard/my_events/controller/my_events_controller.dart';
 import 'package:shagun_mobile/dashboard/my_events/model/all_invites_data_model.dart';
 import 'package:shagun_mobile/utils/app_colors.dart';
+import 'package:shagun_mobile/utils/url_constants.dart';
 
 import '../../../utils/app_widgets.dart';
 import '../../../utils/routes.dart';
@@ -144,10 +145,10 @@ class _AllInvitationsState extends State<AllInvitations> {
                                       Container(
                                         width: 40,
                                         height: 40,
-                                        decoration: const ShapeDecoration(
+                                        decoration: ShapeDecoration(
                                           image: DecorationImage(
                                             image: NetworkImage(
-                                              "https://via.placeholder.com/40x40",
+                                              "${UrlConstant.imageBaseUrl}${snapshot.data!.invitedList![index].invitedByProfilePic}",
                                             ),
                                             fit: BoxFit.fill,
                                           ),
@@ -166,7 +167,7 @@ class _AllInvitationsState extends State<AllInvitations> {
                                           SizedBox(
                                             width: screenSize.width / 2.5,
                                             child: Text(
-                                              'Bharath invited you to his ${snapshot.data!.invitedList![index].eventName}',
+                                              '${snapshot.data!.invitedList![index].invitedByName} invited you to his ${snapshot.data!.invitedList![index].eventName}',
                                               style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 16,

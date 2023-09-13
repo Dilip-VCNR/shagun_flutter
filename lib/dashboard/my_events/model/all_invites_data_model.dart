@@ -30,6 +30,8 @@ class InvitedList {
   int? eventId;
   int? isGifted;
   List<EventAdmin>? eventAdmins;
+  String? invitedByName;
+  String? invitedByProfilePic;
   String? invitedBy;
 
   InvitedList({
@@ -38,6 +40,8 @@ class InvitedList {
     this.eventId,
     this.isGifted,
     this.eventAdmins,
+    this.invitedByName,
+    this.invitedByProfilePic,
     this.invitedBy,
   });
 
@@ -47,6 +51,8 @@ class InvitedList {
     eventId: json["event_id"],
     isGifted: json["is_gifted"],
     eventAdmins: json["event_admins"] == null ? [] : List<EventAdmin>.from(json["event_admins"]!.map((x) => EventAdmin.fromJson(x))),
+    invitedByName: json["invited_by_name"],
+    invitedByProfilePic: json["invited_by_profile"],
     invitedBy: json["invited_by"],
   );
 
@@ -56,6 +62,8 @@ class InvitedList {
     "event_id": eventId,
     "is_gifted": isGifted,
     "event_admins": eventAdmins == null ? [] : List<dynamic>.from(eventAdmins!.map((x) => x.toJson())),
+    "invited_by_name": invitedByName,
+    "invited_by_profile": invitedByProfilePic,
     "invited_by": invitedBy,
   };
 }

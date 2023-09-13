@@ -21,4 +21,8 @@ class MyEventsController {
     return apiCalls.getSingleEventData(context,upcomingEvent);
   }
 
+
+  requestEvent(String? eventTypeName, BuildContext context) {
+    return apiCalls.requestEventCallBack(context,eventTypeName);
+  }
 }

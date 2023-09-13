@@ -163,7 +163,7 @@ class AuthController {
       String authType,
       BuildContext context, File? selectedImage) async {
     var result = await apiCalls.registerUser(
-        uid!, fcmToken!, name, phone, email, authType,selectedImage);
+        uid!, fcmToken!, name, phone, email, authType,selectedImage,context);
     switch (result['statusCode']) {
       case 200:
         UserDetailsModel userData = result['data'];
@@ -190,4 +190,9 @@ class AuthController {
     }
   }
 
+  requestKycCallBack(BuildContext context) async {
+    PrefModel prefModel = AppPref.getPref();
+    var result = await apiCalls.requestKycCallBack(prefModel.userData!.user!.userId!,context);
+    return result;
+  }
 }
