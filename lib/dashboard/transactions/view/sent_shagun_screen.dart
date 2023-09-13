@@ -33,7 +33,7 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
 
   bool isLoaded = false;
 
-  DateTime selectedDate = DateTime.now();
+  DateTime? selectedDate;
 
   Future<void> selectMonthYear(BuildContext context) async {
     final DateTime? pickedDate = await showMonthPicker(
@@ -153,7 +153,7 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  "${selectedDate.month}-${selectedDate.year}",
+                                  selectedDate!=null?"${selectedDate!.month}-${selectedDate!.year}":"All Time",
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
@@ -228,7 +228,7 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Container(
+                                              SizedBox(
                                                 width: screenSize.width/2.25,
                                                 child: Text.rich(
                                                   TextSpan(
@@ -335,11 +335,11 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
     } else {
       type = dropDownValue!.eventTypeName;
     }
-    String formattedMonth = DateFormat('MM').format(selectedDate);
+    String formattedMonth = DateFormat('MM').format(selectedDate!);
 
     setState(() {
       sentGiftsData = giftsController.fetchSentGiftsData(
-          context, type!, "${selectedDate.year}-$formattedMonth");
+          context, type!, "${selectedDate!.year}-$formattedMonth");
     });
   }
 }

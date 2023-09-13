@@ -195,7 +195,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           phoneController.text,
                           emailController.text,
                           authType!,
-                          context);
+                          context,
+                      _selectedImage);
                     }
                   }
                 },
@@ -246,6 +247,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                           CircleAvatar(
                             radius: 50,
+                            backgroundColor: AppColors.scaffoldBackground,
                             backgroundImage: _selectedImage != null
                                 ? FileImage(_selectedImage!)
                                 : null,

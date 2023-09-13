@@ -28,7 +28,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 width: screenSize.width,
                 padding: const EdgeInsets.all(20),
                 decoration: ShapeDecoration(
-                  color: Colors.white,
+                  color: AppColors.cardBgColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(17.39),
                   ),
@@ -41,6 +41,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       children: [
                         CircleAvatar(
                           radius: 30,
+                          backgroundColor: AppColors.secondaryColor,
                         ),
                         SizedBox(
                           width: 20,

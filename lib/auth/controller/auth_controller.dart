@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -159,9 +161,9 @@ class AuthController {
       String phone,
       String email,
       String authType,
-      BuildContext context) async {
+      BuildContext context, File? selectedImage) async {
     var result = await apiCalls.registerUser(
-        uid!, fcmToken!, name, phone, email, authType);
+        uid!, fcmToken!, name, phone, email, authType,selectedImage);
     switch (result['statusCode']) {
       case 200:
         UserDetailsModel userData = result['data'];

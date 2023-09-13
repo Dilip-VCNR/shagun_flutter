@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:toastification/toastification.dart';
 
 import 'app_colors.dart';
@@ -47,4 +49,29 @@ showLoaderDialog(BuildContext context) {
               ],
             ),
           ));
+}
+
+showForceUpdateDialog(
+    BuildContext buildContext, updateTextContent, PackageInfo packageInfo) {
+  showDialog(
+      barrierDismissible: false,
+      context: buildContext,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            "Update Available !",
+          ),
+          content: Text(updateTextContent),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Update'),
+              onPressed: () {
+                StoreRedirect.redirect(
+                    androidAppId: packageInfo.packageName,
+                    iOSAppId: "1633065411");
+              },
+            ),
+          ],
+        );
+      });
 }

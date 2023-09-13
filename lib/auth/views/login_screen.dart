@@ -228,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     'assets/images/facebook.png',
                   )),
                   Text(
-                    "Continue with Google",
+                    "Continue with Facebook",
                     style: TextStyle(
                       color: Color(0xFF42033D),
                       fontSize: 16,
