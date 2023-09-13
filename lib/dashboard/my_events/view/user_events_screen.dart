@@ -93,8 +93,8 @@ class _UserEventsScreenState extends State<UserEventsScreen> {
                                     // Adjust this offset to control the overlapping distance
                                     child: ClipOval(
                                       child: CircleAvatar(
-                                        backgroundColor:
-                                            AppColors.secondaryColor,
+                                        // backgroundColor:
+                                        //     AppColors.secondaryColor,
                                         radius: 25,
                                         backgroundImage: NetworkImage(
                                             UrlConstant.imageBaseUrl +
