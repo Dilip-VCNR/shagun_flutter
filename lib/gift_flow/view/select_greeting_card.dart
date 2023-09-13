@@ -24,20 +24,25 @@ class _SelectGreetingCardState extends State<SelectGreetingCard> {
           ),
         ),
       ),
-      floatingActionButton: Container(
-        width: screenSize.width / 2,
-        decoration: ShapeDecoration(
-          color: AppColors.primaryColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-        padding: const EdgeInsets.all(10),
-        child: const Text(
-          'Skip this step ?',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: AppColors.scaffoldBackground,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+      floatingActionButton: GestureDetector(
+        onTap: (){
+          Navigator.pushNamed(context, Routes.wishInputRoute);
+        },
+        child: Container(
+          width: screenSize.width / 2,
+          decoration: ShapeDecoration(
+            color: AppColors.primaryColor,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          ),
+          padding: const EdgeInsets.all(10),
+          child: const Text(
+            'Skip this step ?',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: AppColors.scaffoldBackground,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),
