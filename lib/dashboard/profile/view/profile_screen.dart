@@ -204,34 +204,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            if(snapshot.data!.isActiveKycRequest==false){
-                              AuthController authController =
-                              AuthController();
+                            if (snapshot.data!.isActiveKycRequest == false) {
+                              AuthController authController = AuthController();
                               showLoaderDialog(context);
-                              await authController
-                                  .requestKycCallBack(context);
+                              await authController.requestKycCallBack(context);
                               if (context.mounted) {
                                 Navigator.pop(context);
-                                showSuccessToast(context,
+                                showSuccessToast(
+                                  context,
                                   "Successfully raised the request\nOur back office will get in touch with you soon !",
                                 );
                                 _pullRefresh();
                               }
-                            }else{
-                              showErrorToast(context, "You already have an active request !\nOur back office will contact you soon");
+                            } else {
+                              showErrorToast(context,
+                                  "You already have an active request !\nOur back office will contact you soon");
                             }
                           },
                           child: Container(
                             width: screenSize.width / 2,
                             height: 40,
                             decoration: ShapeDecoration(
-                              color: !snapshot.data!.isActiveKycRequest!?AppColors.secondaryColor:Colors.grey,
+                              color: !snapshot.data!.isActiveKycRequest!
+                                  ? AppColors.secondaryColor
+                                  : Colors.grey,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(7)),
                             ),
                             child: Center(
                               child: Text(
-                                !snapshot.data!.isActiveKycRequest!?'Request callback':"Already requested",
+                                !snapshot.data!.isActiveKycRequest!
+                                    ? 'Request callback'
+                                    : "Already requested",
                                 style: const TextStyle(
                                   color: AppColors.primaryColor,
                                   fontSize: 16,
@@ -241,6 +245,96 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        snapshot.data!.kycData!.status == 1
+                            ? Container(
+                                width: screenSize.width,
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                    color: AppColors.primaryColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text("My KYC",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                            decoration: TextDecoration.underline)),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text("Verified",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            SizedBox(width: 5,),
+                                            Icon(
+                                              Icons.check_circle,
+                                              color: AppColors.secondaryColor,
+                                              size: 20,
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "${snapshot.data!.kycData!.docName!} : ",
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          snapshot.data!.kycData!.docNum!,
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "${snapshot.data!.kycData!.docName1!} : ",
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          snapshot.data!.kycData!.docNum1!,
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ))
+                            : const SizedBox.shrink(),
                         const SizedBox(
                           height: 10,
                         ),

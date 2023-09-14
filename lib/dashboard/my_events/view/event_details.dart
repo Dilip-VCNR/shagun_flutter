@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:shagun_mobile/dashboard/my_events/controller/my_events_controller.dart';
 import 'package:shagun_mobile/utils/app_colors.dart';
+import 'package:shagun_mobile/utils/app_widgets.dart';
 import 'package:shagun_mobile/utils/url_constants.dart';
 
 import '../../../utils/routes.dart';
+import '../model/greetings_and_wishes_model.dart';
 import '../model/single_event_model.dart';
 
 class EventDetails extends StatefulWidget {
@@ -337,9 +340,25 @@ class _EventDetailsState extends State<EventDetails> {
             ),
             type != 'own'
                 ? GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, Routes.selectGreetingCardRoute);
+                    onTap: () async {
+                      showLoaderDialog(context);
+                      GreetingsAndWishesModel greetingsAndWishes =
+                      await MyEventsController().getGreetingsAndWishes(
+                          context, eventData!.event!.eventId.toString());
+                      if(context.mounted){
+                        Navigator.pop(context);
+                        Navigator.pushNamed(
+                            context, Routes.selectGreetingCardRoute,
+                            arguments: {
+                              "gift_to": {
+                                "uid": eventData!.event!.uid,
+                                "name": eventData!.event!.name,
+                                "event_id": eventData!.event!.eventId
+                              },
+                              "data": greetingsAndWishes,
+                              "delivery_fee": eventData!.event!.deliveryFee
+                            });
+                      }
                     },
                     child: Container(
                         decoration: ShapeDecoration(

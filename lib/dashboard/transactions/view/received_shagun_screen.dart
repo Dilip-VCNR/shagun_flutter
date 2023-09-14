@@ -291,7 +291,6 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                                           ),
                                         ],
                                       ),
-                                      const Icon(Icons.navigate_next)
                                     ],
                                   ),
                                 ],

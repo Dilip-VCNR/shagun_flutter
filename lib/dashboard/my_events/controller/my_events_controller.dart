@@ -25,4 +25,8 @@ class MyEventsController {
   requestEvent(String? eventTypeName, BuildContext context) {
     return apiCalls.requestEventCallBack(context,eventTypeName);
   }
+
+  getGreetingsAndWishes(BuildContext context, String? eventId) {
+    return apiCalls.getGreetingsAndWishes(context,eventId);
+  }
 }

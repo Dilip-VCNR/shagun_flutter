@@ -15,4 +15,8 @@ class GiftsController{
     return apiCalls.getGiftsReceivedData(context,type,month);
   }
 
+  Future<ReceivedGiftsDataModel>? fetchReceivedGiftsDataForEvent(BuildContext context, String? userId, String eventId) {
+    return apiCalls.getGiftsReceivedDataForEvent(context,userId,eventId);
+  }
+
 }

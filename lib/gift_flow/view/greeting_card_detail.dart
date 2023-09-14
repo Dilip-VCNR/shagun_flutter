@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shagun_mobile/utils/app_colors.dart';
 import 'package:shagun_mobile/utils/routes.dart';
+import 'package:shagun_mobile/utils/url_constants.dart';
+
+import '../../dashboard/my_events/model/greetings_and_wishes_model.dart';
 
 class GreetingCardDetail extends StatefulWidget {
   const GreetingCardDetail({Key? key}) : super(key: key);
@@ -10,9 +13,22 @@ class GreetingCardDetail extends StatefulWidget {
 }
 
 class _GreetingCardDetailState extends State<GreetingCardDetail> {
+  String? giftToUid;
+  String? giftToName;
+  int? giftToEventId;
+  GreetingsAndWishesModel? greetingsAndWishes;
+  ActiveGreetingCard? selectedGreetingCard;
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    giftToUid = arguments['gift_to']['uid'];
+    giftToName = arguments['gift_to']['name'];
+    giftToEventId = arguments['gift_to']['event_id'];
+    greetingsAndWishes = arguments['data'];
+    selectedGreetingCard = arguments['selected_card_details'];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
@@ -28,17 +44,23 @@ class _GreetingCardDetailState extends State<GreetingCardDetail> {
           children: [
             Container(
                 width: screenSize.width,
-                child: const Image(
-                    image: NetworkImage('https://via.placeholder.com/520x420'))),
-            const SizedBox(height: 10,),
-            const Text(
-              'WED_09_AXMKL',
+                child: Image(
+                    image: NetworkImage(
+                  '${UrlConstant.imageBaseUrl}${selectedGreetingCard!.cardImageUrl}',
+                ))),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              '${selectedGreetingCard!.cardName}',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             const Text.rich(
               TextSpan(
                 children: [
@@ -59,7 +81,9 @@ class _GreetingCardDetailState extends State<GreetingCardDetail> {
                 ],
               ),
             ),
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             const Text.rich(
               TextSpan(
                 children: [
@@ -80,8 +104,10 @@ class _GreetingCardDetailState extends State<GreetingCardDetail> {
                 ],
               ),
             ),
-            const SizedBox(height: 5,),
-            const Text.rich(
+            const SizedBox(
+              height: 5,
+            ),
+            Text.rich(
               TextSpan(
                 children: [
                   TextSpan(
@@ -92,7 +118,7 @@ class _GreetingCardDetailState extends State<GreetingCardDetail> {
                     ),
                   ),
                   TextSpan(
-                    text: ' : ₹140',
+                    text: ' : ₹${selectedGreetingCard!.cardPrice.toString()}',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -101,17 +127,20 @@ class _GreetingCardDetailState extends State<GreetingCardDetail> {
                 ],
               ),
             ),
-            const SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
             GestureDetector(
-              onTap:(){
-                Navigator.pushNamed(context, Routes.wishInputRoute);
+              onTap: () {
+                Navigator.pushNamed(context, Routes.wishInputRoute,arguments: arguments);
               },
               child: Container(
                 width: screenSize.width,
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 decoration: ShapeDecoration(
                   color: AppColors.primaryColor,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
                 ),
                 child: const Center(
                   child: Text(

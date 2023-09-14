@@ -1,9 +1,16 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shagun_mobile/dashboard/home/controller/home_controllers.dart';
 import 'package:shagun_mobile/dashboard/my_events/controller/my_events_controller.dart';
+import 'package:shagun_mobile/dashboard/transactions/controller/gifts_controller.dart';
 import 'package:shagun_mobile/utils/url_constants.dart';
+import 'package:share/share.dart';
 
 import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
@@ -61,8 +68,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                       builder: (BuildContext context, StateSetter setState) {
                         return Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: List<Widget>.generate(
-                          eventTypes.length,
+                          children: List<Widget>.generate(eventTypes.length,
                               (int index) {
                             return GestureDetector(
                               onTap: () {
@@ -81,8 +87,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                       });
                                     },
                                   ),
-                                  Text(eventTypes[index]
-                                      .eventTypeName!)
+                                  Text(eventTypes[index].eventTypeName!)
                                 ],
                               ),
                             );
@@ -104,9 +109,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                           // Submit button action here (save the selected event type)
                           showLoaderDialog(context);
                           await myEventsController.requestEvent(
-                              eventTypes[selectedRadio]
-                                  .eventTypeName,
-                              context);
+                              eventTypes[selectedRadio].eventTypeName, context);
                           if (context.mounted) {
                             Navigator.pop(
                                 context); // Close the dialog after submitting
@@ -537,31 +540,39 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                               ),
                                                           ],
                                                         )),
-                                                    Container(
-                                                      width: 100,
-                                                      decoration:
-                                                          ShapeDecoration(
-                                                        color: AppColors
-                                                            .secondaryColor,
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            7)),
-                                                      ),
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          vertical: 7),
-                                                      child: const Center(
-                                                        child: Text(
-                                                          "View Gifts",
-                                                          style: TextStyle(
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                FontWeight.w700,
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.pushNamed(context, Routes.giftsForEventRoute,arguments: {
+                                                          "eventId":snapshot.data!.myEvents![index].eventId
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        width: 100,
+                                                        decoration:
+                                                            ShapeDecoration(
+                                                          color: AppColors
+                                                              .secondaryColor,
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          7)),
+                                                        ),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 7),
+                                                        child: const Center(
+                                                          child: Text(
+                                                            "View Gifts",
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .primaryColor,
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -569,31 +580,74 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                     const SizedBox(
                                                       height: 5,
                                                     ),
-                                                    Container(
-                                                      width: 100,
-                                                      decoration:
-                                                          ShapeDecoration(
-                                                        color: AppColors
-                                                            .primaryColor,
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            7)),
-                                                      ),
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          vertical: 7),
-                                                      child: const Center(
-                                                        child: Text(
-                                                          "Show QR",
-                                                          style: TextStyle(
-                                                            color: AppColors
-                                                                .scaffoldBackground,
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                FontWeight.w700,
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        showLoaderDialog(
+                                                            context);
+                                                        for (int i = 0;
+                                                            i <
+                                                                snapshot
+                                                                    .data!
+                                                                    .myEvents![
+                                                                        index]
+                                                                    .admins!
+                                                                    .length;
+                                                            i++) {
+                                                          if (snapshot
+                                                                  .data!
+                                                                  .myEvents![
+                                                                      index]
+                                                                  .admins![i]
+                                                                  .uid ==
+                                                              prefModel
+                                                                  .userData!
+                                                                  .user!
+                                                                  .userId) {
+                                                            String imageurl = UrlConstant
+                                                                    .imageBaseUrl +
+                                                                snapshot
+                                                                    .data!
+                                                                    .myEvents![
+                                                                        index]
+                                                                    .admins![i]
+                                                                    .qrCode!;
+                                                            downloadAndShareImage(
+                                                                imageurl,
+                                                                snapshot
+                                                                    .data!
+                                                                    .myEvents![
+                                                                        index]
+                                                                    .eventName!);
+                                                          }
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                        width: 100,
+                                                        decoration:
+                                                            ShapeDecoration(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          7)),
+                                                        ),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 7),
+                                                        child: const Center(
+                                                          child: Text(
+                                                            "Share",
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .scaffoldBackground,
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -770,5 +824,31 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
     setState(() {
       eventsData = myEventsController.fetchEventsData(context);
     });
+  }
+
+  Future<void> downloadAndShareImage(String imageUrl, String eventName) async {
+    try {
+      // Download the image using http package
+      final response = await http.get(Uri.parse(imageUrl));
+      final Uint8List bytes = response.bodyBytes;
+
+      // Get the app's cache directory to save the image
+      final appDir = await getTemporaryDirectory();
+      final imagePath = '${appDir.path}/share_image.png';
+
+      // Save the image to the cache directory
+      final imageFile = File(imagePath);
+      await imageFile.writeAsBytes(bytes);
+
+      // Share the saved image using the share package
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+      await Share.shareFiles([imagePath], text: eventName);
+    } catch (e) {
+      if (context.mounted) {
+        showErrorToast(context,'Error downloading and sharing image: $e');
+      }
+    }
   }
 }

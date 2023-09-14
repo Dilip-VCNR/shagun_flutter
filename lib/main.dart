@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shagun_mobile/dashboard/transactions/view/received_shagun_for_event_screen.dart';
 import 'package:shagun_mobile/splash/view/on_boarding_screen.dart';
 import 'package:shagun_mobile/splash/view/splash_screen.dart';
 import 'package:shagun_mobile/utils/app_colors.dart';
@@ -21,6 +22,7 @@ import 'database/app_pref.dart';
 import 'firebase_options.dart';
 import 'gift_flow/view/check_out_screen.dart';
 import 'gift_flow/view/greeting_card_detail.dart';
+import 'gift_flow/view/order_success_screen.dart';
 import 'gift_flow/view/select_greeting_card.dart';
 import 'gift_flow/view/wish_input_screen.dart';
 
@@ -70,6 +72,8 @@ class MyApp extends StatelessWidget {
         Routes.profileSearchRoute: (context) => const ProfileSearchScreen(),
         Routes.userEventsRoute: (context) => const UserEventsScreen(),
         Routes.qrScannerRoute: (context) => const QrScannerScreen(),
+        Routes.giftsForEventRoute: (context) => const ReceivedShagunForEventScreen(),
+        Routes.orderSuccessRoute: (context) => const OrderSuccessScreen(),
       },
     );
   }

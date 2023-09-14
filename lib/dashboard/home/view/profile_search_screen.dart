@@ -65,7 +65,6 @@ class _ProfileSearchScreenState extends State<ProfileSearchScreen> {
                             setState(() {
                               isLoading = false; // Hide loading indicator.
                             });
-                            print(searchData!.toJson());
                           },
                           maxLines: 1,
                           keyboardType: TextInputType.text,

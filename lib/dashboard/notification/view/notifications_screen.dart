@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shagun_mobile/dashboard/notification/controller/notification_controller.dart';
 import 'package:shagun_mobile/utils/app_colors.dart';
+
+import '../model/notification_data_model.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({Key? key}) : super(key: key);
@@ -9,83 +14,151 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
+
+  late Future<NotificationDataModel>? notificationData;
+
+  NotificationController notificationController = NotificationController();
+
+  @override
+  void initState() {
+    super.initState();
+    notificationData = notificationController.fetchNotificationsData(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    Size screenSize = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.scaffoldBackground,
-        title: const Text("Notifications"),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 6,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                width: screenSize.width,
-                padding: const EdgeInsets.all(20),
-                decoration: ShapeDecoration(
-                  color: AppColors.cardBgColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(17.39),
+        appBar: AppBar(
+          backgroundColor: AppColors.scaffoldBackground,
+          title: const Text("Notifications"),
+        ),
+        body: FutureBuilder<NotificationDataModel>(
+            future: notificationData,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Lottie.asset('assets/lottie/loading.json', height: 150),
+                      const Text(
+                        "Loading...",
+                        style: TextStyle(
+                            color: AppColors.primaryColor,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
                   ),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: AppColors.secondaryColor,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                );
+              }
+              if (snapshot.hasData) {
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 10),
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.notificationList!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          width: screenSize.width,
+                          padding: const EdgeInsets.all(20),
+                          decoration: ShapeDecoration(
+                            color: AppColors.cardBgColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(17.39),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                          Row(
                           children: [
-                            Text(
-                              'Karthik sent you shagun',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
+                          CircleAvatar(
+                          radius: 30,
+                            backgroundColor: AppColors.secondaryColor,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment
+                                .start,
+                            children: [
+                              Text(
+                                snapshot.data!.notificationList![index].title!,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            Text(
-                              'For your birthday event',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
+                              Text(
+                                snapshot.data!.notificationList![index]
+                                    .message!,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
-                            ),
-                            Text(
-                              '12-october-2023',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            )
+                              Text(
+                                DateFormat("dd MM yyyy").format(
+                                  DateTime.parse(
+                                    snapshot.data!.notificationList![index]
+                                        .createdOn!.toString(),
+                                  )),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )
+                                ],
+                              )
+                            ],
+                          ),
+                          Icon(Icons.navigate_next_rounded)
                           ],
-                        )
-                      ],
-                    ),
-                    Icon(Icons.navigate_next_rounded)
-                  ],
-                ),
+                        ),);
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const SizedBox(
+                          height: 10,
+                        );
+                      }),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('${snapshot.error}'),
+                      ElevatedButton(
+                          onPressed: _pullRefresh, child: const Text("Refresh"))
+                    ],
+                  ),
+                );
+              }
+              return const Center(
+                child: Text("Loading..."
+                )
+                ,
               );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(
-                height: 10,
-              );
-            }),
-      ),
+            })
     );
   }
+
+  Future<void> _pullRefresh() async {
+    setState(() {
+      notificationData = notificationController.fetchNotificationsData(context);
+    });
+  }
+
 }

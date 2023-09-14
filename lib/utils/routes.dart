@@ -16,4 +16,6 @@ class Routes {
   static const String profileSearchRoute = "/profileSearch";
   static const String userEventsRoute = "/userEvents";
   static const String qrScannerRoute = "/qrScanner";
+  static const String giftsForEventRoute = "/giftsForEvent";
+  static const String orderSuccessRoute = "/orderSuccessScreen";
 }

@@ -61,6 +61,9 @@ dependencies:
   http_parser: ^4.0.2
   package_info_plus: ^4.1.0
   store_redirect: ^2.0.1
+  path_provider: ^2.1.1
+  share: ^2.0.4
+  flutter_cashfree_pg_sdk: ^2.0.19+22
 
 dev_dependencies:
   flutter_test:
