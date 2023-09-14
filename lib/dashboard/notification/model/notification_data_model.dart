@@ -27,7 +27,7 @@ class NotificationDataModel {
 class NotificationList {
   int? id;
   String? uid;
-  int? type;
+  String? type;
   String? title;
   String? message;
   DateTime? createdOn;

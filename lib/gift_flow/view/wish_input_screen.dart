@@ -60,46 +60,9 @@ class _WishInputScreenState extends State<WishInputScreen> {
             const SizedBox(
               height: 10,
             ),
+
             const Text(
-              'Write your wishes',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Form(
-                child: TextFormField(
-              controller: wishController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your greeting';
-                }
-                return null;
-              },
-              maxLines: 4,
-              decoration: InputDecoration(
-                hintText: 'write your wishes here',
-                counterText: "",
-                isCollapsed: true,
-                filled: true,
-                fillColor: AppColors.inputFieldColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-              ),
-              textAlignVertical: TextAlignVertical.center,
-            )),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              'Or choose from below',
+              'Choose from below',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
@@ -155,6 +118,47 @@ class _WishInputScreenState extends State<WishInputScreen> {
                   height: 15,
                 );
               },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text(
+              'Or write your wishes',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Form(
+                child: TextFormField(
+                  controller: wishController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your greeting';
+                    }
+                    return null;
+                  },
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    hintText: 'write your wishes here',
+                    counterText: "",
+                    isCollapsed: true,
+                    filled: true,
+                    fillColor: AppColors.inputFieldColor,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                  ),
+                  textAlignVertical: TextAlignVertical.center,
+                )),
+            const SizedBox(
+              height: 10,
             ),
             const SizedBox(
               height: 30,

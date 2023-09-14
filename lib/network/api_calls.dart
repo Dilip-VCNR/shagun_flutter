@@ -798,6 +798,7 @@ class ApiCalls {
       UrlConstant.getNotifications,
       jsonEncode({'uid': prefModel.userData!.user!.userId!}),
     ).then((response) {
+      print(UrlConstant.getNotifications);
       print(response.body);
       print(response.statusCode);
       if (response.statusCode == 200) {

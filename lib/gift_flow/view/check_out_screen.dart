@@ -80,7 +80,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
 
   Future<void> verifyPayment(String orderId) async {
-    print("Verify Payment $orderId");
     showLoaderDialog(context);
     await orderController.createOrder(arguments, context);
     if (context.mounted) {
@@ -92,8 +91,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   void onError(CFErrorResponse errorResponse, String orderId) {
     showErrorToast(context, errorResponse.getMessage()!);
-    print(errorResponse.getMessage());
-    print("Error while making payment");
   }
 
   @override
@@ -111,7 +108,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     isLoaded = true;
     Size screenSize = MediaQuery.of(context).size;
 
-    print(arguments);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
@@ -268,6 +264,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     height: 20,
                   ),
                   TextFormField(
+                    maxLines: 3,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Please enter name';
@@ -279,7 +276,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     },
                     controller: selectedOnBehalfOfController,
                     decoration: InputDecoration(
-                      hintText: 'Enter Name',
+                      hintText: 'Enter Name , c/o',
                       counterText: "",
                       isCollapsed: true,
                       filled: true,
@@ -631,7 +628,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
       cfPaymentGatewayService.doPayment(cfDropCheckoutPayment);
     } on CFException catch (e) {
-      print(e.message);
+      showErrorToast(context, e.message);
     }
   }
 
@@ -645,7 +642,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           .build();
       return session;
     } on CFException catch (e) {
-      print(e.message);
+      showErrorToast(context, e.message);
     }
     return null;
   }

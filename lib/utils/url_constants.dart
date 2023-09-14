@@ -18,7 +18,7 @@ class UrlConstant {
   static const String createOrder = "${apiBaseUrl}add_transaction_history";
   static const String getAllInvitedEvents = "${apiBaseUrl}get_my_all_invited_events";
   static const String giftReceivedListForEvent = "${apiBaseUrl}gift_received_for_event";
-  static const String getNotifications = "${apiBaseUrl}get_my_notifications_list";
+  static const String getNotifications = "${apiBaseUrl}get_my_notifications";
   static const String privacyPolicy = "${websiteBaseUrl}p/privacy-policy";
   static const String termsOfUse = "${websiteBaseUrl}p/t-c";
   static const String ipLocation = "https://api.ipregistry.co/?key=2tev2ltdlff985kx";

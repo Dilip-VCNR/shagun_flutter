@@ -81,40 +81,48 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             children: [
                           Row(
                           children: [
-                          CircleAvatar(
-                          radius: 30,
-                            backgroundColor: AppColors.secondaryColor,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
+                          // CircleAvatar(
+                          // radius: 30,
+                          //   backgroundColor: AppColors.secondaryColor,
+                          // ),
+                          // SizedBox(
+                          //   width: 20,
+                          // ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment
                                 .start,
                             children: [
-                              Text(
-                                snapshot.data!.notificationList![index].title!,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                              SizedBox(
+                                width: screenSize.width/1.5,
+                                child: Text(
+                                  snapshot.data!.notificationList![index].title!,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                              Text(
-                                snapshot.data!.notificationList![index]
-                                    .message!,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
+                              const SizedBox(height: 5,),
+                              SizedBox(
+                                width: screenSize.width/1.5,
+                                child: Text(
+                                  snapshot.data!.notificationList![index]
+                                      .message!,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
+                              const SizedBox(height: 5,),
                               Text(
-                                DateFormat("dd MM yyyy").format(
+                                DateFormat("dd MMM yyyy").format(
                                   DateTime.parse(
                                     snapshot.data!.notificationList![index]
                                         .createdOn!.toString(),
                                   )),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -123,7 +131,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                               )
                             ],
                           ),
-                          Icon(Icons.navigate_next_rounded)
+                          const Icon(Icons.navigate_next_rounded)
                           ],
                         ),);
                       },
