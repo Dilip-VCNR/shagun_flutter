@@ -304,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               const TextSpan(
                                 text:
-                                    ' so our backoffice will contact you\nand guide.',
+                                    ' so our backoffice team will reach you through the registered Mobile Number/Email.',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,

@@ -8,7 +8,6 @@ import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shagun_mobile/dashboard/home/controller/home_controllers.dart';
 import 'package:shagun_mobile/dashboard/my_events/controller/my_events_controller.dart';
-import 'package:shagun_mobile/dashboard/transactions/controller/gifts_controller.dart';
 import 'package:shagun_mobile/utils/url_constants.dart';
 import 'package:share/share.dart';
 
@@ -580,6 +579,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                     const SizedBox(
                                                       height: 5,
                                                     ),
+                                                    snapshot.data!.myEvents![index].status==1?
                                                     GestureDetector(
                                                       onTap: () {
                                                         showLoaderDialog(
@@ -651,7 +651,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                           ),
                                                         ),
                                                       ),
-                                                    )
+                                                    ):const SizedBox.shrink()
                                                   ],
                                                 ),
                                                 const SizedBox(

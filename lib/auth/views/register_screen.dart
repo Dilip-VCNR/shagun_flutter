@@ -100,16 +100,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     Row(
                       children: [
-                        Container(
-                          height: 20,
-                          width: 20,
-                          margin: const EdgeInsets.only(right: 10),
-                          child: const Icon(
-                            Icons.newspaper_outlined,
-                            color: Colors.white,
-                            size: 15,
-                          ),
-                        ),
                         SizedBox(
                           width: screenSize.width - 150,
                           child: RichText(
