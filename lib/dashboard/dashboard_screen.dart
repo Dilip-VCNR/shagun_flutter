@@ -53,7 +53,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           },
           items: [
             SalomonBottomBarItem(
-              icon: const Icon(Icons.home),
+              icon: const Icon(Icons.home_outlined),
               title: const Text("Home"),
             ),
             SalomonBottomBarItem(
@@ -69,7 +69,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               title: const Text("Received"),
             ),
             SalomonBottomBarItem(
-              icon: const Icon(Icons.person),
+              icon: const Icon(Icons.person_outline_outlined),
               title: const Text("Profile"),
             ),
           ],
