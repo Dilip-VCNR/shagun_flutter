@@ -230,7 +230,7 @@ class _EventDetailsState extends State<EventDetails> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          padding: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(15),
                           child: Column(
                             children: [
                               Text(

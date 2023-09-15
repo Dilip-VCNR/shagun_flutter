@@ -87,9 +87,9 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: AppColors.scaffoldBackground,
-                title: const Text(
-                  'Shagun received (₹4500)',
-                  style: TextStyle(
+                title: Text(
+                  'Shagun received (₹${snapshot.data!.totalGiftSent})',
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
@@ -209,7 +209,7 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                                                     left: i * 40,
                                                     child: ClipOval(
                                                       child: CircleAvatar(
-                                                        backgroundImage: i==0?NetworkImage(UrlConstant.imageBaseUrl+prefModel.userData!.user!.profile!):NetworkImage(UrlConstant.imageBaseUrl+prefModel.userData!.user!.profile!),
+                                                        backgroundImage: i==0?NetworkImage(UrlConstant.imageBaseUrl+prefModel.userData!.user!.profile!):NetworkImage(UrlConstant.imageBaseUrl+snapshot.data!.receivedGifts![index].profilePic!),
                                                         backgroundColor: i == 1
                                                             ? AppColors
                                                                 .secondaryColor

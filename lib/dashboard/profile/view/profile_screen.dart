@@ -137,13 +137,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     height: 1.53,
                                   ),
                                 ),
-                                Text(
-                                  '${snapshot.data!.user!.email}',
-                                  style: const TextStyle(
-                                    color: Color(0xFF545454),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.53,
+                                SizedBox(
+                                  width: screenSize.width/1.7,
+                                  child: Text(
+                                        snapshot.data!.user!.email!,
+                                    style: const TextStyle(
+                                      color: Color(0xFF545454),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.53,
+                                    ),
                                   ),
                                 ),
                               ],

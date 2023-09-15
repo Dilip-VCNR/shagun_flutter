@@ -59,6 +59,7 @@ class EventsList {
 class SentGift {
   String? receiverUid;
   String? senderUid;
+  String? profilePic;
   String? name;
   double? shagunAmount;
   double? transactionAmount;
@@ -76,6 +77,7 @@ class SentGift {
   SentGift({
     this.receiverUid,
     this.senderUid,
+    this.profilePic,
     this.name,
     this.shagunAmount,
     this.transactionAmount,
@@ -94,6 +96,7 @@ class SentGift {
   factory SentGift.fromJson(Map<String, dynamic> json) => SentGift(
     receiverUid: json["receiver_uid"],
     senderUid: json["sender_uid"],
+    profilePic: json["profile_pic"],
     name: json["name"],
     shagunAmount: json["shagun_amount"]?.toDouble(),
     transactionAmount: json["transaction_amount"]?.toDouble(),
@@ -112,6 +115,7 @@ class SentGift {
   Map<String, dynamic> toJson() => {
     "receiver_uid": receiverUid,
     "sender_uid": senderUid,
+    "profile_pic": profilePic,
     "name": name,
     "shagun_amount": shagunAmount,
     "transaction_amount": transactionAmount,

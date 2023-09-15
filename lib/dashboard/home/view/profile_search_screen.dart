@@ -177,15 +177,15 @@ class _ProfileSearchScreenState extends State<ProfileSearchScreen> {
                                                 color: Colors.black,
                                                 fontSize: 16),
                                           ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            searchData!.user![index].phone!,
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16),
-                                          ),
+                                          // const SizedBox(
+                                          //   height: 5,
+                                          // ),
+                                          // Text(
+                                          //   searchData!.user![index].phone!,
+                                          //   style: const TextStyle(
+                                          //       color: Colors.black,
+                                          //       fontSize: 16),
+                                          // ),
                                         ],
                                       ),
                                       const SizedBox(

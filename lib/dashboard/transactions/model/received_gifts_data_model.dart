@@ -42,6 +42,7 @@ class ReceivedGiftsDataModel {
 class ReceivedGift {
   String? receiverUid;
   String? senderUid;
+  String? profilePic;
   String? name;
   double? shagunAmount;
   double? transactionAmount;
@@ -59,6 +60,7 @@ class ReceivedGift {
   ReceivedGift({
     this.receiverUid,
     this.senderUid,
+    this.profilePic,
     this.name,
     this.shagunAmount,
     this.transactionAmount,
@@ -77,6 +79,7 @@ class ReceivedGift {
   factory ReceivedGift.fromJson(Map<String, dynamic> json) => ReceivedGift(
     receiverUid: json["receiver_uid"],
     senderUid: json["sender_uid"],
+    profilePic: json["profile_pic"],
     name: json["name"],
     shagunAmount: json["shagun_amount"],
     transactionAmount: json["transaction_amount"],
@@ -95,6 +98,7 @@ class ReceivedGift {
   Map<String, dynamic> toJson() => {
     "receiver_uid": receiverUid,
     "sender_uid": senderUid,
+    "profile_pic": profilePic,
     "name": name,
     "shagun_amount": shagunAmount,
     "transaction_amount": transactionAmount,

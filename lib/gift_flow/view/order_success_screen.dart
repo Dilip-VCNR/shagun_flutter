@@ -14,9 +14,9 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    String orderId = arguments['transaction_id'];
+    // final arguments = (ModalRoute.of(context)?.settings.arguments ??
+    //     <String, dynamic>{}) as Map;
+    // String orderId = arguments['transaction_id'];
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
@@ -34,14 +34,14 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            Text(
-              'Your order id is\n$orderId',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-              ),
-            ),
+            // Text(
+            //   'Your order id is\n$orderId',
+            //   textAlign: TextAlign.center,
+            //   style: const TextStyle(
+            //     color: Colors.black,
+            //     fontSize: 18,
+            //   ),
+            // ),
             const SizedBox(height: 10,),
             InkWell(
               onTap: (){

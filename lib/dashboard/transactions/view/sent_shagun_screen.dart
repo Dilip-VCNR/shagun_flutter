@@ -206,7 +206,7 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                                                     left: i * 40,
                                                     child: ClipOval(
                                                       child: CircleAvatar(
-                                                        backgroundImage: i==0?NetworkImage(UrlConstant.imageBaseUrl+prefModel.userData!.user!.profile!):NetworkImage(UrlConstant.imageBaseUrl+prefModel.userData!.user!.profile!),
+                                                        backgroundImage: i==0?NetworkImage(UrlConstant.imageBaseUrl+prefModel.userData!.user!.profile!):NetworkImage(UrlConstant.imageBaseUrl+snapshot.data!.sentGifts![index].profilePic!),
                                                         backgroundColor: i == 1
                                                             ? AppColors
                                                                 .secondaryColor

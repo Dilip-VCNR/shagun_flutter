@@ -61,7 +61,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 return SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20, vertical: 10),
-                  child: ListView.separated(
+                  child: snapshot.data!.notificationList!.isNotEmpty?ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: snapshot.data!.notificationList!.length,
@@ -139,7 +139,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         return const SizedBox(
                           height: 10,
                         );
-                      }),
+                      }):const Center(child: Text("No records found",style: TextStyle(fontSize: 18),),),
                 );
               } else if (snapshot.hasError) {
                 return Center(
