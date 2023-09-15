@@ -114,13 +114,27 @@ class _EventDetailsState extends State<EventDetails> {
                                 ),
                                 SizedBox(
                                   width: 100,
-                                  child: Text(
-                                    '${eventData!.event!.admins![0].name}',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${eventData!.event!.admins![0].name}',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      Text(
+                                        '(${eventData!.event!.admins![0].role})',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 )
                               ],
@@ -170,15 +184,30 @@ class _EventDetailsState extends State<EventDetails> {
                                       const SizedBox(
                                         width: 10,
                                       ),
-                                      const SizedBox(
+                                      SizedBox(
                                         width: 100,
-                                        child: Text(
-                                          'Smitha\nRao',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                          ),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '${eventData!.event!.admins![1]
+                                                  .name}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            Text(
+                                              '(${eventData!.event!.admins![1].role})',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       )
                                     ],
@@ -338,6 +367,7 @@ class _EventDetailsState extends State<EventDetails> {
             const SizedBox(
               height: 30,
             ),
+            eventData!.status!?
             type != 'own'
                 ? GestureDetector(
                     onTap: () async {
@@ -380,7 +410,7 @@ class _EventDetailsState extends State<EventDetails> {
                           ),
                         )),
                   )
-                : const SizedBox.shrink()
+                : const SizedBox.shrink():const SizedBox.shrink()
           ],
         ),
       ),

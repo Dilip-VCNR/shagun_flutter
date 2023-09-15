@@ -11,6 +11,7 @@ String homeDataModelToJson(HomeDataModel data) => json.encode(data.toJson());
 class HomeDataModel {
   bool? status;
   int? kycStatus;
+  int? userStatus;
   double? totalSentAmount;
   double? totalReceivedAmount;
   List<EventsInviteList>? eventsInviteList;
@@ -19,6 +20,7 @@ class HomeDataModel {
   HomeDataModel({
     this.status,
     this.kycStatus,
+    this.userStatus,
     this.totalSentAmount,
     this.totalReceivedAmount,
     this.eventsInviteList,
@@ -28,6 +30,7 @@ class HomeDataModel {
   factory HomeDataModel.fromJson(Map<String, dynamic> json) => HomeDataModel(
     status: json["status"],
     kycStatus: json["kyc_status"],
+      userStatus: json["user_status"],
     totalSentAmount: json["total_sent_amount"].toDouble(),
     totalReceivedAmount: json["total_recieved_amount"]?.toDouble(),
     eventsInviteList: json["events_invite_list"] == null ? [] : List<EventsInviteList>.from(json["events_invite_list"]!.map((x) => EventsInviteList.fromJson(x))),
@@ -37,6 +40,7 @@ class HomeDataModel {
   Map<String, dynamic> toJson() => {
     "status": status,
     "kyc_status": kycStatus,
+    "user_status": userStatus,
     "total_sent_amount": totalSentAmount,
     "total_recieved_amount": totalReceivedAmount,
     "events_invite_list": eventsInviteList == null ? [] : List<dynamic>.from(eventsInviteList!.map((x) => x.toJson())),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shagun_mobile/utils/app_widgets.dart';
 
+import '../../../database/app_pref.dart';
+import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/routes.dart';
 import '../../../utils/url_constants.dart';
@@ -19,6 +21,7 @@ class _ProfileSearchScreenState extends State<ProfileSearchScreen> {
   SearchDataModel? searchData;
   HomeControllers homeControllers = HomeControllers();
   bool isLoading = false; // Added isLoading flag to track the loading state.
+  PrefModel prefModel = AppPref.getPref();
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +106,10 @@ class _ProfileSearchScreenState extends State<ProfileSearchScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         onTap: () async {
+                          if(searchData!.user![index].uid==prefModel.userData!.user!.userId){
+                            showErrorToast(context, "You cannot gift for your events");
+                            return;
+                          }
                           showLoaderDialog(context);
                           UserEventsDataModel userEvents =
                               await homeControllers.getUserEvents(
@@ -122,7 +129,7 @@ class _ProfileSearchScreenState extends State<ProfileSearchScreen> {
                               Navigator.pop(context);
                               showErrorToast(
                                 context,
-                                "No Ongoing events found for the user",
+                                "No ongoing events found for the ${searchData!.user![index].name}",
                               );
                             }
                           }

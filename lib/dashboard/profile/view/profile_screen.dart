@@ -212,13 +212,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Navigator.pop(context);
                                 showSuccessToast(
                                   context,
-                                  "Successfully raised the request\nOur back office will get in touch with you soon !",
+                                  "Successfully raised the request\nOur back office team will get in touch with you soon !",
                                 );
                                 _pullRefresh();
                               }
                             } else {
                               showErrorToast(context,
-                                  "You already have an active request !\nOur back office will contact you soon");
+                                  "You already have an active request !\nOur back office team will contact you soon");
                             }
                           },
                           child: Container(

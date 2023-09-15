@@ -675,13 +675,23 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                             FontWeight.w700,
                                                       ),
                                                     ),
-                                                    const Text(
-                                                      'Bharath and Priya',
-                                                      style: TextStyle(
+                                                    snapshot.data!.myEvents![index].admins!.length==1?
+                                                    Text(
+                                                      '${snapshot.data!.myEvents![index].admins![0].name}',
+                                                      style: const TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.w700,
+                                                      ),
+                                                    ):
+                                                    Text(
+                                                      '${snapshot.data!.myEvents![index].admins![0].name} and ${snapshot.data!.myEvents![index].admins![1].name}',
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                        FontWeight.w700,
                                                       ),
                                                     ),
                                                     Row(
@@ -767,9 +777,14 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                                     .status ==
                                                                 1
                                                             ? 'Active'
-                                                            : "In Active",
-                                                        style: const TextStyle(
-                                                          color: Colors.green,
+                                                            : "Closed",
+                                                        style: TextStyle(
+                                                          color: snapshot
+                                                              .data!
+                                                              .myEvents![
+                                                          index]
+                                                              .status ==
+                                                              1?Colors.green: Colors.red,
                                                           fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.w600,

@@ -4,6 +4,7 @@ import 'package:shagun_mobile/dashboard/profile/view/profile_screen.dart';
 import 'package:shagun_mobile/dashboard/transactions/view/received_shagun_screen.dart';
 import 'package:shagun_mobile/dashboard/transactions/view/sent_shagun_screen.dart';
 import 'package:shagun_mobile/utils/app_colors.dart';
+import 'package:shagun_mobile/utils/app_widgets.dart';
 
 import 'home/view/home_screen.dart';
 import 'my_events/view/my_events_screen.dart';
@@ -18,14 +19,20 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   int _currentIndex = 0;
 
-  List screens = [
-  const HomeScreen(),
-  const SentShagunScreen(),
-  const MyEventsScreen(),
-  const ReceivedShagunScreen(),
-  const ProfileScreen(),
-  ];
+  bool banned = false;
+  List screens = [];
 
+  @override
+  void initState() {
+    super.initState();
+    screens = [
+      HomeScreen(isBan:isBan),
+      const SentShagunScreen(),
+      const MyEventsScreen(),
+      const ReceivedShagunScreen(),
+      const ProfileScreen(),
+    ];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +44,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
           selectedColorOpacity:.1,
           selectedItemColor: AppColors.primaryColor,
           currentIndex: _currentIndex,
-          onTap: (i) => setState(() => _currentIndex = i),
+          onTap: (i) {
+            if(banned){
+              showErrorToast(context, "You are temporarily banned from using\nPlease contact support");
+              return;
+            }
+            setState(() => _currentIndex = i);
+          },
           items: [
             SalomonBottomBarItem(
               icon: const Icon(Icons.home),
@@ -64,4 +77,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
+
+  void isBan(bool status) {
+    banned=status;
+  }
+
 }
