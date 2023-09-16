@@ -304,14 +304,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         Text(
                                           "${snapshot.data!.kycData!.docName!} : ",
                                           style: const TextStyle(
-                                              fontSize: 16,
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Text(
-                                          snapshot.data!.kycData!.docNum!,
+                                        Text(maskString(snapshot.data!.kycData!.docNum!,6),
                                           style: const TextStyle(
-                                              fontSize: 16,
                                               color: Colors.white,
                                               fontWeight: FontWeight.normal),
                                         ),
@@ -322,14 +319,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         Text(
                                           "${snapshot.data!.kycData!.docName1!} : ",
                                           style: const TextStyle(
-                                              fontSize: 16,
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          snapshot.data!.kycData!.docNum1!,
+                                          maskString(snapshot.data!.kycData!.docNum1!,4),
                                           style: const TextStyle(
-                                              fontSize: 16,
                                               color: Colors.white,
                                               fontWeight: FontWeight.normal),
                                         ),
@@ -338,6 +333,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                 ))
                             : const SizedBox.shrink(),
+                        snapshot.data!.bankData!.isNotEmpty?
+                            Container(
+                              width: screenSize.width,
+                              padding: const EdgeInsets.all(10),
+                              decoration: const BoxDecoration(
+                                  color: AppColors.secondaryColor,
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              child: Column(
+                                children: [
+                                  for(int i =0;i<snapshot.data!.bankData!.length;i++)
+                                    snapshot.data!.bankData![i].status==1?
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("My Active Bank",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: AppColors.primaryColor,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration: TextDecoration.underline)),
+                                            Row(
+                                              children: [
+                                                const Text("Bank Name : ",style: TextStyle(fontWeight: FontWeight.bold),),
+                                                Text(snapshot.data!.bankData![i].bankName!,style: const TextStyle(fontWeight: FontWeight.normal),),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Text("Bank Account Number : ",style: TextStyle(fontWeight: FontWeight.bold),),
+                                                Text(snapshot.data!.bankData![i].accNo!,style: const TextStyle(fontWeight: FontWeight.normal),),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    const Text("Bank IFSC : ",style: TextStyle(fontWeight: FontWeight.bold),),
+                                                    Text(snapshot.data!.bankData![i].ifscCode!,style: const TextStyle(fontWeight: FontWeight.normal),),
+                                                  ],
+                                                ),
+                                                const Row(
+                                                  children: [
+                                                    Text("Active",
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            color: AppColors.primaryColor,
+                                                            fontWeight:
+                                                            FontWeight.bold)),
+                                                    SizedBox(width: 5,),
+                                                    Icon(
+                                                      Icons.check_circle,
+                                                      color: AppColors.primaryColor,
+                                                      size: 20,
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ):const SizedBox.shrink()
+                                ],
+                              ),
+                            ):const SizedBox.shrink(),
+
                         const SizedBox(
                           height: 10,
                         ),
@@ -536,4 +599,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     }
   }
+
+  String maskString(String inputString, int visibleChars) {
+    if (inputString.isEmpty) {
+      return '';
+    }
+
+    if (inputString.length <= visibleChars) {
+      return inputString;
+    }
+
+    final maskedPart = '*' * (inputString.length - visibleChars);
+    final visiblePart = inputString.substring(inputString.length - visibleChars);
+
+    return '$maskedPart$visiblePart';
+  }
+
 }
