@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shagun_mobile/dashboard/notification/model/notification_data_model.dart';
+import 'package:shagun_mobile/gift_flow/trackorderdata_model.dart';
 import 'package:shagun_mobile/utils/app_widgets.dart';
 
 import '../auth/model/ip_location_model.dart';
@@ -372,7 +373,8 @@ class ApiCalls {
     String phone,
     String email,
     String authType,
-    File? selectedImage, BuildContext context,
+    File? selectedImage,
+    BuildContext context,
   ) async {
     var ipResponse = await http.get(
       Uri.parse(UrlConstant.ipLocation),
@@ -419,7 +421,7 @@ class ApiCalls {
         "data": UserDetailsModel.fromJson(responseJson),
       };
     } else {
-      if(context.mounted){
+      if (context.mounted) {
         Navigator.pop(context);
         showErrorToast(context, "Something went wrong");
       }
@@ -536,7 +538,6 @@ class ApiCalls {
     });
   }
 
-
   requestKycCallBack(String s, BuildContext context) {
     return hitApi(
       true,
@@ -569,7 +570,7 @@ class ApiCalls {
             } else {
               if (context.mounted) {
                 Navigator.pop(context);
-                showErrorToast(context,"Failed to Request for KYC");
+                showErrorToast(context, "Failed to Request for KYC");
               }
               throw Exception('Failed to Request for KYC');
             }
@@ -578,7 +579,7 @@ class ApiCalls {
       } else {
         if (context.mounted) {
           Navigator.pop(context);
-          showErrorToast(context,"Something Went Wrong");
+          showErrorToast(context, "Something Went Wrong");
         }
         throw Exception('Failed to Request for KYC');
       }
@@ -613,7 +614,7 @@ class ApiCalls {
             } else {
               if (context.mounted) {
                 Navigator.pop(context);
-                showErrorToast(context,"Failed to Request for Event");
+                showErrorToast(context, "Failed to Request for Event");
               }
               throw Exception('Failed to Request for KYC');
             }
@@ -622,7 +623,7 @@ class ApiCalls {
       } else {
         if (context.mounted) {
           Navigator.pop(context);
-          showErrorToast(context,"Something Went Wrong");
+          showErrorToast(context, "Something Went Wrong");
         }
         throw Exception('Failed to Request for Event');
       }
@@ -646,10 +647,10 @@ class ApiCalls {
           return hitApi(
             true,
             UrlConstant.giftReceivedListForEvent,
-              jsonEncode(<String, String>{
-                'uid': prefModel.userData!.user!.userId!,
-                'eid': eid,
-              }),
+            jsonEncode(<String, String>{
+              'uid': prefModel.userData!.user!.userId!,
+              'eid': eid,
+            }),
           ).then((reResponse) {
             if (reResponse.statusCode == 200) {
               return ReceivedGiftsDataModel.fromJson(
@@ -673,7 +674,8 @@ class ApiCalls {
     return hitApi(
       true,
       UrlConstant.getGreetingCards,
-      jsonEncode({'uid': prefModel.userData!.user!.userId!, 'event_id': eventId}),
+      jsonEncode(
+          {'uid': prefModel.userData!.user!.userId!, 'event_id': eventId}),
     ).then((response) {
       if (response.statusCode == 200) {
         return GreetingsAndWishesModel.fromJson(json.decode(response.body));
@@ -682,7 +684,10 @@ class ApiCalls {
           return hitApi(
             true,
             UrlConstant.getGreetingCards,
-            jsonEncode({'uid': prefModel.userData!.user!.userId!, 'event_id': eventId}),
+            jsonEncode({
+              'uid': prefModel.userData!.user!.userId!,
+              'event_id': eventId
+            }),
           ).then((reResponse) {
             if (reResponse.statusCode == 200) {
               return GreetingsAndWishesModel.fromJson(
@@ -690,7 +695,7 @@ class ApiCalls {
             } else {
               Navigator.pop(context);
               if (context.mounted) {
-                showErrorToast(context,"Something Went Wrong" );
+                showErrorToast(context, "Something Went Wrong");
               }
               throw Exception('Failed to fetch');
             }
@@ -699,7 +704,7 @@ class ApiCalls {
       } else {
         if (context.mounted) {
           Navigator.pop(context);
-          showErrorToast(context,"Something Went Wrong" );
+          showErrorToast(context, "Something Went Wrong");
         }
         throw Exception('Failed to fetch');
       }
@@ -727,7 +732,7 @@ class ApiCalls {
             } else {
               if (context.mounted) {
                 Navigator.pop(context);
-                showErrorToast(context,"Something Went Wrong");
+                showErrorToast(context, "Something Went Wrong");
               }
               Navigator.pop(context);
               throw Exception('Failed to fetch');
@@ -737,7 +742,7 @@ class ApiCalls {
       } else {
         if (context.mounted) {
           Navigator.pop(context);
-          showErrorToast(context,"Something Went Wrong");
+          showErrorToast(context, "Something Went Wrong");
         }
         throw Exception('Failed to fetch');
       }
@@ -784,10 +789,9 @@ class ApiCalls {
       String sessionId = jsonResponse['payment_session_id'];
       return sessionId;
     } else {
-      showErrorToast(
-        context,
-        "Something went wrong! Please try again later"
-      );
+      if (context.mounted) {
+        showErrorToast(context, "Something went wrong! Please try again later");
+      }
       throw Exception('Failed to fetch');
     }
   }
@@ -798,9 +802,6 @@ class ApiCalls {
       UrlConstant.getNotifications,
       jsonEncode({'uid': prefModel.userData!.user!.userId!}),
     ).then((response) {
-      print(UrlConstant.getNotifications);
-      print(response.body);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         return NotificationDataModel.fromJson(json.decode(response.body));
       } else if (response.statusCode == 401) {
@@ -816,7 +817,7 @@ class ApiCalls {
             } else {
               Navigator.pop(context);
               if (context.mounted) {
-                showErrorToast(context,"Something Went Wrong" );
+                showErrorToast(context, "Something Went Wrong");
               }
               throw Exception('Failed to fetch');
             }
@@ -824,11 +825,48 @@ class ApiCalls {
         });
       } else {
         if (context.mounted) {
-          showErrorToast(context,"Something Went Wrong" );
+          showErrorToast(context, "Something Went Wrong");
         }
         throw Exception('Failed to fetch');
       }
     });
   }
 
+  Future<TrackOrderDataModel>? fetchOrderTrackData(
+      BuildContext context, String? orderId) {
+    return hitApi(
+      true,
+      UrlConstant.trackTransaction,
+      jsonEncode({'uid': prefModel.userData!.user!.userId!, 'tid': orderId}),
+    ).then((response) {
+      print(response.body);
+      if (response.statusCode == 200) {
+        return TrackOrderDataModel.fromJson(json.decode(response.body));
+      } else if (response.statusCode == 401) {
+        return getRefreshToken().then((_) {
+          return hitApi(
+            true,
+            UrlConstant.trackTransaction,
+            jsonEncode(
+                {'uid': prefModel.userData!.user!.userId!, 'tid': orderId}),
+          ).then((reResponse) {
+            if (reResponse.statusCode == 200) {
+              return TrackOrderDataModel.fromJson(json.decode(reResponse.body));
+            } else {
+              Navigator.pop(context);
+              if (context.mounted) {
+                showErrorToast(context, "Something Went Wrong");
+              }
+              throw Exception('Failed to fetch');
+            }
+          });
+        });
+      } else {
+        if (context.mounted) {
+          showErrorToast(context, "Something Went Wrong");
+        }
+        throw Exception('Failed to fetch');
+      }
+    });
+  }
 }

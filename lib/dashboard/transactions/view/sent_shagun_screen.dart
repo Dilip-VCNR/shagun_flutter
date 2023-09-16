@@ -7,6 +7,7 @@ import 'package:shagun_mobile/utils/url_constants.dart';
 
 import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
+import '../../../utils/routes.dart';
 import '../controller/gifts_controller.dart';
 import '../model/gifts_data_model.dart';
 
@@ -175,6 +176,11 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                         itemCount: snapshot.data!.sentGifts!.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
+                            onTap: (){
+                              Navigator.pushNamed(context, Routes.trackOrderRoute,arguments: {
+                                "orderId":snapshot.data!.sentGifts![index].id
+                              });
+                            },
                             child: Container(
                               width: screenSize.width,
                               padding: const EdgeInsets.all(20),
@@ -284,6 +290,15 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
+                                              snapshot.data!.sentGifts![index].settlementStatus==1?
+                                              const Text(
+                                                'Settled to recipient bank',
+                                                style: TextStyle(
+                                                  color: Colors.green,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ):const SizedBox.shrink(),
                                             ],
                                           ),
                                         ],

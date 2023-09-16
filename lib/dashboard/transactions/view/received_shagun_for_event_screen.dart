@@ -215,6 +215,15 @@ class _ReceivedShagunForEventScreenState
                                                               FontWeight.w400,
                                                         ),
                                                       ),
+                                                      snapshot.data!.receivedGifts![index].settlementStatus==1?
+                                                      const Text(
+                                                        'Settled to bank',
+                                                        style: TextStyle(
+                                                          color: Colors.green,
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                      ):const SizedBox.shrink(),
                                                     ],
                                                   ),
                                                 ],

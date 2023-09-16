@@ -43,30 +43,30 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
             //   ),
             // ),
             const SizedBox(height: 10,),
-            InkWell(
-              onTap: (){
-                // Navigator.pushNamed(context, Routes.trackOrderScreen);
-              },
-              child: Container(
-                width: screenSize.width/1.5,
-                height: 50,
-                decoration: ShapeDecoration(
-                  color: AppColors.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  shadows: const [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-                child: const Center(child: Text("Track",style: TextStyle(color: Colors.white,fontSize: 18),)),
-              ),
-            ),
+            // InkWell(
+            //   onTap: (){
+            //     // Navigator.pushNamed(context, Routes.trackOrderScreen);
+            //   },
+            //   child: Container(
+            //     width: screenSize.width/1.5,
+            //     height: 50,
+            //     decoration: ShapeDecoration(
+            //       color: AppColors.primaryColor,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(20),
+            //       ),
+            //       shadows: const [
+            //         BoxShadow(
+            //           color: Color(0x3F000000),
+            //           blurRadius: 4,
+            //           offset: Offset(0, 4),
+            //           spreadRadius: 0,
+            //         )
+            //       ],
+            //     ),
+            //     child: const Center(child: Text("Track",style: TextStyle(color: Colors.white,fontSize: 18),)),
+            //   ),
+            // ),
             const SizedBox(height: 10,),
             InkWell(
               onTap: (){
@@ -89,7 +89,7 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
                     )
                   ],
                 ),
-                child: const Center(child: Text("Home",style: TextStyle(color: Colors.white,fontSize: 18),)),
+                child: const Center(child: Text("OK",style: TextStyle(color: AppColors.primaryColor,fontSize: 18,fontWeight: FontWeight.bold),)),
               ),
             )
           ],

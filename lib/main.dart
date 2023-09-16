@@ -24,6 +24,7 @@ import 'gift_flow/view/check_out_screen.dart';
 import 'gift_flow/view/greeting_card_detail.dart';
 import 'gift_flow/view/order_success_screen.dart';
 import 'gift_flow/view/select_greeting_card.dart';
+import 'gift_flow/view/track_orders_creen.dart';
 import 'gift_flow/view/wish_input_screen.dart';
 
 Future<void> main() async {
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
         Routes.qrScannerRoute: (context) => const QrScannerScreen(),
         Routes.giftsForEventRoute: (context) => const ReceivedShagunForEventScreen(),
         Routes.orderSuccessRoute: (context) => const OrderSuccessScreen(),
+        Routes.trackOrderRoute: (context) => const TrackOrderScreen(),
       },
     );
   }

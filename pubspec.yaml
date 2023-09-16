@@ -64,6 +64,7 @@ dependencies:
   path_provider: ^2.1.1
   share: ^2.0.4
   flutter_cashfree_pg_sdk: ^2.0.19+22
+  order_tracker_zen: ^1.0.0+4
 
 dev_dependencies:
   flutter_test:
