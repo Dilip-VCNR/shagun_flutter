@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shagun_mobile/utils/app_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,7 +24,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  PrefModel prefModel = AppPref.getPref();
 
   ProfileController profileController = ProfileController();
 
@@ -31,6 +33,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     profileData = profileController.fetchProfileData(context);
+  }
+
+  Future<File?> _getImageFromGallery(File? selectedImage) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        selectedImage = File(pickedFile.path);
+      });
+    }
+    return selectedImage;
   }
 
   List options = [
@@ -61,6 +74,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    PrefModel prefModel = AppPref.getPref();
+
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
@@ -138,9 +153,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: screenSize.width/1.7,
+                                  width: screenSize.width / 1.7,
                                   child: Text(
-                                        snapshot.data!.user!.email!,
+                                    snapshot.data!.user!.email!,
                                     style: const TextStyle(
                                       color: Color(0xFF545454),
                                       fontSize: 15,
@@ -192,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               const TextSpan(
                                 text:
-                                ' so our backoffice team will reach you through the registered Mobile Number/Email.',
+                                    ' so our backoffice team will reach you through the registered Mobile Number/Email.',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,
@@ -274,7 +289,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 fontSize: 20,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.underline)),
+                                                decoration:
+                                                    TextDecoration.underline)),
                                         SizedBox(
                                           width: 20,
                                         ),
@@ -286,7 +302,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     color: Colors.white,
                                                     fontWeight:
                                                         FontWeight.bold)),
-                                            SizedBox(width: 5,),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
                                             Icon(
                                               Icons.check_circle,
                                               color: AppColors.secondaryColor,
@@ -307,7 +325,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Text(maskString(snapshot.data!.kycData!.docNum!,6),
+                                        Text(
+                                          maskString(
+                                              snapshot.data!.kycData!.docNum!,
+                                              6),
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.normal),
@@ -323,7 +344,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          maskString(snapshot.data!.kycData!.docNum1!,4),
+                                          maskString(
+                                              snapshot.data!.kycData!.docNum1!,
+                                              4),
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.normal),
@@ -333,74 +356,130 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                 ))
                             : const SizedBox.shrink(),
-                        snapshot.data!.bankData!.isNotEmpty?
-                            Container(
-                              width: screenSize.width,
-                              padding: const EdgeInsets.all(10),
-                              decoration: const BoxDecoration(
-                                  color: AppColors.secondaryColor,
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              child: Column(
-                                children: [
-                                  for(int i =0;i<snapshot.data!.bankData!.length;i++)
-                                    snapshot.data!.bankData![i].status==1?
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const Text("My Active Bank",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: AppColors.primaryColor,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration: TextDecoration.underline)),
-                                            Row(
+                        snapshot.data!.bankData!.isNotEmpty
+                            ? Container(
+                                width: screenSize.width,
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                    color: AppColors.secondaryColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Column(
+                                  children: [
+                                    for (int i = 0;
+                                        i < snapshot.data!.bankData!.length;
+                                        i++)
+                                      snapshot.data!.bankData![i].status == 1
+                                          ? Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                const Text("Bank Name : ",style: TextStyle(fontWeight: FontWeight.bold),),
-                                                Text(snapshot.data!.bankData![i].bankName!,style: const TextStyle(fontWeight: FontWeight.normal),),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                const Text("Bank Account Number : ",style: TextStyle(fontWeight: FontWeight.bold),),
-                                                Text(snapshot.data!.bankData![i].accNo!,style: const TextStyle(fontWeight: FontWeight.normal),),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
+                                                const Text("My Active Bank",
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline)),
                                                 Row(
                                                   children: [
-                                                    const Text("Bank IFSC : ",style: TextStyle(fontWeight: FontWeight.bold),),
-                                                    Text(snapshot.data!.bankData![i].ifscCode!,style: const TextStyle(fontWeight: FontWeight.normal),),
+                                                    const Text(
+                                                      "Bank Name : ",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      snapshot
+                                                          .data!
+                                                          .bankData![i]
+                                                          .bankName!,
+                                                      style: const TextStyle(
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
                                                   ],
                                                 ),
-                                                const Row(
+                                                Row(
                                                   children: [
-                                                    Text("Active",
-                                                        style: TextStyle(
-                                                            fontSize: 18,
-                                                            color: AppColors.primaryColor,
-                                                            fontWeight:
-                                                            FontWeight.bold)),
-                                                    SizedBox(width: 5,),
-                                                    Icon(
-                                                      Icons.check_circle,
-                                                      color: AppColors.primaryColor,
-                                                      size: 20,
+                                                    const Text(
+                                                      "Bank Account Number : ",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      snapshot.data!
+                                                          .bankData![i].accNo!,
+                                                      style: const TextStyle(
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const Text(
+                                                          "Bank IFSC : ",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        Text(
+                                                          snapshot
+                                                              .data!
+                                                              .bankData![i]
+                                                              .ifscCode!,
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Row(
+                                                      children: [
+                                                        Text("Active",
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: AppColors
+                                                                    .primaryColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Icon(
+                                                          Icons.check_circle,
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          size: 20,
+                                                        )
+                                                      ],
                                                     )
                                                   ],
-                                                )
+                                                ),
                                               ],
-                                            ),
-                                          ],
-                                        ):const SizedBox.shrink()
-                                ],
-                              ),
-                            ):const SizedBox.shrink(),
-
+                                            )
+                                          : const SizedBox.shrink()
+                                  ],
+                                ),
+                              )
+                            : const SizedBox.shrink(),
                         const SizedBox(
                           height: 10,
                         ),
@@ -413,6 +492,253 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             onTap: () async {
                               switch (options[i]['clickType']) {
                                 case 'edit_profile':
+                                  TextEditingController nameController =
+                                      TextEditingController();
+                                  nameController.text =
+                                      prefModel.userData!.user!.name!;
+                                  File? selectedImage;
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor:
+                                        AppColors.scaffoldBackground,
+                                    context: context,
+                                    builder: (context) {
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                                        child: StatefulBuilder(
+                                          builder: (context, setState) {
+                                            return Stack(
+                                              children: [
+                                                Positioned(
+                                                  right:20,
+                                                    top:20,
+                                                    child: IconButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                        icon:
+                                                            const Icon(Icons.cancel))),
+                                                Container(
+                                                  width: screenSize.width,
+                                                  padding:
+                                                      const EdgeInsets.all(20),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          File? newImage =
+                                                              await _getImageFromGallery(
+                                                                  selectedImage);
+                                                          if (newImage != null) {
+                                                            setState(() {
+                                                              selectedImage =
+                                                                  newImage;
+                                                            });
+                                                          }
+                                                        },
+                                                        child: Stack(
+                                                          children: [
+                                                            CircleAvatar(
+                                                              radius: 50,
+                                                              backgroundColor:
+                                                                  AppColors
+                                                                      .secondaryColor,
+                                                              backgroundImage:
+                                                                  selectedImage !=
+                                                                          null
+                                                                      ? FileImage(
+                                                                          selectedImage!)
+                                                                      : NetworkImage(
+                                                                          UrlConstant.imageBaseUrl +
+                                                                              prefModel.userData!.user!.profile!,
+                                                                        ) as ImageProvider,
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Positioned(
+                                                              bottom: 2,
+                                                              right: 2,
+                                                              child: CircleAvatar(
+                                                                radius: 15,
+                                                                backgroundColor:
+                                                                    Colors.grey
+                                                                        .shade400,
+                                                                child: IconButton(
+                                                                  onPressed:
+                                                                      () {},
+                                                                  icon:
+                                                                      const Icon(
+                                                                    Icons
+                                                                        .file_upload_outlined,
+                                                                    size: 15,
+                                                                  ),
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          const Text(
+                                                            "Full name *",
+                                                            style: TextStyle(
+                                                                fontSize: 16),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          TextFormField(
+                                                            controller:
+                                                                nameController,
+                                                            validator: (value) {
+                                                              if (value!
+                                                                  .isEmpty) {
+                                                                return 'Please enter your name';
+                                                              }
+                                                              if (AuthController()
+                                                                  .isNotValidName(
+                                                                      value)) {
+                                                                return "Please enter valid name";
+                                                              }
+                                                              return null;
+                                                            },
+                                                            decoration:
+                                                                InputDecoration(
+                                                              errorStyle: const TextStyle(
+                                                                  color: AppColors
+                                                                      .secondaryColor),
+                                                              prefixIcon:
+                                                                  const Icon(Icons
+                                                                      .person_2_outlined),
+                                                              hintText:
+                                                                  'Full Name',
+                                                              counterText: "",
+                                                              isCollapsed: true,
+                                                              filled: true,
+                                                              fillColor: AppColors
+                                                                  .inputFieldColor,
+                                                              border:
+                                                                  OutlineInputBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                                borderSide:
+                                                                    BorderSide
+                                                                        .none,
+                                                              ),
+                                                              contentPadding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          16.0),
+                                                            ),
+                                                            textAlignVertical:
+                                                                TextAlignVertical
+                                                                    .center,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () async {
+                                                          FocusScope.of(context)
+                                                              .unfocus();
+                                                          if (nameController
+                                                                  .text ==
+                                                              "") {
+                                                            showErrorToast(
+                                                                context,
+                                                                "Name cannot be empty");
+                                                            return;
+                                                          }
+                                                          if (AuthController()
+                                                              .isNotValidName(
+                                                                  nameController
+                                                                      .text)) {
+                                                            showErrorToast(
+                                                                context,
+                                                                "Please fill in valid name");
+                                                          } else {
+                                                            showLoaderDialog(
+                                                                context);
+                                                            await profileController
+                                                                .updateProfileData(
+                                                                    context,
+                                                                    nameController
+                                                                        .text,
+                                                                    selectedImage);
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                          width: double.infinity,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical: 13.0),
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            color: AppColors
+                                                                .secondaryColor,
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10.0),
+                                                            ),
+                                                          ),
+                                                          child: const Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                'Update information',
+                                                                style: TextStyle(
+                                                                    color: AppColors
+                                                                        .primaryColor,
+                                                                    fontSize: 17,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ).then((value) {
+                                    _pullRefresh();
+                                  });
                                   break;
                                 case 'about':
                                   Navigator.pushNamed(
@@ -610,9 +936,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     final maskedPart = '*' * (inputString.length - visibleChars);
-    final visiblePart = inputString.substring(inputString.length - visibleChars);
+    final visiblePart =
+        inputString.substring(inputString.length - visibleChars);
 
     return '$maskedPart$visiblePart';
   }
-
 }

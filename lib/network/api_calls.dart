@@ -839,7 +839,6 @@ class ApiCalls {
       UrlConstant.trackTransaction,
       jsonEncode({'uid': prefModel.userData!.user!.userId!, 'tid': orderId}),
     ).then((response) {
-      print(response.body);
       if (response.statusCode == 200) {
         return TrackOrderDataModel.fromJson(json.decode(response.body));
       } else if (response.statusCode == 401) {
@@ -876,10 +875,6 @@ class ApiCalls {
       UrlConstant.giftSentSearch,
       jsonEncode({'search': query, 'uid': prefModel.userData!.user!.userId}),
     ).then((response) {
-      print(response.statusCode);
-      print("------------");
-      print(response.body);
-      print("------------");
       if (response.statusCode == 200) {
         return GiftsDataModel.fromJson(json.decode(response.body));
       } else if (response.statusCode == 401) {
@@ -946,5 +941,51 @@ class ApiCalls {
         throw Exception('Failed to search');
       }
     });
+  }
+
+  Future<String> updateProfile(BuildContext context, String name, File? selectedImage) async {
+    var request =
+    http.MultipartRequest('POST', Uri.parse(UrlConstant.editProfile));
+
+    // Add form fields
+    request.fields['uid'] = prefModel.userData!.user!.userId!;
+    request.fields['name'] = name;
+    request.fields['email'] = prefModel.userData!.user!.email!;
+    request.fields['phone'] = prefModel.userData!.user!.phone!;
+    request.headers.addAll(getHeaders(true));
+    // Add file
+    if (selectedImage != null) {
+      var picStream = http.ByteStream(selectedImage.openRead());
+      var length = await selectedImage.length();
+      var multipartFile = http.MultipartFile(
+        'profile_pic',
+        picStream,
+        length,
+        filename: selectedImage.path.split('/').last,
+        contentType:
+        MediaType('image', 'jpeg'), // Adjust the content type accordingly
+      );
+      request.files.add(multipartFile);
+    }
+
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      await getRefreshToken();
+      if(context.mounted){
+        Navigator.pop(context);
+        Navigator.pop(context);
+        showSuccessToast(context, "Profile updated successfully !");
+      }
+      // var responseData = await response.stream.toBytes();
+      // var responseJson = json.decode(utf8.decode(responseData));
+      return "Success";
+    } else {
+      if (context.mounted) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        showErrorToast(context, "Something went wrong");
+      }
+      throw Exception('Failed to upload image');
+    }
   }
 }
