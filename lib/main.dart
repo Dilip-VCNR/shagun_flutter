@@ -18,6 +18,7 @@ import 'dashboard/my_events/view/all_invitations.dart';
 import 'dashboard/my_events/view/event_details.dart';
 import 'dashboard/my_events/view/user_events_screen.dart';
 import 'dashboard/notification/view/notifications_screen.dart';
+import 'dashboard/transactions/view/search_transactions_screen.dart';
 import 'database/app_pref.dart';
 import 'firebase_options.dart';
 import 'gift_flow/view/check_out_screen.dart';
@@ -76,6 +77,7 @@ class MyApp extends StatelessWidget {
         Routes.giftsForEventRoute: (context) => const ReceivedShagunForEventScreen(),
         Routes.orderSuccessRoute: (context) => const OrderSuccessScreen(),
         Routes.trackOrderRoute: (context) => const TrackOrderScreen(),
+        Routes.searchTransactionsRoute: (context) => const SearchTransactionsScreen(),
       },
     );
   }

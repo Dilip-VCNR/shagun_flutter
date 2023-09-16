@@ -20,6 +20,8 @@ class UrlConstant {
   static const String giftReceivedListForEvent = "${apiBaseUrl}gift_received_for_event";
   static const String getNotifications = "${apiBaseUrl}get_my_notifications";
   static const String trackTransaction = "${apiBaseUrl}track_transaction";
+  static const String giftReceivedSearch = "${apiBaseUrl}gift_received_search";
+  static const String giftSentSearch = "${apiBaseUrl}gift_sent_search";
   static const String privacyPolicy = "${websiteBaseUrl}p/privacy-policy";
   static const String termsOfUse = "${websiteBaseUrl}p/t-c";
   static const String ipLocation = "https://api.ipregistry.co/?key=2tev2ltdlff985kx";

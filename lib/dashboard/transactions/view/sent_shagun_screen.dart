@@ -101,12 +101,49 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      snapshot.data!.sentGifts!.isNotEmpty?
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.pushNamed(context, Routes.searchTransactionsRoute,arguments: {
+                            'type':'sent'
+                          });
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: TextFormField(
+                            enabled: false,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter your name';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              errorStyle:
+                              const TextStyle(color: AppColors.secondaryColor),
+                              prefixIcon: const Icon(Icons.search_outlined),
+                              hintText: 'Search name or phone',
+                              counterText: "",
+                              isCollapsed: true,
+                              filled: true,
+                              fillColor: AppColors.inputFieldColor,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide.none,
+                              ),
+                              contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10.0),
+                            ),
+                            textAlignVertical: TextAlignVertical.center,
+                          ),
+                        ),
+                      ):const SizedBox.shrink(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: screenSize.width / 2.5,
+                            width: screenSize.width / 2.4,
                             height: 30,
                             decoration: ShapeDecoration(
                               color: AppColors.primaryColor,
@@ -144,7 +181,7 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                           GestureDetector(
                             onTap: () => selectMonthYear(context),
                             child: Container(
-                              width: screenSize.width / 2.5,
+                              width: screenSize.width / 2.4,
                               height: 30,
                               decoration: ShapeDecoration(
                                 color: AppColors.primaryColor,

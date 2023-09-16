@@ -869,4 +869,82 @@ class ApiCalls {
       }
     });
   }
+
+  searchGiftsSent(BuildContext context, String query) {
+    return hitApi(
+      true,
+      UrlConstant.giftSentSearch,
+      jsonEncode({'search': query, 'uid': prefModel.userData!.user!.userId}),
+    ).then((response) {
+      print(response.statusCode);
+      print("------------");
+      print(response.body);
+      print("------------");
+      if (response.statusCode == 200) {
+        return GiftsDataModel.fromJson(json.decode(response.body));
+      } else if (response.statusCode == 401) {
+        return getRefreshToken().then((_) {
+          return hitApi(
+            true,
+            UrlConstant.searchApi,
+            jsonEncode({
+              'search': query,
+              'uid': prefModel.userData!.user!.userId,
+            }),
+          ).then((reResponse) {
+            if (reResponse.statusCode == 200) {
+              return GiftsDataModel.fromJson(json.decode(reResponse.body));
+            } else {
+              if (context.mounted) {
+                showErrorToast(context, "Something Went Wrong");
+              }
+              throw Exception('Failed to search');
+            }
+          });
+        });
+      } else {
+        if (context.mounted) {
+          showErrorToast(context, "Something Went Wrong");
+        }
+        throw Exception('Failed to search');
+      }
+    });
+  }
+
+  searchGiftsReceived(BuildContext context, String query) {
+    return hitApi(
+      true,
+      UrlConstant.giftReceivedSearch,
+      jsonEncode({'search': query, 'uid': prefModel.userData!.user!.userId}),
+    ).then((response) {
+      if (response.statusCode == 200) {
+        return ReceivedGiftsDataModel.fromJson(json.decode(response.body));
+      } else if (response.statusCode == 401) {
+        return getRefreshToken().then((_) {
+          return hitApi(
+            true,
+            UrlConstant.searchApi,
+            jsonEncode({
+              'search': query,
+              'uid': prefModel.userData!.user!.userId,
+            }),
+          ).then((reResponse) {
+            if (reResponse.statusCode == 200) {
+              return ReceivedGiftsDataModel.fromJson(json.decode(reResponse.body));
+            } else {
+              if (context.mounted) {
+                showErrorToast(context, "Something Went Wrong");
+              }
+              throw Exception('Failed to search');
+            }
+          });
+        });
+      } else {
+        if (context.mounted) {
+          showErrorToast(context, "Something Went Wrong");
+        }
+        throw Exception('Failed to search');
+      }
+    });
+  }
 }

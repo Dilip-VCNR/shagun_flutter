@@ -6,6 +6,7 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/routes.dart';
 import '../../../utils/url_constants.dart';
 import '../controller/gifts_controller.dart';
 import '../model/gifts_data_model.dart';
@@ -102,6 +103,43 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      snapshot.data!.receivedGifts!.isNotEmpty?
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.pushNamed(context, Routes.searchTransactionsRoute,arguments: {
+                            'type':'received'
+                          });
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: TextFormField(
+                            enabled: false,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter your name';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              errorStyle:
+                              const TextStyle(color: AppColors.secondaryColor),
+                              prefixIcon: const Icon(Icons.search_outlined),
+                              hintText: 'Search name or phone',
+                              counterText: "",
+                              isCollapsed: true,
+                              filled: true,
+                              fillColor: AppColors.inputFieldColor,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide.none,
+                              ),
+                              contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10.0),
+                            ),
+                            textAlignVertical: TextAlignVertical.center,
+                          ),
+                        ),
+                      ):const SizedBox.shrink(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,

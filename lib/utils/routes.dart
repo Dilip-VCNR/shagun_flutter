@@ -19,4 +19,5 @@ class Routes {
   static const String giftsForEventRoute = "/giftsForEvent";
   static const String orderSuccessRoute = "/orderSuccessScreen";
   static const String trackOrderRoute = "/orderSuccess";
+  static const String searchTransactionsRoute = "/searchTransactions";
 }

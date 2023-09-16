@@ -19,4 +19,12 @@ class GiftsController{
     return apiCalls.getGiftsReceivedDataForEvent(context,userId,eventId);
   }
 
+  searchSentGifts(String query, BuildContext context) {
+    return apiCalls.searchGiftsSent(context,query);
+  }
+
+  searchReceivedGifts(String query, BuildContext context) {
+    return apiCalls.searchGiftsReceived(context,query);
+  }
+
 }
