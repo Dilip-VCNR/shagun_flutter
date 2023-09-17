@@ -617,7 +617,12 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                                     .data!
                                                                     .myEvents![
                                                                         index]
-                                                                    .eventName!);
+                                                                    .eventName!,snapshot
+                                                                .data!
+                                                                .myEvents![
+                                                            index]
+                                                                .eventId!,
+                                                            );
                                                           }
                                                         }
                                                       },
@@ -694,33 +699,36 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                         FontWeight.w700,
                                                       ),
                                                     ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          '₹${snapshot.data!.myEvents![index].totalRecievedAmount}',
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Color(
-                                                                0xFFBE9535),
-                                                            fontSize: 22,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        const Text(
-                                                          'Shagun received',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 14,
+                                                    SizedBox(
+                                                      width: screenSize.width/2,
+                                                      child: Row(
+                                                        children: [
+                                                          Text(
+                                                            '₹${snapshot.data!.myEvents![index].totalRecievedAmount}',
+                                                            style:
+                                                                const TextStyle(
+                                                              color: Color(
+                                                                  0xFFBE9535),
+                                                              fontSize: 20,
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
+                                                                  FontWeight.w700,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          const Text(
+                                                            'Received',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                     SizedBox(
                                                       width:
@@ -809,7 +817,8 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                 )
                               : const Center(
                                   child: Text(
-                                    "No records found",
+                                    "You have not created any events yet !\nYou can create on by clicking on Create event (+) icon at the top.",
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 )
@@ -841,7 +850,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
     });
   }
 
-  Future<void> downloadAndShareImage(String imageUrl, String eventName) async {
+  Future<void> downloadAndShareImage(String imageUrl, String eventName, int eventId) async {
     try {
       // Download the image using http package
       final response = await http.get(Uri.parse(imageUrl));
@@ -859,7 +868,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
       if (context.mounted) {
         Navigator.pop(context);
       }
-      await Share.shareFiles([imagePath], text: eventName);
+      await Share.shareFiles([imagePath], text: "$eventName\n${UrlConstant.deeplinkBaseUrl}?eventId=$eventId&invitedBy=${prefModel.userData!.user!.phone}",subject: "You are invited to $eventName");
     } catch (e) {
       if (context.mounted) {
         showErrorToast(context,'Error downloading and sharing image: $e');

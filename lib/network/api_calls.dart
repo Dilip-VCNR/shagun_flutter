@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -41,12 +42,13 @@ class ApiCalls {
   }
 
   Future<void> getRefreshToken() async {
+    String? fcmToken = await FirebaseMessaging.instance.getToken();
     var response = await hitApi(
       false,
       UrlConstant.userDetails,
       jsonEncode({
         'uid': prefModel.userData!.user!.userId!,
-        'fcm_token': prefModel.userData!.token!,
+        'fcm_token': fcmToken,
       }),
     );
     UserDetailsModel user =
@@ -718,6 +720,8 @@ class ApiCalls {
       UrlConstant.createOrder,
       jsonEncode(arguments),
     ).then((response) {
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200) {
         Navigator.pop(context);
       } else if (response.statusCode == 401) {

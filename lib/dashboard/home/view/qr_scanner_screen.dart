@@ -6,6 +6,8 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:shagun_mobile/dashboard/home/controller/home_controllers.dart';
 import 'package:shagun_mobile/utils/app_widgets.dart';
 
+import '../../../database/app_pref.dart';
+import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/routes.dart';
 import '../../my_events/model/single_event_model.dart';
@@ -121,6 +123,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
+    PrefModel prefModel = AppPref.getPref();
     setState(() {
       this.controller = controller;
     });
@@ -128,29 +131,25 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
       controller.pauseCamera();
       showLoaderDialog(context);
       String scanDataString = scanData.code.toString();
-      List<String> parts = scanDataString.split('/');
-      if (parts.isNotEmpty) {
-        // Taking the last part of the split
-        String lastPart = parts.last;
-
-        // Splitting the last part by "_"
-        List<String> subParts = lastPart.split('_');
-
-        if (subParts.length == 2) {
-          // Converting the first sub-part to an integer
-          int eventId =
-              int.tryParse(subParts[0]) ?? 0; // Default to 0 if parsing fails
-
-          // Storing the second sub-part as a string
-          String invitedPhone = subParts[1];
-
-          SingleEventDataModel eventData = await homeController
-              .getEventDetailsFromHome(context, eventId, invitedPhone);
-          if (context.mounted) {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, Routes.eventDetailsRoute,
-                arguments: {'eventData': eventData, 'type': 'searched'});
-          }
+      var uri = Uri.parse(scanDataString);
+      if(uri.queryParameters['eventId']!=null) {
+        showLoaderDialog(context);
+        SingleEventDataModel eventData =
+        await HomeControllers()
+            .getEventDetailsFromHome(
+          context,
+          int.parse(uri.queryParameters['eventId']!),
+          uri.queryParameters['invitedBy']!,
+        );
+        if (context.mounted) {
+          Navigator.pop(context);
+          Navigator.pushReplacementNamed(
+              context, Routes.eventDetailsRoute,
+              arguments: {
+                'type': uri.queryParameters['invitedBy'] ==
+                    prefModel.userData!.user!.phone ? 'own' : 'invited',
+                'eventData': eventData
+              });
         }
       }
       controller.resumeCamera();

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shagun_mobile/dashboard/home/controller/home_controllers.dart';
+import 'package:uni_links/uni_links.dart';
 
+import '../../dashboard/my_events/model/single_event_model.dart';
 import '../../database/app_pref.dart';
 import '../../database/models/pref_model.dart';
 import '../../network/api_calls.dart';
@@ -21,11 +24,40 @@ class SplashController {
         if (!shouldUpdateApp(result, packageInfo)) {
           if (prefModel.userData == null) {
             if (context.mounted) {
-              Navigator.pushReplacementNamed(context, Routes.loginRoute);
+              Navigator.pushReplacementNamed(context, Routes.onBoarding);
             }
           } else {
-            if (context.mounted) {
-              Navigator.pushReplacementNamed(context, Routes.dashboardRoute);
+            final initialLink = await getInitialLink();
+            if(initialLink!=null){
+              var uri = Uri.parse(initialLink);
+              if(uri.queryParameters['eventId']!=null){
+                  showLoaderDialog(context);
+                  SingleEventDataModel eventData =
+                  await HomeControllers()
+                      .getEventDetailsFromHome(
+                    context,
+                    int.parse(uri.queryParameters['eventId']!),
+                    uri.queryParameters['invitedBy']!,
+                  );
+                if(context.mounted){
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(
+                      context, Routes.eventDetailsRoute,
+                      arguments: {
+                        'type': uri.queryParameters['invitedBy']==prefModel.userData!.user!.phone?'own':'invited',
+                        'eventData': eventData
+                      });
+                }
+              }else{
+                if(context.mounted){
+                  showErrorToast(context, "Could not find the event\nEvent invalid");
+                  Navigator.pushReplacementNamed(context, Routes.dashboardRoute);
+                }
+              }
+            }else{
+              if (context.mounted) {
+                Navigator.pushReplacementNamed(context, Routes.dashboardRoute);
+              }
             }
           }
         } else {
@@ -39,6 +71,7 @@ class SplashController {
       }
     });
   }
+
 
   bool shouldUpdateApp(
       CompatibilityCheckModel result, PackageInfo packageInfo) {

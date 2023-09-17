@@ -28,4 +28,5 @@ class UrlConstant {
   static const String ipLocation = "https://api.ipregistry.co/?key=2tev2ltdlff985kx";
   static const String about = "https://api.ipregistry.co/?key=2tev2ltdlff985kx";
   static const String faq = "https://api.ipregistry.co/?key=2tev2ltdlff985kx";
+  static const String deeplinkBaseUrl = "https://shagun-20c2a.web.app/event";
 }
