@@ -167,6 +167,7 @@ class _WishInputScreenState extends State<WishInputScreen> {
               onTap: (){
                 if(wishController.text.isNotEmpty){
                   Map orderParams = {
+                    "event_type":arguments['event_type'],
                     "delivery_fee":arguments['delivery_fee'],
                     "receiver_uid":giftToUid,
                     "gift_to_name":giftToName,

@@ -69,6 +69,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   var cfPaymentGatewayService = CFPaymentGatewayService();
   CFEnvironment environment = CFEnvironment.SANDBOX;
 
+  String? giftToName;
   @override
   void initState() {
     super.initState();
@@ -102,6 +103,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       greetingCardId = arguments['greeting_card_id'];
       greetingCardPrice = arguments['greeting_card_price'] ?? 0.0;
       deliveryFee = arguments['delivery_fee'];
+      giftToName = arguments['gift_to_name'];
       totalAmount = arguments['delivery_fee']+greetingCardPrice;
     }
 
@@ -138,9 +140,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                'You are sending shagun to Bharath\nfor his wedding',
-                style: TextStyle(
+              Text(
+                'You are sending shagun to $giftToName\nfor his ${arguments['event_type']}',
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),

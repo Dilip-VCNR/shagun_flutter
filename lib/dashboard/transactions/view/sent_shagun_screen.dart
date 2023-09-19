@@ -272,7 +272,7 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               SizedBox(
-                                                width: screenSize.width/2.25,
+                                                width: screenSize.width/2.5,
                                                 child: Text.rich(
                                                   TextSpan(
                                                     children: [

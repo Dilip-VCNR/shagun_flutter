@@ -83,7 +83,7 @@ class _EventDetailsState extends State<EventDetails> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -221,7 +221,7 @@ class _EventDetailsState extends State<EventDetails> {
                           color: AppColors.scaffoldBackground,
                         ),
                         const SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
                         Container(
                           decoration: ShapeDecoration(
@@ -230,7 +230,7 @@ class _EventDetailsState extends State<EventDetails> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          padding: const EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             children: [
                               Text(
@@ -386,7 +386,8 @@ class _EventDetailsState extends State<EventDetails> {
                                 "event_id": eventData!.event!.eventId
                               },
                               "data": greetingsAndWishes,
-                              "delivery_fee": eventData!.event!.deliveryFee
+                              "delivery_fee": eventData!.event!.deliveryFee,
+                              "event_type":eventData!.event!.eventType
                             });
                       }
                     },

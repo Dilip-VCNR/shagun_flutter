@@ -38,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       body: screens[_currentIndex],
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         color: Colors.white,
         child: SalomonBottomBar(
           selectedColorOpacity:.1,
@@ -62,7 +62,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             SalomonBottomBarItem(
               icon: const Icon(Icons.calendar_month_outlined),
-              title: const Text("My Events"),
+              title: const Text("Events"),
             ),
             SalomonBottomBarItem(
               icon: const Icon(Icons.call_missed_outlined),
