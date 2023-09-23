@@ -63,7 +63,7 @@ class _SelectGreetingCardState extends State<SelectGreetingCard> {
             SizedBox(
               width: screenSize.width,
               child: const Text(
-                'You can choose a greeting card,  we print it with your wishes and deliver them with intense care and love on your behalf.\nOr you can choose to skip, a standard greeting card will be delivered with your wishes.',
+                'You can choose a greeting card,  we print it with your wishes and deliver them with intense care and love on your behalf.',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,

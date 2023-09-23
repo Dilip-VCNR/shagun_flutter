@@ -171,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   if (_formKey.currentState!.validate()) {
                     if (!termsAndConditionsIsChecked) {
                       showErrorToast(context,
-                          "Please read the privacy policy and terms and conditions and apply check to proceed further");
+                          "Please read the Privacy Policy and Terms and Conditions and apply check to proceed further");
                       return;
                     }
                     if(_selectedImage==null){

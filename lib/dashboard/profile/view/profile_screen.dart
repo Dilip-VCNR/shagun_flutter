@@ -189,8 +189,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               TextSpan(
                                 text: snapshot.data!.user!.kyc != 1
-                                    ? 'We noticed you have not initiated your KYC process,\nto create your event and start receiving shagun please\n'
-                                    : "Congratulations! Your KYC is successfully completed, Now you can start sending and receiving gifts!\nIf need to update anything? ",
+                                    ? "To send and receive gifts! Please complete your KYC by simply clicking on the "
+                                    : "Congratulations! Your KYC is successfully completed, Now you can start sending and receiving gifts!\nIf need to update anything? Please press the ",
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,
@@ -198,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               const TextSpan(
-                                text: '“Request for callback”',
+                                text: '“Request call back”',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,
@@ -207,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               const TextSpan(
                                 text:
-                                    ' so our backoffice team will reach you through the registered Mobile Number/Email.',
+                                ' button.\nSo our backoffice team will reach you through the registered Mobile Number/Email.',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,

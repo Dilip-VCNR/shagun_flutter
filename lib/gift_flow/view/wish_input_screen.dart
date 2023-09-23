@@ -134,6 +134,7 @@ class _WishInputScreenState extends State<WishInputScreen> {
             ),
             Form(
                 child: TextFormField(
+                  maxLength: 256,
                   controller: wishController,
                   validator: (value) {
                     if (value!.isEmpty) {

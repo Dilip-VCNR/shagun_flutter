@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cashfree_pg_sdk/api/cferrorresponse/cferrorresponse.dart';
 import 'package:flutter_cashfree_pg_sdk/api/cfpayment/cfdropcheckoutpayment.dart';
 import 'package:flutter_cashfree_pg_sdk/api/cfpaymentcomponents/cfpaymentcomponent.dart';
@@ -162,27 +163,30 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         ),
                         Expanded(
                           child: TextFormField(
+                              enableInteractiveSelection : false,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(RegExp(r'-')), // Deny the '-' sign
+                            ],
                             keyboardType: TextInputType.number,
                             controller: shagunAmountController,
                             onChanged: (val) {
                               setState(() {
-                                transactionFee = 0.05 *
-                                    double.parse(val); // Calculate 5% of the parsed value
-                                serviceCharge = 0.03 *
-                                    double.parse(val); // Calculate 5% of the parsed value
-                                totalAmount = double.parse(val) +
-                                    transactionFee +
-                                    serviceCharge +
-                                    greetingCardPrice +
-                                    deliveryFee!;
-                                transactionFee =
-                                    double.parse(transactionFee.toStringAsFixed(2));
-                                serviceCharge =
-                                    double.parse(serviceCharge.toStringAsFixed(2));
+                                // Parse the value and ensure it's not negative
+                                double parsedValue = double.tryParse(val) ?? 0.0;
+                                if (parsedValue < 0.0) {
+                                  shagunAmountController.text = ''; // Set the text to '0.0' for negative values
+                                  parsedValue = 0.0; // Set parsedValue to 0.0 for negative values
+                                }
+                                transactionFee = 0.05 * parsedValue;
+                                serviceCharge = 0.03 * parsedValue;
+                                totalAmount = parsedValue + transactionFee + serviceCharge + greetingCardPrice + (deliveryFee ?? 0.0);
+
+                                transactionFee = double.parse(transactionFee.toStringAsFixed(2));
+                                serviceCharge = double.parse(serviceCharge.toStringAsFixed(2));
                                 totalAmount = double.parse(totalAmount!.toStringAsFixed(2));
                               });
                             },
-                            maxLength: 5,
+                            maxLength: 7,
                             style: const TextStyle(
                                 fontSize: 40, color: Colors.black),
                             decoration: InputDecoration(
@@ -270,6 +274,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       height: 20,
                     ),
                     TextFormField(
+                      maxLength: 250,
                       maxLines: 3,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -282,7 +287,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       },
                       controller: selectedOnBehalfOfController,
                       decoration: InputDecoration(
-                        hintText: 'Enter Name , c/o',
+                        hintText: 'Enter Name',
                         counterText: "",
                         isCollapsed: true,
                         filled: true,
@@ -529,7 +534,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             context,
                             "Please provide a valid shagun amount",
                           );
-                        } else if (selectedDate == null) {
+                        } else if (double.parse(shagunAmountController.text)<1) {
+                          showErrorToast(
+                            context,
+                            "Shagun amount should be greater than 1 rupee",
+                          );
+                        }else if (selectedDate == null) {
                           showErrorToast(
                             context,
                             "Please select a delivery date",

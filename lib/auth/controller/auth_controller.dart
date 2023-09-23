@@ -41,14 +41,17 @@ class AuthController {
   }
 
   bool isNotValidName(String name) {
-    const nameRegex = r'^[a-zA-Z\s]+$';
+    const nameRegex = r'^[a-zA-Z\s]+$';  // This regex allows letters and spaces only
     final regExp = RegExp(nameRegex);
-    if (!regExp.hasMatch(name)) {
+
+    if (!regExp.hasMatch(name) || name.trim().isEmpty) {
       return true;
     }
+
     final containsNumbers = name.contains(RegExp(r'[0-9]'));
     return containsNumbers;
   }
+
 
   Future<void> loginWithPhoneNumber(BuildContext context, String phoneNumber,
       String? selectedCountryCode) async {

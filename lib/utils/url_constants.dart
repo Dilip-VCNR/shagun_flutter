@@ -1,7 +1,13 @@
 class UrlConstant {
+
+  // prod
   static const String websiteBaseUrl = "http://santhuofficial123.pythonanywhere.com/";
   static const String imageBaseUrl = "http://santhuofficial123.pythonanywhere.com/media/";
   static const String apiBaseUrl = "http://santhuofficial123.pythonanywhere.com/api/";
+  // stage
+  // static const String websiteBaseUrl = "http://43.204.33.181:8000/";
+  // static const String imageBaseUrl = "http://43.204.33.181:8000/media/";
+  // static const String apiBaseUrl = "http://43.204.33.181:8000/api/";
   static const String compatibility = "${apiBaseUrl}app_compatibility";
   static const String userDetails = "${apiBaseUrl}check_user";
   static const String registerUser = "${apiBaseUrl}user_register";

@@ -720,8 +720,6 @@ class ApiCalls {
       UrlConstant.createOrder,
       jsonEncode(arguments),
     ).then((response) {
-      print(response.statusCode);
-      print(response.body);
       if (response.statusCode == 200) {
         Navigator.pop(context);
       } else if (response.statusCode == 401) {
@@ -973,6 +971,10 @@ class ApiCalls {
     }
 
     var response = await request.send();
+    print(response.statusCode);
+    var responseData = await response.stream.toBytes();
+    var responseJson = json.decode(utf8.decode(responseData));
+    print(responseJson);
     if (response.statusCode == 200) {
       await getRefreshToken();
       if(context.mounted){

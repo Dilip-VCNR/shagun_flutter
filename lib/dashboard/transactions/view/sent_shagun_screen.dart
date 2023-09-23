@@ -122,7 +122,7 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                               errorStyle:
                               const TextStyle(color: AppColors.secondaryColor),
                               prefixIcon: const Icon(Icons.search_outlined),
-                              hintText: 'Search name or phone',
+                              hintText: 'Search by Name or Phone',
                               counterText: "",
                               isCollapsed: true,
                               filled: true,
