@@ -38,7 +38,7 @@ class _SearchTransactionsScreenState extends State<SearchTransactionsScreen> {
         .of(context)
         .size;
     return Scaffold(
-      appBar: AppBar(title: const Text("Search by name or phone"),),
+      appBar: AppBar(title: const Text("Search by Name or Phone"),),
       body: SingleChildScrollView(
         child: Column(
           children: [

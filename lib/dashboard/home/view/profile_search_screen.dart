@@ -35,7 +35,7 @@ class _ProfileSearchScreenState extends State<ProfileSearchScreen> {
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldBackground,
             title: const Text(
-              "Search by name or phone",
+              "Search by Name or Phone",
             ),
           ),
           body: SingleChildScrollView(
