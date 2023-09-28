@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         <String, dynamic>{}) as Map;
     if (!isLoaded) {
       phone = arguments['phone'];
-      countryCode = arguments['countryCode'];
+      countryCode = arguments['countryCode']??"+91";
       uid = arguments['uid'];
       email = arguments['email'];
       authType = arguments['authType'];
@@ -334,38 +335,95 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      enabled: authType == 'Phone' ? false : true,
-                      controller: phoneController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter phone number';
-                        }
-                        if (authController.isNotValidPhone(value)) {
-                          return "Please enter valid phone number";
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.number,
-                      maxLength: 10,
-                      decoration: InputDecoration(
-                        errorStyle:
-                            const TextStyle(color: AppColors.secondaryColor),
-                        prefixIcon: const Icon(Icons.phone_outlined),
-                        hintText: 'Phone number',
-                        counterText: "",
-                        isCollapsed: true,
-                        filled: true,
-                        fillColor: AppColors.inputFieldColor,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 16.0),
+                    Container(
+                      width: screenSize.width,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: const BorderRadius.all(Radius.circular(10))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: [
+                              CountryCodePicker(
+                                showFlag: true,
+                                enabled: authType == 'Phone' ? false : true,
+                                onChanged: (element) {
+                                  countryCode = element.dialCode;
+                                },
+                                initialSelection: 'IN',
+                                favorite: const ['+91', 'IN'],
+                                showCountryOnly: false,
+                                showOnlyCountryWhenClosed: false,
+                                alignLeft: false,
+                              ),
+                              SizedBox(
+                                width: screenSize.width / 2,
+                                child: TextFormField(
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  enabled: authType == 'Phone' ? false : true,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter valid phone number';
+                                    }
+                                    if (authController.isNotValidPhone(value)) {
+                                      return "Please enter valid phone number";
+                                    }
+                                    return null;
+                                  },
+                                  controller: phoneController,
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 10,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Phone Number',
+                                      counterText: "",
+                                      isCollapsed: true,
+                                      border: InputBorder.none),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      textAlignVertical: TextAlignVertical.center,
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    // TextFormField(
+                    //   enabled: authType == 'Phone' ? false : true,
+                    //   controller: phoneController,
+                    //   validator: (value) {
+                    //     if (value!.isEmpty) {
+                    //       return 'Please enter phone number';
+                    //     }
+                    //     if (authController.isNotValidPhone(value)) {
+                    //       return "Please enter valid phone number";
+                    //     }
+                    //     return null;
+                    //   },
+                    //   keyboardType: TextInputType.number,
+                    //   maxLength: 10,
+                    //   decoration: InputDecoration(
+                    //     errorStyle:
+                    //         const TextStyle(color: AppColors.secondaryColor),
+                    //     prefixIcon: const Icon(Icons.phone_outlined),
+                    //     hintText: 'Phone number',
+                    //     counterText: "",
+                    //     isCollapsed: true,
+                    //     filled: true,
+                    //     fillColor: AppColors.inputFieldColor,
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(10.0),
+                    //       borderSide: BorderSide.none,
+                    //     ),
+                    //     contentPadding:
+                    //         const EdgeInsets.symmetric(vertical: 16.0),
+                    //   ),
+                    //   textAlignVertical: TextAlignVertical.center,
+                    // ),
                   ],
                 ))
           ],

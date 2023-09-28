@@ -86,7 +86,9 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                       });
                                     },
                                   ),
-                                  Text(eventTypes[index].eventTypeName!)
+                                  SizedBox(
+                                      width: screenSize.width/1.75,
+                                      child: Text(eventTypes[index].eventTypeName!))
                                 ],
                               ),
                             );
@@ -681,22 +683,28 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                       ),
                                                     ),
                                                     snapshot.data!.myEvents![index].admins!.length==1?
-                                                    Text(
-                                                      '${snapshot.data!.myEvents![index].admins![0].name}',
-                                                      style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w700,
+                                                    SizedBox(
+                                                      width: screenSize.width/2.25,
+                                                      child: Text(
+                                                        '${snapshot.data!.myEvents![index].admins![0].name}',
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
                                                       ),
                                                     ):
-                                                    Text(
-                                                      '${snapshot.data!.myEvents![index].admins![0].name} and ${snapshot.data!.myEvents![index].admins![1].name}',
-                                                      style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                        FontWeight.w700,
+                                                    SizedBox(
+                                                      width: screenSize.width/2.25,
+                                                      child: Text(
+                                                        '${snapshot.data!.myEvents![index].admins![0].name} and \n${snapshot.data!.myEvents![index].admins![1].name}',
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                          FontWeight.w700,
+                                                        ),
                                                       ),
                                                     ),
                                                     SizedBox(

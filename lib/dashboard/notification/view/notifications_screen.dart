@@ -14,7 +14,6 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-
   late Future<NotificationDataModel>? notificationData;
 
   NotificationController notificationController = NotificationController();
@@ -27,9 +26,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery
-        .of(context)
-        .size;
+    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.scaffoldBackground,
@@ -59,87 +56,108 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               }
               if (snapshot.hasData) {
                 return SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 10),
-                  child: snapshot.data!.notificationList!.isNotEmpty?ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: snapshot.data!.notificationList!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          width: screenSize.width,
-                          padding: const EdgeInsets.all(20),
-                          decoration: ShapeDecoration(
-                            color: AppColors.cardBgColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(17.39),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                          Row(
-                          children: [
-                          // CircleAvatar(
-                          // radius: 30,
-                          //   backgroundColor: AppColors.secondaryColor,
-                          // ),
-                          // SizedBox(
-                          //   width: 20,
-                          // ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment
-                                .start,
-                            children: [
-                              SizedBox(
-                                width: screenSize.width/1.5,
-                                child: Text(
-                                  snapshot.data!.notificationList![index].title!,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: snapshot.data!.notificationList!.isNotEmpty
+                      ? ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: snapshot.data!.notificationList!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              width: screenSize.width,
+                              padding: const EdgeInsets.all(20),
+                              decoration: ShapeDecoration(
+                                color: AppColors.cardBgColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(17.39),
                                 ),
                               ),
-                              const SizedBox(height: 5,),
-                              SizedBox(
-                                width: screenSize.width/1.5,
-                                child: Text(
-                                  snapshot.data!.notificationList![index]
-                                      .message!,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      // CircleAvatar(
+                                      // radius: 30,
+                                      //   backgroundColor: AppColors.secondaryColor,
+                                      // ),
+                                      // SizedBox(
+                                      //   width: 20,
+                                      // ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: screenSize.width / 1.5,
+                                            child: Text(
+                                              snapshot
+                                                  .data!
+                                                  .notificationList![index]
+                                                  .title!,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          SizedBox(
+                                            width: screenSize.width/1.25,
+                                            child: Text(
+                                              snapshot
+                                                  .data!
+                                                  .notificationList![index]
+                                                  .message!,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            DateFormat("dd MMM yyyy")
+                                                .format(DateTime.parse(
+                                              snapshot
+                                                  .data!
+                                                  .notificationList![index]
+                                                  .createdOn!
+                                                  .toString(),
+                                            )),
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
                                   ),
-                                ),
-                              ),
-                              const SizedBox(height: 5,),
-                              Text(
-                                DateFormat("dd MMM yyyy").format(
-                                  DateTime.parse(
-                                    snapshot.data!.notificationList![index]
-                                        .createdOn!.toString(),
-                                  )),
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                )
                                 ],
-                              )
-                            ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const SizedBox(
+                              height: 10,
+                            );
+                          })
+                      : const Center(
+                          child: Text(
+                            "No records found",
+                            style: TextStyle(fontSize: 18),
                           ),
-                          const Icon(Icons.navigate_next_rounded)
-                          ],
-                        ),);
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          height: 10,
-                        );
-                      }):const Center(child: Text("No records found",style: TextStyle(fontSize: 18),),),
+                        ),
                 );
               } else if (snapshot.hasError) {
                 return Center(
@@ -155,12 +173,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 );
               }
               return const Center(
-                child: Text("Loading..."
-                )
-                ,
+                child: Text("Loading..."),
               );
-            })
-    );
+            }));
   }
 
   Future<void> _pullRefresh() async {
@@ -168,5 +183,4 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       notificationData = notificationController.fetchNotificationsData(context);
     });
   }
-
 }

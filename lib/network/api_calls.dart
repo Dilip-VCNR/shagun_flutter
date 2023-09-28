@@ -422,6 +422,10 @@ class ApiCalls {
         "statusCode": response.statusCode,
         "data": UserDetailsModel.fromJson(responseJson),
       };
+    }else if(response.statusCode==301){
+      Navigator.pop(context);
+      showErrorToast(context, "Looks like account already exist with given details");
+      throw Exception('Failed to upload image');
     } else {
       if (context.mounted) {
         Navigator.pop(context);

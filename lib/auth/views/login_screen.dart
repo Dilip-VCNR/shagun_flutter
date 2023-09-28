@@ -97,6 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: SizedBox(
                           width: screenSize.width / 2,
                           child: TextFormField(
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please enter valid phone number';
