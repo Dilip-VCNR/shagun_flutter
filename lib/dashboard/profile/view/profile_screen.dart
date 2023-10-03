@@ -227,7 +227,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               showLoaderDialog(context);
                               await authController.requestKycCallBack(context);
                               if (context.mounted) {
-                                Navigator.pop(context);
+                                Navigator.of(context, rootNavigator: true).pop();
                                 showSuccessToast(
                                   context,
                                   "Successfully raised the request\nOur back office team will get in touch with you soon !",
@@ -572,9 +572,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                     Colors.grey
                                                                         .shade400,
                                                                 child: IconButton(
-                                                                  onPressed:
-                                                                      () {},
-                                                                  icon:
+                                                                  onPressed: () async {
+                                                                    File? newImage =
+                                                                    await _getImageFromGallery(
+                                                                        selectedImage);
+                                                                    if (newImage != null) {
+                                                                      setState(() {
+                                                                        selectedImage =
+                                                                            newImage;
+                                                                      });
+                                                                    }
+                                                                  },                                                                  icon:
                                                                       const Icon(
                                                                     Icons
                                                                         .file_upload_outlined,
@@ -914,13 +922,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await FirebaseAuth.instance.signOut();
       AppPref.clearPref();
       if (context.mounted) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         Navigator.of(context)
             .pushNamedAndRemoveUntil(Routes.loginRoute, (route) => false);
       }
     } on FirebaseAuthException catch (e) {
       if (context.mounted) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         showErrorToast(context, "Oops ! $e");
       }
     }

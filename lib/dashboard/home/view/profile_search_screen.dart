@@ -116,7 +116,7 @@ class _ProfileSearchScreenState extends State<ProfileSearchScreen> {
                                   context, searchData!.user![index].uid);
                           if (userEvents.upcomingEvents!.isNotEmpty) {
                             if (context.mounted) {
-                              Navigator.pop(context);
+                              Navigator.of(context, rootNavigator: true).pop();
                               Navigator.pushNamed(
                                   context, Routes.userEventsRoute,
                                   arguments: {
@@ -126,7 +126,7 @@ class _ProfileSearchScreenState extends State<ProfileSearchScreen> {
                             }
                           } else {
                             if (context.mounted) {
-                              Navigator.pop(context);
+                              Navigator.of(context, rootNavigator: true).pop();
                               showErrorToast(
                                 context,
                                 "No ongoing events found for the ${searchData!.user![index].name}",

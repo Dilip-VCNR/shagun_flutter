@@ -393,7 +393,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       await authController
                                           .requestKycCallBack(context);
                                       if (context.mounted) {
-                                        Navigator.pop(context);
+                                        Navigator.of(context, rootNavigator: true).pop();
                                         showSuccessToast(
                                           context,
                                           "Successfully raised the request\nOur back office team will get in touch with you soon !",
@@ -508,7 +508,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .eventsInviteList![index]
                                                   .invitedBy!);
                                   if (context.mounted) {
-                                    Navigator.pop(context);
+                                    Navigator.of(context, rootNavigator: true).pop();
                                     Navigator.pushNamed(
                                         context, Routes.eventDetailsRoute,
                                         arguments: {

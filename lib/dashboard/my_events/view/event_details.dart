@@ -376,7 +376,7 @@ class _EventDetailsState extends State<EventDetails> {
                       await MyEventsController().getGreetingsAndWishes(
                           context, eventData!.event!.eventId.toString());
                       if(context.mounted){
-                        Navigator.pop(context);
+                        Navigator.of(context, rootNavigator: true).pop();
                         Navigator.pushNamed(
                             context, Routes.selectGreetingCardRoute,
                             arguments: {

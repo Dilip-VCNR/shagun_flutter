@@ -41,7 +41,8 @@ class AuthController {
   }
 
   bool isNotValidName(String name) {
-    const nameRegex = r'^[a-zA-Z\s]+$';  // This regex allows letters and spaces only
+    const nameRegex =
+        r'^[a-zA-Z\s]+$'; // This regex allows letters and spaces only
     final regExp = RegExp(nameRegex);
 
     if (!regExp.hasMatch(name) || name.trim().isEmpty) {
@@ -52,18 +53,17 @@ class AuthController {
     return containsNumbers;
   }
 
-
   Future<void> loginWithPhoneNumber(BuildContext context, String phoneNumber,
       String? selectedCountryCode) async {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '$selectedCountryCode $phoneNumber',
       verificationCompleted: (PhoneAuthCredential credential) {},
       verificationFailed: (FirebaseAuthException e) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         showErrorToast(context, "Something Went Wrong $e");
       },
       codeSent: (String verificationId, int? resendToken) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         Navigator.pushNamed(context, Routes.otpScreenRoute, arguments: {
           'verificationId': verificationId,
           'phone': phoneNumber,
@@ -90,8 +90,8 @@ class AuthController {
             context, value.user?.uid, phone, countryCode, null, "Phone");
       });
     } on FirebaseAuthException catch (e) {
-      if(context.mounted){
-        Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.of(context, rootNavigator: true).pop();
         showErrorToast(context, "Oops !You have entered a wrong OTP\n$e");
       }
     }
@@ -102,11 +102,11 @@ class AuthController {
       phoneNumber: '$countryCode $phone',
       verificationCompleted: (PhoneAuthCredential credential) {},
       verificationFailed: (FirebaseAuthException e) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         showErrorToast(context, "Something Went Wrong $e");
       },
       codeSent: (String verificationId, int? resendToken) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         showSuccessToast(context, "OTP is sent to $countryCode $phone");
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
@@ -123,14 +123,14 @@ class AuthController {
         prefModel.userData = userData;
         await AppPref.setPref(prefModel);
         if (context.mounted) {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop();
           Navigator.of(context)
               .pushNamedAndRemoveUntil(Routes.dashboardRoute, (route) => false);
         }
         break;
       case 301:
         if (context.mounted) {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop();
           Navigator.pushNamed(context, Routes.registerRoute, arguments: {
             'phone': phone,
             'countryCode': selectedCountryCode,
@@ -142,7 +142,7 @@ class AuthController {
         break;
       default:
         if (context.mounted) {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop();
           showErrorToast(context, "Something Went wrong");
         }
     }
@@ -150,7 +150,7 @@ class AuthController {
 
   Future<void> signInWithGoogle(BuildContext context) async {
     UserCredential userCredential =
-    await FirebaseAuth.instance.signInWithProvider(GoogleAuthProvider());
+        await FirebaseAuth.instance.signInWithProvider(GoogleAuthProvider());
     if (context.mounted) {
       await apiCallForUserDetails(context, userCredential.user?.uid, null, null,
           userCredential.user!.email!, "Google");
@@ -164,9 +164,10 @@ class AuthController {
       String phone,
       String email,
       String authType,
-      BuildContext context, File? selectedImage) async {
+      BuildContext context,
+      File? selectedImage) async {
     var result = await apiCalls.registerUser(
-        uid!, fcmToken!, name, phone, email, authType,selectedImage,context);
+        uid!, fcmToken!, name, phone, email, authType, selectedImage, context);
     switch (result['statusCode']) {
       case 200:
         UserDetailsModel userData = result['data'];
@@ -174,28 +175,29 @@ class AuthController {
         prefModel.userData = userData;
         await AppPref.setPref(prefModel);
         if (context.mounted) {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop();
           Navigator.of(context)
               .pushNamedAndRemoveUntil(Routes.dashboardRoute, (route) => false);
         }
         break;
       case 301:
         if (context.mounted) {
-          Navigator.pop(context);
-          showErrorToast(context,"User already exist !");
+          Navigator.of(context, rootNavigator: true).pop();
+          showErrorToast(context, "User already exist !");
         }
         break;
       default:
         if (context.mounted) {
-          Navigator.pop(context);
-          showErrorToast(context,"Something Went wrong");
+          Navigator.of(context, rootNavigator: true).pop();
+          showErrorToast(context, "Something Went wrong");
         }
     }
   }
 
   requestKycCallBack(BuildContext context) async {
     PrefModel prefModel = AppPref.getPref();
-    var result = await apiCalls.requestKycCallBack(prefModel.userData!.user!.userId!,context);
+    var result = await apiCalls.requestKycCallBack(
+        prefModel.userData!.user!.userId!, context);
     return result;
   }
 }

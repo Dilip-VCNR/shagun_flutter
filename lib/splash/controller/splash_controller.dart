@@ -40,7 +40,7 @@ class SplashController {
                     uri.queryParameters['invitedBy']!,
                   );
                 if(context.mounted){
-                  Navigator.pop(context);
+                  Navigator.of(context, rootNavigator: true).pop();
                   Navigator.pushReplacementNamed(
                       context, Routes.eventDetailsRoute,
                       arguments: {

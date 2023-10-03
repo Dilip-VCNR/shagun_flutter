@@ -83,7 +83,7 @@ class _AllInvitationsState extends State<AllInvitations> {
                               .invitedList![index]
                               .invitedBy!);
                       if(context.mounted){
-                        Navigator.pop(context);
+                        Navigator.of(context, rootNavigator: true).pop();
                         Navigator.pushNamed(
                             context, Routes.eventDetailsRoute,
                             arguments: {

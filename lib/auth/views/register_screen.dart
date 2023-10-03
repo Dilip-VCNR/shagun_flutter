@@ -258,7 +258,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   radius: 15,
                                   backgroundColor: Colors.grey.shade400,
                                   child: IconButton(
-                                      onPressed: () {},
+                                      onPressed: _getImageFromGallery,
                                       icon: const Icon(
                                         Icons.file_upload_outlined,
                                         size: 15,

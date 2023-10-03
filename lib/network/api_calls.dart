@@ -423,12 +423,12 @@ class ApiCalls {
         "data": UserDetailsModel.fromJson(responseJson),
       };
     }else if(response.statusCode==301){
-      Navigator.pop(context);
+      Navigator.of(context, rootNavigator: true).pop();
       showErrorToast(context, "Looks like account already exist with given details");
       throw Exception('Failed to upload image');
     } else {
       if (context.mounted) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         showErrorToast(context, "Something went wrong");
       }
       throw Exception('Failed to upload image');
@@ -575,7 +575,7 @@ class ApiCalls {
               return response.body;
             } else {
               if (context.mounted) {
-                Navigator.pop(context);
+                Navigator.of(context, rootNavigator: true).pop();
                 showErrorToast(context, "Failed to Request for KYC");
               }
               throw Exception('Failed to Request for KYC');
@@ -584,7 +584,7 @@ class ApiCalls {
         });
       } else {
         if (context.mounted) {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop();
           showErrorToast(context, "Something Went Wrong");
         }
         throw Exception('Failed to Request for KYC');
@@ -619,7 +619,7 @@ class ApiCalls {
               return response.body;
             } else {
               if (context.mounted) {
-                Navigator.pop(context);
+                Navigator.of(context, rootNavigator: true).pop();
                 showErrorToast(context, "Failed to Request for Event");
               }
               throw Exception('Failed to Request for KYC');
@@ -628,7 +628,7 @@ class ApiCalls {
         });
       } else {
         if (context.mounted) {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop();
           showErrorToast(context, "Something Went Wrong");
         }
         throw Exception('Failed to Request for Event');
@@ -699,7 +699,7 @@ class ApiCalls {
               return GreetingsAndWishesModel.fromJson(
                   json.decode(reResponse.body));
             } else {
-              Navigator.pop(context);
+              Navigator.of(context, rootNavigator: true).pop();
               if (context.mounted) {
                 showErrorToast(context, "Something Went Wrong");
               }
@@ -709,7 +709,7 @@ class ApiCalls {
         });
       } else {
         if (context.mounted) {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop();
           showErrorToast(context, "Something Went Wrong");
         }
         throw Exception('Failed to fetch');
@@ -725,7 +725,7 @@ class ApiCalls {
       jsonEncode(arguments),
     ).then((response) {
       if (response.statusCode == 200) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
       } else if (response.statusCode == 401) {
         return getRefreshToken().then((_) {
           return hitApi(
@@ -734,10 +734,10 @@ class ApiCalls {
             jsonEncode(arguments),
           ).then((reResponse) {
             if (reResponse.statusCode == 200) {
-              Navigator.pop(context);
+              Navigator.of(context, rootNavigator: true).pop();
             } else {
               if (context.mounted) {
-                Navigator.pop(context);
+                Navigator.of(context, rootNavigator: true).pop();
                 showErrorToast(context, "Something Went Wrong");
               }
               Navigator.pop(context);
@@ -747,7 +747,7 @@ class ApiCalls {
         });
       } else {
         if (context.mounted) {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop();
           showErrorToast(context, "Something Went Wrong");
         }
         throw Exception('Failed to fetch');
@@ -821,7 +821,6 @@ class ApiCalls {
               return NotificationDataModel.fromJson(
                   json.decode(reResponse.body));
             } else {
-              Navigator.pop(context);
               if (context.mounted) {
                 showErrorToast(context, "Something Went Wrong");
               }
@@ -858,7 +857,6 @@ class ApiCalls {
             if (reResponse.statusCode == 200) {
               return TrackOrderDataModel.fromJson(json.decode(reResponse.body));
             } else {
-              Navigator.pop(context);
               if (context.mounted) {
                 showErrorToast(context, "Something Went Wrong");
               }
@@ -975,15 +973,11 @@ class ApiCalls {
     }
 
     var response = await request.send();
-    print(response.statusCode);
-    var responseData = await response.stream.toBytes();
-    var responseJson = json.decode(utf8.decode(responseData));
-    print(responseJson);
     if (response.statusCode == 200) {
       await getRefreshToken();
       if(context.mounted){
         Navigator.pop(context);
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         showSuccessToast(context, "Profile updated successfully !");
       }
       // var responseData = await response.stream.toBytes();
@@ -992,7 +986,7 @@ class ApiCalls {
     } else {
       if (context.mounted) {
         Navigator.pop(context);
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         showErrorToast(context, "Something went wrong");
       }
       throw Exception('Failed to upload image');

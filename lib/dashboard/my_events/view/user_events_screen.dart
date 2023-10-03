@@ -49,7 +49,7 @@ class _UserEventsScreenState extends State<UserEventsScreen> {
                         await eventController.getEventDetails(
                             context, userEvents!.upcomingEvents![index]);
                     if (context.mounted) {
-                      Navigator.pop(context);
+                      Navigator.of(context, rootNavigator: true).pop();
                       Navigator.pushNamed(context, Routes.eventDetailsRoute,
                           arguments: {
                             'eventData': eventData,

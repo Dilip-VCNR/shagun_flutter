@@ -113,9 +113,8 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                               eventTypes[selectedRadio].eventTypeName, context);
                           if (context.mounted) {
                             Navigator.pop(
-                                context); // Close the dialog after submitting
-                            Navigator.pop(
-                                context); // Close the dialog after submitting
+                                context);
+                            Navigator.of(context, rootNavigator: true).pop();
                             showSuccessToast(
                               context,
                               "Request for event is successfull\nOur Back office will contact you soon !",
@@ -270,7 +269,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                         .invitedEvents![index]
                                                         .invitedBy!);
                                         if (context.mounted) {
-                                          Navigator.pop(context);
+                                          Navigator.of(context, rootNavigator: true).pop();
                                           Navigator.pushNamed(
                                               context, Routes.eventDetailsRoute,
                                               arguments: {
@@ -458,7 +457,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                     prefModel.userData!.user!
                                                         .userId!);
                                         if (context.mounted) {
-                                          Navigator.pop(context);
+                                          Navigator.of(context, rootNavigator: true).pop();
                                           Navigator.pushNamed(
                                               context, Routes.eventDetailsRoute,
                                               arguments: {
@@ -874,11 +873,12 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
 
       // Share the saved image using the share package
       if (context.mounted) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
       }
       await Share.shareFiles([imagePath], text: "$eventName\n${UrlConstant.deeplinkBaseUrl}?eventId=$eventId&invitedBy=${prefModel.userData!.user!.phone}",subject: "You are invited to $eventName");
     } catch (e) {
       if (context.mounted) {
+        Navigator.pop(context);
         showErrorToast(context,'Error downloading and sharing image: $e');
       }
     }
