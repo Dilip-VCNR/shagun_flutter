@@ -112,7 +112,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               }
               if (snapshot.hasData) {
-                print(snapshot.data!.toJson());
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -223,8 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         GestureDetector(
                           onTap: () async {
                             if (snapshot.data!.isActiveKycRequest == false) {
-                              String selectedReason =
-                                  ""; // Variable to store the selected reason
+                              String selectedReason = "";
                               showDialog(
                                 context: context,
                                 builder: (ctx) => StatefulBuilder(
@@ -236,7 +234,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           RadioListTile(
-                                            title: Text(
+                                            title: const Text(
+                                                "New Kyc Request"),
+                                            value:
+                                            "New Kyc Request",
+                                            groupValue: selectedReason,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selectedReason = value!;
+                                              });
+                                            },
+                                          ),
+                                          RadioListTile(
+                                            title: const Text(
+                                                "Request to edit existing bank details"),
+                                            value:
+                                            "Request to edit existing bank details",
+                                            groupValue: selectedReason,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selectedReason = value!;
+                                              });
+                                            },
+                                          ),
+                                          RadioListTile(
+                                            title: const Text(
                                                 "Request to edit existing bank details"),
                                             value:
                                                 "Request to edit existing bank details",
@@ -248,7 +270,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             },
                                           ),
                                           RadioListTile(
-                                            title: Text(
+                                            title: const Text(
                                                 "Request to add a new bank account"),
                                             value:
                                                 "Request to add a new bank account",
@@ -260,7 +282,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             },
                                           ),
                                           RadioListTile(
-                                            title: Text("Update KYC documents"),
+                                            title: const Text("Update KYC documents"),
                                             value: "Update KYC documents",
                                             groupValue: selectedReason,
                                             onChanged: (value) {
@@ -276,7 +298,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           onPressed: () {
                                             Navigator.of(ctx).pop();
                                           },
-                                          child: Text("Cancel"),
+                                          child: const Text("Cancel"),
                                         ),
                                         TextButton(
                                           onPressed: () async {
@@ -296,7 +318,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               );
                                             _pullRefresh();
                                           },
-                                          child: Text("Submit"),
+                                          child: const Text("Submit"),
                                         ),
                                       ],
                                     );
@@ -335,6 +357,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 10,
                         ),
+                        snapshot.data!.kycData!.status!=null?
                         Container(
                             width: screenSize.width,
                             padding: const EdgeInsets.all(10),
@@ -423,7 +446,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                 ),
                               ],
-                            )),
+                            )):const SizedBox.shrink(),
+                        snapshot.data!.bankData!.isNotEmpty?
                         Container(
                           width: screenSize.width,
                           padding: const EdgeInsets.all(10),
@@ -526,11 +550,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         )
                                       ],
                                     ),
+                                    snapshot.data!.bankData!.length>1?const Divider(color: AppColors.primaryColor,):const SizedBox.shrink()
                                   ],
-                                )
+                                ),
                             ],
                           ),
-                        ),
+                        ):const SizedBox.shrink(),
                         const SizedBox(
                           height: 10,
                         ),
