@@ -194,10 +194,10 @@ class AuthController {
     }
   }
 
-  requestKycCallBack(BuildContext context) async {
+  requestKycCallBack(BuildContext context, String selectedReason) async {
     PrefModel prefModel = AppPref.getPref();
     var result = await apiCalls.requestKycCallBack(
-        prefModel.userData!.user!.userId!, context);
+        prefModel.userData!.user!.userId!, context,selectedReason);
     return result;
   }
 }

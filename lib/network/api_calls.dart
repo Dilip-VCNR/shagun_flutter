@@ -544,7 +544,7 @@ class ApiCalls {
     });
   }
 
-  requestKycCallBack(String s, BuildContext context) {
+  requestKycCallBack(String s, BuildContext context, String selectedReason) {
     return hitApi(
       true,
       UrlConstant.requestCallBack,
@@ -553,7 +553,8 @@ class ApiCalls {
         'type': 'KYC',
         'event_date': null,
         'event_type': null,
-        'city': null
+        'city': null,
+        'selected_reason':selectedReason
       }),
     ).then((response) {
       if (response.statusCode == 200) {

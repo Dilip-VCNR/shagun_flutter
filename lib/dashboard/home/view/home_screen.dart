@@ -391,7 +391,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           AuthController();
                                       showLoaderDialog(context);
                                       await authController
-                                          .requestKycCallBack(context);
+                                          .requestKycCallBack(context,"New Kyc");
                                       if (context.mounted) {
                                         Navigator.of(context, rootNavigator: true).pop();
                                         showSuccessToast(

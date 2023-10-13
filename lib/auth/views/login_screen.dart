@@ -23,7 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    Size screenSize = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       body: SingleChildScrollView(
@@ -67,61 +69,67 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 10,
             ),
-            Container(
-              width: screenSize.width,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      CountryCodePicker(
-                        showFlag: true,
-                        enabled: true,
-                        onChanged: (element) {
-                          selectedCountryCode = element.dialCode;
-                        },
-                        initialSelection: 'IN',
-                        favorite: const ['+91', 'IN'],
-                        showCountryOnly: false,
-                        showOnlyCountryWhenClosed: false,
-                        alignLeft: false,
-                      ),
-                      Form(
-                        key: _formKey,
-                        child: SizedBox(
-                          width: screenSize.width / 2,
-                          child: TextFormField(
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter valid phone number';
-                              }
-                              if (authController.isNotValidPhone(value)) {
-                                return "Please enter valid phone number";
-                              }
-                              return null;
-                            },
-                            controller: phoneNumberController,
-                            keyboardType: TextInputType.number,
-                            maxLength: 10,
-                            decoration: const InputDecoration(
-                                hintText: 'Phone Number',
-                                counterText: "",
-                                isCollapsed: true,
-                                border: InputBorder.none),
-                          ),
-                        ),
-                      ),
-                    ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white
                   ),
-                ],
-              ),
+                  child: CountryCodePicker(
+                    showFlag: true,
+                    enabled: true,
+                    onChanged: (element) {
+                      selectedCountryCode = element.dialCode;
+                    },
+                    initialSelection: 'IN',
+                    favorite: const ['+91', 'IN'],
+                    showCountryOnly: false,
+                    showOnlyCountryWhenClosed: false,
+                    alignLeft: false,
+                  ),
+                ),
+                SizedBox(width: 10,),
+                Expanded(
+                  child: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter valid phone number';
+                        }
+                        if (authController.isNotValidPhone(value)) {
+                          return "Please enter valid phone number";
+                        }
+                        return null;
+                      },
+                      controller: phoneNumberController,
+                      keyboardType: TextInputType.number,
+                      maxLength: 10,
+                      decoration: InputDecoration(
+                        hintText: 'Phone Number',
+                        counterText: "",
+                        isCollapsed: true,
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorStyle:
+                        const TextStyle(color: AppColors.secondaryColor),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding:
+                        const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 10),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 20,
@@ -177,14 +185,14 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20,
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 showLoaderDialog(context);
                 authController.signInWithGoogle(context);
               },
               child: Container(
                 width: screenSize.width,
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),
@@ -195,8 +203,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Image(
                         image: AssetImage(
-                      'assets/images/google.png',
-                    )),
+                          'assets/images/google.png',
+                        )),
                     Text(
                       "Continue with Google",
                       style: TextStyle(
@@ -226,8 +234,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Image(
                       image: AssetImage(
-                    'assets/images/facebook.png',
-                  )),
+                        'assets/images/facebook.png',
+                      )),
                   Text(
                     "Continue with Facebook",
                     style: TextStyle(

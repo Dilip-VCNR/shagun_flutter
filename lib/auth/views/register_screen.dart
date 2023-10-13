@@ -335,60 +335,123 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      width: screenSize.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: const BorderRadius.all(Radius.circular(10))),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            children: [
-                              CountryCodePicker(
-                                showFlag: true,
-                                enabled: authType == 'Phone' ? false : true,
-                                onChanged: (element) {
-                                  countryCode = element.dialCode;
-                                },
-                                initialSelection: 'IN',
-                                favorite: const ['+91', 'IN'],
-                                showCountryOnly: false,
-                                showOnlyCountryWhenClosed: false,
-                                alignLeft: false,
-                              ),
-                              SizedBox(
-                                width: screenSize.width / 2,
-                                child: TextFormField(
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  enabled: authType == 'Phone' ? false : true,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid phone number';
-                                    }
-                                    if (authController.isNotValidPhone(value)) {
-                                      return "Please enter valid phone number";
-                                    }
-                                    return null;
-                                  },
-                                  controller: phoneController,
-                                  keyboardType: TextInputType.number,
-                                  maxLength: 10,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Phone Number',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white
                           ),
-                        ],
-                      ),
+                          child: CountryCodePicker(
+                            showFlag: true,
+                            enabled: authType == 'Phone' ? false : true,
+                            onChanged: (element) {
+                              countryCode = element.dialCode;
+                            },
+                            initialSelection: 'IN',
+                            favorite: const ['+91', 'IN'],
+                            showCountryOnly: false,
+                            showOnlyCountryWhenClosed: false,
+                            alignLeft: false,
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: TextFormField(
+                            enabled: authType == 'Phone' ? false : true,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter valid phone number';
+                              }
+                              if (authController.isNotValidPhone(value)) {
+                                return "Please enter valid phone number";
+                              }
+                              return null;
+                            },
+                            controller: phoneController,
+                            keyboardType: TextInputType.number,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              hintText: 'Phone Number',
+                              counterText: "",
+                              isCollapsed: true,
+                              filled: true,
+                              fillColor: Colors.white,
+                              errorStyle:
+                              const TextStyle(color: AppColors.secondaryColor),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
+                              contentPadding:
+                              const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
+                    // Container(
+                    //   width: screenSize.width,
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.white,
+                    //       border: Border.all(color: Colors.grey),
+                    //       borderRadius: const BorderRadius.all(Radius.circular(10))),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     mainAxisSize: MainAxisSize.min,
+                    //     children: [
+                    //       Row(
+                    //         children: [
+                    //           CountryCodePicker(
+                    //             showFlag: true,
+                    //             enabled: authType == 'Phone' ? false : true,
+                    //             onChanged: (element) {
+                    //               countryCode = element.dialCode;
+                    //             },
+                    //             initialSelection: 'IN',
+                    //             favorite: const ['+91', 'IN'],
+                    //             showCountryOnly: false,
+                    //             showOnlyCountryWhenClosed: false,
+                    //             alignLeft: false,
+                    //           ),
+                    //           SizedBox(
+                    //             width: screenSize.width / 2,
+                    //             child: TextFormField(
+                    //               autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //               enabled: authType == 'Phone' ? false : true,
+                    //               validator: (value) {
+                    //                 if (value!.isEmpty) {
+                    //                   return 'Please enter valid phone number';
+                    //                 }
+                    //                 if (authController.isNotValidPhone(value)) {
+                    //                   return "Please enter valid phone number";
+                    //                 }
+                    //                 return null;
+                    //               },
+                    //               controller: phoneController,
+                    //               keyboardType: TextInputType.number,
+                    //               maxLength: 10,
+                    //               decoration: const InputDecoration(
+                    //                   hintText: 'Phone Number',
+                    //                   counterText: "",
+                    //                   isCollapsed: true,
+                    //                   border: InputBorder.none),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     const SizedBox(
                       height: 20,
                     ),
