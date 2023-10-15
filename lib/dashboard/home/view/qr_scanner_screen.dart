@@ -129,7 +129,6 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
     });
     controller.scannedDataStream.listen((scanData) async {
       controller.pauseCamera();
-      showLoaderDialog(context);
       String scanDataString = scanData.code.toString();
       var uri = Uri.parse(scanDataString);
       if(uri.queryParameters['eventId']!=null) {
