@@ -28,7 +28,6 @@ class CheckOutScreen extends StatefulWidget {
 class _CheckOutScreenState extends State<CheckOutScreen> {
 
   double transactionFee = 0.0;
-  double serviceCharge = 0.0;
   double? deliveryFee;
   double? totalAmount;
   double greetingCardPrice = 0.0;
@@ -178,11 +177,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   parsedValue = 0.0; // Set parsedValue to 0.0 for negative values
                                 }
                                 transactionFee = 0.05 * parsedValue;
-                                serviceCharge = 0.03 * parsedValue;
-                                totalAmount = parsedValue + transactionFee + serviceCharge + greetingCardPrice + (deliveryFee ?? 0.0);
+                                totalAmount = parsedValue + transactionFee  + greetingCardPrice + (deliveryFee ?? 0.0);
 
                                 transactionFee = double.parse(transactionFee.toStringAsFixed(2));
-                                serviceCharge = double.parse(serviceCharge.toStringAsFixed(2));
                                 totalAmount = double.parse(totalAmount!.toStringAsFixed(2));
                               });
                             },
@@ -471,28 +468,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         const SizedBox(
                           height: 8,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Service charge',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                              ),
-                            ),
-                            Text(
-                              '₹$serviceCharge',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24.0),
                           child: Divider(),
@@ -574,7 +549,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           arguments['greeting_card_price'] = greetingCardPrice;
                           arguments['delivery_fee'] = deliveryFee;
                           arguments['transaction_fee'] = transactionFee;
-                          arguments['service_charge'] = serviceCharge;
+                          arguments['service_charge'] = 0.0;
                           arguments['shagun_amount'] =
                               double.parse(shagunAmountController.text);
                           arguments['status'] = true;

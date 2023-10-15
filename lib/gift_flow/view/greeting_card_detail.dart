@@ -53,7 +53,7 @@ class _GreetingCardDetailState extends State<GreetingCardDetail> {
             ),
             Text(
               '${selectedGreetingCard!.cardName}',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
@@ -61,56 +61,56 @@ class _GreetingCardDetailState extends State<GreetingCardDetail> {
             const SizedBox(
               height: 5,
             ),
-            const Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Dimensions',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' : 4x4 (inch)',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            const Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Quality',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' : Grade A Card',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // const Text.rich(
+            //   TextSpan(
+            //     children: [
+            //       TextSpan(
+            //         text: 'Dimensions',
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       TextSpan(
+            //         text: ' : 4x4 (inch)',
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w400,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 5,
+            // ),
+            // const Text.rich(
+            //   TextSpan(
+            //     children: [
+            //       TextSpan(
+            //         text: 'Quality',
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       TextSpan(
+            //         text: ' : Grade A Card',
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w400,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             const SizedBox(
               height: 5,
             ),
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
+                  const TextSpan(
                     text: 'Price',
                     style: TextStyle(
                       fontSize: 16,
@@ -119,9 +119,9 @@ class _GreetingCardDetailState extends State<GreetingCardDetail> {
                   ),
                   TextSpan(
                     text: ' : ₹${selectedGreetingCard!.cardPrice.toString()}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],

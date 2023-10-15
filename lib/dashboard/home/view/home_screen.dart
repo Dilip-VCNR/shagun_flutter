@@ -387,19 +387,85 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () async {
                                     if (snapshot.data!.isActiveKycRequest ==
                                         false) {
-                                      AuthController authController =
-                                          AuthController();
-                                      showLoaderDialog(context);
-                                      await authController
-                                          .requestKycCallBack(context,"New Kyc");
-                                      if (context.mounted) {
-                                        Navigator.of(context, rootNavigator: true).pop();
-                                        showSuccessToast(
-                                          context,
-                                          "Successfully raised the request\nOur back office team will get in touch with you soon !",
-                                        );
-                                        _pullRefresh();
-                                      }
+                                      String selectedReason = "";
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx) => StatefulBuilder(
+                                          builder: (BuildContext context,
+                                              void Function(void Function())
+                                              setState2) {
+                                            return AlertDialog(
+                                              title: const Text("Alert Dialog Box"),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  RadioListTile(
+                                                    title:
+                                                    const Text("New Kyc Request"),
+                                                    value: "New Kyc Request",
+                                                    groupValue: selectedReason,
+                                                    onChanged: (value) {
+                                                      setState2(() {
+                                                        selectedReason = value!;
+                                                      });
+                                                    },
+                                                  ),
+                                                  RadioListTile(
+                                                    title: const Text(
+                                                        "Request to edit existing bank details"),
+                                                    value:
+                                                    "Request to edit existing bank details",
+                                                    groupValue: selectedReason,
+                                                    onChanged: (value) {
+                                                      setState2(() {
+                                                        selectedReason = value!;
+                                                      });
+                                                    },
+                                                  ),
+                                                  RadioListTile(
+                                                    title: const Text(
+                                                        "Request to add a new bank account"),
+                                                    value:
+                                                    "Request to add a new bank account",
+                                                    groupValue: selectedReason,
+                                                    onChanged: (value) {
+                                                      setState2(() {
+                                                        selectedReason = value!;
+                                                      });
+                                                    },
+                                                  ),
+                                                  RadioListTile(
+                                                    title: const Text(
+                                                        "Update KYC documents"),
+                                                    value: "Update KYC documents",
+                                                    groupValue: selectedReason,
+                                                    onChanged: (value) {
+                                                      setState2(() {
+                                                        selectedReason = value!;
+                                                      });
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text("Cancel"),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    Navigator.of(context).pop();
+                                                    onRequestSubmitted(selectedReason);
+                                                  },
+                                                  child: const Text("Submit"),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                      );
                                     } else {
                                       showErrorToast(context,
                                           "You already have an active request !\nOur back office team will contact you soon");
@@ -673,5 +739,16 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       homeData = homeControllers.fetchHomeData(context);
     });
+  }
+  Future<void> onRequestSubmitted(String selectedReason) async {
+    AuthController authController = AuthController();
+    showLoaderDialog(context);
+    await authController.requestKycCallBack(context, selectedReason);
+    Navigator.of(context, rootNavigator: true).pop();
+    showSuccessToast(
+      context,
+      "Successfully raised the request\nOur back office team will get in touch with you soon !",
+    );
+    _pullRefresh();
   }
 }
