@@ -227,32 +227,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 context: context,
                                 builder: (ctx) => StatefulBuilder(
                                   builder: (BuildContext context,
-                                      void Function(void Function()) setState) {
+                                      void Function(void Function())
+                                          setState2) {
                                     return AlertDialog(
                                       title: const Text("Alert Dialog Box"),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           RadioListTile(
-                                            title: const Text(
-                                                "New Kyc Request"),
-                                            value:
-                                            "New Kyc Request",
+                                            title:
+                                                const Text("New Kyc Request"),
+                                            value: "New Kyc Request",
                                             groupValue: selectedReason,
                                             onChanged: (value) {
-                                              setState(() {
-                                                selectedReason = value!;
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text(
-                                                "Request to edit existing bank details"),
-                                            value:
-                                            "Request to edit existing bank details",
-                                            groupValue: selectedReason,
-                                            onChanged: (value) {
-                                              setState(() {
+                                              setState2(() {
                                                 selectedReason = value!;
                                               });
                                             },
@@ -264,7 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 "Request to edit existing bank details",
                                             groupValue: selectedReason,
                                             onChanged: (value) {
-                                              setState(() {
+                                              setState2(() {
                                                 selectedReason = value!;
                                               });
                                             },
@@ -276,17 +264,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 "Request to add a new bank account",
                                             groupValue: selectedReason,
                                             onChanged: (value) {
-                                              setState(() {
+                                              setState2(() {
                                                 selectedReason = value!;
                                               });
                                             },
                                           ),
                                           RadioListTile(
-                                            title: const Text("Update KYC documents"),
+                                            title: const Text(
+                                                "Update KYC documents"),
                                             value: "Update KYC documents",
                                             groupValue: selectedReason,
                                             onChanged: (value) {
-                                              setState(() {
+                                              setState2(() {
                                                 selectedReason = value!;
                                               });
                                             },
@@ -296,27 +285,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       actions: <Widget>[
                                         TextButton(
                                           onPressed: () {
-                                            Navigator.of(ctx).pop();
+                                            Navigator.of(context).pop();
                                           },
                                           child: const Text("Cancel"),
                                         ),
                                         TextButton(
                                           onPressed: () async {
-                                            Navigator.of(ctx).pop();
-                                            AuthController authController =
-                                                AuthController();
-                                            showLoaderDialog(context);
-                                            await authController
-                                                .requestKycCallBack(
-                                                    context, selectedReason);
-                                              Navigator.of(context,
-                                                  rootNavigator: true)
-                                                  .pop();
-                                              showSuccessToast(
-                                                context,
-                                                "Successfully raised the request\nOur back office team will get in touch with you soon !",
-                                              );
-                                            _pullRefresh();
+                                            Navigator.of(context).pop();
+                                            onRequestSubmitted(selectedReason);
                                           },
                                           child: const Text("Submit"),
                                         ),
@@ -357,205 +333,231 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        snapshot.data!.kycData!.status!=null?
-                        Container(
-                            width: screenSize.width,
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                                color: AppColors.primaryColor,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Text("My KYC",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            decoration:
-                                                TextDecoration.underline)),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                            snapshot.data!.kycData!.status == 1
-                                                ? "Verified"
-                                                : "Not active",
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold)),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Icon(
-                                          snapshot.data!.kycData!.status == 1
-                                              ? Icons.check_circle
-                                              : Icons.cancel_outlined,
-                                          color: AppColors.secondaryColor,
-                                          size: 20,
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "${snapshot.data!.kycData!.docName!} : ",
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      maskString(
-                                          snapshot.data!.kycData!.docNum!, 6),
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "${snapshot.data!.kycData!.docName1!} : ",
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      maskString(
-                                          snapshot.data!.kycData!.docNum1!, 4),
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )):const SizedBox.shrink(),
-                        snapshot.data!.bankData!.isNotEmpty?
-                        Container(
-                          width: screenSize.width,
-                          padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
-                              color: AppColors.secondaryColor,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                            children: [
-                              for (int i = 0;
-                                  i < snapshot.data!.bankData!.length;
-                                  i++)
-                                Column(
+                        snapshot.data!.kycData!.status != null
+                            ? Container(
+                                width: screenSize.width,
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                    color: AppColors.primaryColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text("My Active Bank",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: AppColors.primaryColor,
-                                            fontWeight: FontWeight.bold,
-                                            decoration:
-                                                TextDecoration.underline)),
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          "Bank Name : ",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          snapshot.data!.bankData![i].bankName!,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          "Bank Account Number : ",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          snapshot.data!.bankData![i].accNo!,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ],
-                                    ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
-                                        Row(
-                                          children: [
-                                            const Text(
-                                              "Bank IFSC : ",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              snapshot
-                                                  .data!.bankData![i].ifscCode!,
-                                              style: const TextStyle(
-                                                  fontWeight:
-                                                      FontWeight.normal),
-                                            ),
-                                          ],
+                                        const Text("My KYC",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                decoration:
+                                                    TextDecoration.underline)),
+                                        const SizedBox(
+                                          width: 20,
                                         ),
                                         Row(
                                           children: [
                                             Text(
-                                                snapshot.data!.bankData![i]
+                                                snapshot.data!.kycData!
                                                             .status ==
                                                         1
-                                                    ? "Active"
-                                                    : "Not Active",
+                                                    ? "Verified"
+                                                    : "Not active",
                                                 style: const TextStyle(
                                                     fontSize: 18,
-                                                    color:
-                                                        AppColors.primaryColor,
+                                                    color: Colors.white,
                                                     fontWeight:
                                                         FontWeight.bold)),
                                             const SizedBox(
                                               width: 5,
                                             ),
                                             Icon(
-                                              snapshot.data!.bankData![i]
-                                                          .status ==
+                                              snapshot.data!.kycData!.status ==
                                                       1
                                                   ? Icons.check_circle
                                                   : Icons.cancel_outlined,
-                                              color: AppColors.primaryColor,
+                                              color: AppColors.secondaryColor,
                                               size: 20,
                                             )
                                           ],
                                         )
                                       ],
                                     ),
-                                    snapshot.data!.bankData!.length>1?const Divider(color: AppColors.primaryColor,):const SizedBox.shrink()
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "${snapshot.data!.kycData!.docName!} : ",
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          maskString(
+                                              snapshot.data!.kycData!.docNum!,
+                                              6),
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "${snapshot.data!.kycData!.docName1!} : ",
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          maskString(
+                                              snapshot.data!.kycData!.docNum1!,
+                                              4),
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ))
+                            : const SizedBox.shrink(),
+                        snapshot.data!.bankData!.isNotEmpty
+                            ? Container(
+                                width: screenSize.width,
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                    color: AppColors.secondaryColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Column(
+                                  children: [
+                                    for (int i = 0;
+                                        i < snapshot.data!.bankData!.length;
+                                        i++)
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text("My Active Bank",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: AppColors.primaryColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration: TextDecoration
+                                                      .underline)),
+                                          Row(
+                                            children: [
+                                              const Text(
+                                                "Bank Name : ",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                snapshot.data!.bankData![i]
+                                                    .bankName!,
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Text(
+                                                "Bank Account Number : ",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                snapshot
+                                                    .data!.bankData![i].accNo!,
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    "Bank IFSC : ",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    snapshot.data!.bankData![i]
+                                                        .ifscCode!,
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                      snapshot
+                                                                  .data!
+                                                                  .bankData![i]
+                                                                  .status ==
+                                                              1
+                                                          ? "Active"
+                                                          : "Not Active",
+                                                      style: const TextStyle(
+                                                          fontSize: 18,
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Icon(
+                                                    snapshot.data!.bankData![i]
+                                                                .status ==
+                                                            1
+                                                        ? Icons.check_circle
+                                                        : Icons.cancel_outlined,
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    size: 20,
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                          snapshot.data!.bankData!.length > 1
+                                              ? const Divider(
+                                                  color: AppColors.primaryColor,
+                                                )
+                                              : const SizedBox.shrink()
+                                        ],
+                                      ),
                                   ],
                                 ),
-                            ],
-                          ),
-                        ):const SizedBox.shrink(),
+                              )
+                            : const SizedBox.shrink(),
                         const SizedBox(
                           height: 10,
                         ),
@@ -1044,5 +1046,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         inputString.substring(inputString.length - visibleChars);
 
     return '$maskedPart$visiblePart';
+  }
+
+  Future<void> onRequestSubmitted(String selectedReason) async {
+    AuthController authController = AuthController();
+    showLoaderDialog(context);
+    await authController.requestKycCallBack(context, selectedReason);
+    Navigator.of(context, rootNavigator: true).pop();
+    showSuccessToast(
+      context,
+      "Successfully raised the request\nOur back office team will get in touch with you soon !",
+    );
+    _pullRefresh();
   }
 }

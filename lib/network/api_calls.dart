@@ -530,6 +530,7 @@ class ApiCalls {
         'platform': platform,
       }),
     ).then((response) {
+      print(response.body);
       if (response.statusCode == 200) {
         return CompatibilityCheckModel.fromJson(json.decode(response.body));
       } else {
