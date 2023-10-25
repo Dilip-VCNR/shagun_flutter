@@ -278,6 +278,20 @@ class _EventDetailsState extends State<EventDetails> {
             const SizedBox(
               height: 10,
             ),
+            Container(
+              width: screenSize.width,
+              child: Text(
+                '"${eventData!.event!.eventNote}"',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             const Text(
               'Event venue',
               style: TextStyle(
@@ -331,7 +345,7 @@ class _EventDetailsState extends State<EventDetails> {
               height: 10,
             ),
             const Text(
-              'Events',
+              'Sub Events',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,

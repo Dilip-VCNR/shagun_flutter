@@ -87,8 +87,9 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                     },
                                   ),
                                   SizedBox(
-                                      width: screenSize.width/1.75,
-                                      child: Text(eventTypes[index].eventTypeName!))
+                                      width: screenSize.width / 1.75,
+                                      child: Text(
+                                          eventTypes[index].eventTypeName!))
                                 ],
                               ),
                             );
@@ -112,8 +113,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                           await myEventsController.requestEvent(
                               eventTypes[selectedRadio].eventTypeName, context);
                           if (context.mounted) {
-                            Navigator.pop(
-                                context);
+                            Navigator.pop(context);
                             Navigator.of(context, rootNavigator: true).pop();
                             showSuccessToast(
                               context,
@@ -269,7 +269,9 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                         .invitedEvents![index]
                                                         .invitedBy!);
                                         if (context.mounted) {
-                                          Navigator.of(context, rootNavigator: true).pop();
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop();
                                           Navigator.pushNamed(
                                               context, Routes.eventDetailsRoute,
                                               arguments: {
@@ -457,7 +459,9 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                     prefModel.userData!.user!
                                                         .userId!);
                                         if (context.mounted) {
-                                          Navigator.of(context, rootNavigator: true).pop();
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop();
                                           Navigator.pushNamed(
                                               context, Routes.eventDetailsRoute,
                                               arguments: {
@@ -542,9 +546,17 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                         )),
                                                     GestureDetector(
                                                       onTap: () {
-                                                        Navigator.pushNamed(context, Routes.giftsForEventRoute,arguments: {
-                                                          "eventId":snapshot.data!.myEvents![index].eventId
-                                                        });
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            Routes
+                                                                .giftsForEventRoute,
+                                                            arguments: {
+                                                              "eventId": snapshot
+                                                                  .data!
+                                                                  .myEvents![
+                                                                      index]
+                                                                  .eventId
+                                                            });
                                                       },
                                                       child: Container(
                                                         width: 100,
@@ -580,84 +592,193 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                     const SizedBox(
                                                       height: 5,
                                                     ),
-                                                    snapshot.data!.myEvents![index].status==1?
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        showLoaderDialog(
-                                                            context);
-                                                        for (int i = 0;
-                                                            i <
-                                                                snapshot
-                                                                    .data!
-                                                                    .myEvents![
-                                                                        index]
-                                                                    .admins!
-                                                                    .length;
-                                                            i++) {
-                                                          if (snapshot
-                                                                  .data!
-                                                                  .myEvents![
-                                                                      index]
-                                                                  .admins![i]
-                                                                  .uid ==
-                                                              prefModel
-                                                                  .userData!
-                                                                  .user!
-                                                                  .userId) {
-                                                            String imageurl = UrlConstant
-                                                                    .imageBaseUrl +
-                                                                snapshot
-                                                                    .data!
-                                                                    .myEvents![
-                                                                        index]
-                                                                    .admins![i]
-                                                                    .qrCode!;
-                                                            downloadAndShareImage(
-                                                                imageurl,
-                                                                snapshot
-                                                                    .data!
-                                                                    .myEvents![
-                                                                        index]
-                                                                    .eventName!,snapshot
+                                                    snapshot
                                                                 .data!
                                                                 .myEvents![
-                                                            index]
-                                                                .eventId!,
-                                                            );
-                                                          }
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        width: 100,
-                                                        decoration:
-                                                            ShapeDecoration(
-                                                          color: AppColors
-                                                              .primaryColor,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          7)),
-                                                        ),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 7),
-                                                        child: const Center(
-                                                          child: Text(
-                                                            "Share",
-                                                            style: TextStyle(
-                                                              color: AppColors
-                                                                  .scaffoldBackground,
-                                                              fontSize: 13,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
+                                                                    index]
+                                                                .status ==
+                                                            1
+                                                        ? GestureDetector(
+                                                            onTap: () {
+                                                              showLoaderDialog(
+                                                                  context);
+                                                              for (int i = 0;
+                                                                  i <
+                                                                      snapshot
+                                                                          .data!
+                                                                          .myEvents![
+                                                                              index]
+                                                                          .admins!
+                                                                          .length;
+                                                                  i++) {
+                                                                if (snapshot
+                                                                        .data!
+                                                                        .myEvents![
+                                                                            index]
+                                                                        .admins![
+                                                                            i]
+                                                                        .uid ==
+                                                                    prefModel
+                                                                        .userData!
+                                                                        .user!
+                                                                        .userId) {
+                                                                  String imageurl = UrlConstant
+                                                                          .imageBaseUrl +
+                                                                      snapshot
+                                                                          .data!
+                                                                          .myEvents![
+                                                                              index]
+                                                                          .admins![
+                                                                              i]
+                                                                          .qrCode!;
+                                                                  downloadAndShareImage(
+                                                                    imageurl,
+                                                                    snapshot
+                                                                        .data!
+                                                                        .myEvents![
+                                                                            index]
+                                                                        .eventName!,
+                                                                    snapshot
+                                                                        .data!
+                                                                        .myEvents![
+                                                                            index]
+                                                                        .eventId!,
+                                                                    "share",
+                                                                  );
+                                                                }
+                                                              }
+                                                            },
+                                                            child: Container(
+                                                              width: 100,
+                                                              decoration:
+                                                                  ShapeDecoration(
+                                                                color: AppColors
+                                                                    .primaryColor,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            7)),
+                                                              ),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          7),
+                                                              child:
+                                                                  const Center(
+                                                                child: Text(
+                                                                  "Share",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: AppColors
+                                                                        .scaffoldBackground,
+                                                                    fontSize:
+                                                                        13,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ):const SizedBox.shrink()
+                                                          )
+                                                        : const SizedBox
+                                                            .shrink(),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    snapshot
+                                                                .data!
+                                                                .myEvents![
+                                                                    index]
+                                                                .status ==
+                                                            1
+                                                        ? GestureDetector(
+                                                            onTap: () {
+                                                              showLoaderDialog(
+                                                                  context);
+                                                              for (int i = 0;
+                                                                  i <
+                                                                      snapshot
+                                                                          .data!
+                                                                          .myEvents![
+                                                                              index]
+                                                                          .admins!
+                                                                          .length;
+                                                                  i++) {
+                                                                if (snapshot
+                                                                        .data!
+                                                                        .myEvents![
+                                                                            index]
+                                                                        .admins![
+                                                                            i]
+                                                                        .uid ==
+                                                                    prefModel
+                                                                        .userData!
+                                                                        .user!
+                                                                        .userId) {
+                                                                  String imageurl = UrlConstant
+                                                                          .imageBaseUrl +
+                                                                      snapshot
+                                                                          .data!
+                                                                          .myEvents![
+                                                                              index]
+                                                                          .admins![
+                                                                              i]
+                                                                          .qrCode!;
+                                                                  downloadAndShareImage(
+                                                                    imageurl,
+                                                                    snapshot
+                                                                        .data!
+                                                                        .myEvents![
+                                                                            index]
+                                                                        .eventName!,
+                                                                    snapshot
+                                                                        .data!
+                                                                        .myEvents![
+                                                                            index]
+                                                                        .eventId!,
+                                                                    "view",
+                                                                  );
+                                                                }
+                                                              }
+                                                            },
+                                                            child: Container(
+                                                              width: 100,
+                                                              decoration:
+                                                                  ShapeDecoration(
+                                                                color: AppColors
+                                                                    .primaryColor,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            7)),
+                                                              ),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          7),
+                                                              child:
+                                                                  const Center(
+                                                                child: Text(
+                                                                  "View QR",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: AppColors
+                                                                        .scaffoldBackground,
+                                                                    fontSize:
+                                                                        13,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : const SizedBox
+                                                            .shrink()
                                                   ],
                                                 ),
                                                 const SizedBox(
@@ -681,33 +802,50 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                             FontWeight.w700,
                                                       ),
                                                     ),
-                                                    snapshot.data!.myEvents![index].admins!.length==1?
+                                                    snapshot
+                                                                .data!
+                                                                .myEvents![
+                                                                    index]
+                                                                .admins!
+                                                                .length ==
+                                                            1
+                                                        ? SizedBox(
+                                                            width: screenSize
+                                                                    .width /
+                                                                2.25,
+                                                            child: Text(
+                                                              '${snapshot.data!.myEvents![index].admins![0].name}',
+                                                              style:
+                                                                  const TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : SizedBox(
+                                                            width: screenSize
+                                                                    .width /
+                                                                2.25,
+                                                            child: Text(
+                                                              '${snapshot.data!.myEvents![index].admins![0].name} and \n${snapshot.data!.myEvents![index].admins![1].name}',
+                                                              style:
+                                                                  const TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                              ),
+                                                            ),
+                                                          ),
                                                     SizedBox(
-                                                      width: screenSize.width/2.25,
-                                                      child: Text(
-                                                        '${snapshot.data!.myEvents![index].admins![0].name}',
-                                                        style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                        ),
-                                                      ),
-                                                    ):
-                                                    SizedBox(
-                                                      width: screenSize.width/2.25,
-                                                      child: Text(
-                                                        '${snapshot.data!.myEvents![index].admins![0].name} and \n${snapshot.data!.myEvents![index].admins![1].name}',
-                                                        style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                          FontWeight.w700,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: screenSize.width/2,
+                                                      width:
+                                                          screenSize.width / 2,
                                                       child: Row(
                                                         children: [
                                                           Text(
@@ -718,7 +856,8 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                                   0xFFBE9535),
                                                               fontSize: 20,
                                                               fontWeight:
-                                                                  FontWeight.w700,
+                                                                  FontWeight
+                                                                      .w700,
                                                             ),
                                                           ),
                                                           const SizedBox(
@@ -727,8 +866,8 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                           const Text(
                                                             'Received',
                                                             style: TextStyle(
-                                                                color:
-                                                                    Colors.black,
+                                                                color: Colors
+                                                                    .black,
                                                                 fontSize: 14,
                                                                 fontWeight:
                                                                     FontWeight
@@ -795,11 +934,13 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                             : "Closed",
                                                         style: TextStyle(
                                                           color: snapshot
-                                                              .data!
-                                                              .myEvents![
-                                                          index]
-                                                              .status ==
-                                                              1?Colors.green: Colors.red,
+                                                                      .data!
+                                                                      .myEvents![
+                                                                          index]
+                                                                      .status ==
+                                                                  1
+                                                              ? Colors.green
+                                                              : Colors.red,
                                                           fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.w600,
@@ -857,7 +998,8 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
     });
   }
 
-  Future<void> downloadAndShareImage(String imageUrl, String eventName, int eventId) async {
+  Future<void> downloadAndShareImage(
+      String imageUrl, String eventName, int eventId, String type) async {
     try {
       // Download the image using http package
       final response = await http.get(Uri.parse(imageUrl));
@@ -871,15 +1013,46 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
       final imageFile = File(imagePath);
       await imageFile.writeAsBytes(bytes);
 
-      // Share the saved image using the share package
       if (context.mounted) {
         Navigator.of(context, rootNavigator: true).pop();
       }
-      await Share.shareFiles([imagePath], text: "$eventName\n${UrlConstant.deeplinkBaseUrl}?eventId=$eventId&invitedBy=${prefModel.userData!.user!.phone}",subject: "You are invited to $eventName");
+      if (type == "view") {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true, // Set to true for full-screen
+          builder: (context) {
+            return Stack(
+              children: [
+                Container(
+                  child: Image.file(imageFile),
+                ),
+                Positioned(
+                    top: 20,
+                    right: 20,
+                    child: IconButton(
+                      color: Colors.grey,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.cancel,
+                        size: 40,
+                      ),
+                    )),
+              ],
+            );
+          },
+        );
+      } else {
+        await Share.shareFiles([imagePath],
+            text:
+                "$eventName\n${UrlConstant.deeplinkBaseUrl}?eventId=$eventId&invitedBy=${prefModel.userData!.user!.phone}",
+            subject: "You are invited to $eventName");
+      }
     } catch (e) {
       if (context.mounted) {
         Navigator.pop(context);
-        showErrorToast(context,'Error downloading and sharing image: $e');
+        showErrorToast(context, 'Error downloading and sharing image: $e');
       }
     }
   }

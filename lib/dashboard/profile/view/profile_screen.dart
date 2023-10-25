@@ -230,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       void Function(void Function())
                                           setState2) {
                                     return AlertDialog(
-                                      title: const Text("Alert Dialog Box"),
+                                      title: const Text("Please select your request"),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -452,13 +452,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const Text("My Active Bank",
+                                          i==0?const Text("My Bank Accounts",
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   color: AppColors.primaryColor,
                                                   fontWeight: FontWeight.bold,
                                                   decoration: TextDecoration
-                                                      .underline)),
+                                                      .underline)):const SizedBox.shrink(),
                                           Row(
                                             children: [
                                               const Text(

@@ -164,7 +164,9 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                                     .map<DropdownMenuItem<EventsList>>((EventsList event) {
                                   return DropdownMenuItem<EventsList>(
                                     value: event,
-                                    child: Text(event.eventTypeName!),
+                                    child: SizedBox(
+                                        width:screenSize.width/3.5,
+                                        child: Text(event.eventTypeName!,textAlign: TextAlign.center,overflow: TextOverflow.ellipsis,)),
                                   );
                                 }).toList(),
                                 onChanged: (EventsList? newValue) {
@@ -190,12 +192,17 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                                 ),
                               ),
                               child: Center(
-                                child: Text(
-                                  selectedDate!=null?"${selectedDate!.month}-${selectedDate!.year}":"All Time",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
+                                child: SizedBox(
+                                  width:screenSize.width/3.5,
+                                  child: Text(
+                                    selectedDate!=null?"${selectedDate!.month}-${selectedDate!.year}":"All Time",
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
                                 ),
                               ),

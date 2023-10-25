@@ -162,11 +162,11 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                                 dropdownColor: AppColors.primaryColor,
                                 value: dropDownValue,
                                 icon: const Icon(Icons.keyboard_arrow_down),
-                                items: events
-                                    .map<DropdownMenuItem<EventsList>>((EventsList event) {
+                                items: events.map<DropdownMenuItem<EventsList>>((EventsList event) {
                                   return DropdownMenuItem<EventsList>(
                                     value: event,
-                                    child: Text(event.eventTypeName!),
+                                    child: SizedBox(
+                                        width:screenSize.width/3.5,child: Text(event.eventTypeName!,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,)),
                                   );
                                 }).toList(),
                                 onChanged: (EventsList? newValue) {
@@ -193,12 +193,16 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                                 ),
                               ),
                               child: Center(
-                                child: Text(
-                                  selectedDate!=null?"${selectedDate!.month}-${selectedDate!.year}":"All Time",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
+                                child: Container(
+                                  width:screenSize.width/3.5,
+                                  child: Text(
+                                    selectedDate!=null?"${selectedDate!.month}-${selectedDate!.year}":"All Time",
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
                                 ),
                               ),
