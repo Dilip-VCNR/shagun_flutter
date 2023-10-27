@@ -61,8 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
               if (snapshot.hasData) {
+                print(snapshot.data!.toJson());
                 if (snapshot.data!.userStatus == 0) {
-                  widget.isBan(true); // Change to the second item
+                  widget.isBan(true);
                   return const Padding(
                     padding: EdgeInsets.all(20.0),
                     child: Center(
@@ -328,20 +329,20 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 20,
                           ),
                           snapshot.data!.kycStatus != 1
-                              ? Text(
+                              ? const Text(
                                   'Need to create your event and \nstart receiving shagun?',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 )
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                           snapshot.data!.kycStatus != 1
                               ? const SizedBox(
                                   height: 10,
                                 )
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                           snapshot.data!.kycStatus != 1
                               ? Text.rich(
                                   TextSpan(
@@ -376,12 +377,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ],
                                   ),
                                 )
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                           snapshot.data!.kycStatus != 1
                               ? const SizedBox(
                                   height: 10,
                                 )
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                           snapshot.data!.kycStatus != 1
                               ? GestureDetector(
                                   onTap: () async {
@@ -399,6 +400,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               content: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
+                                                  snapshot.data!.kycExist==0?
                                                   RadioListTile(
                                                     title:
                                                     const Text("New Kyc Request"),
@@ -409,7 +411,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         selectedReason = value!;
                                                       });
                                                     },
-                                                  ),
+                                                  ):const SizedBox.shrink(),
                                                   RadioListTile(
                                                     title: const Text(
                                                         "Request to edit existing bank details"),
@@ -496,12 +498,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                 )
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                           snapshot.data!.kycStatus != 1
                               ? const SizedBox(
                                   height: 20,
                                 )
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                           snapshot.data!.eventsInviteList!.isNotEmpty
                               ? Row(
                                   mainAxisAlignment:

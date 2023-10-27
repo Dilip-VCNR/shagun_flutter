@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shagun_mobile/utils/app_colors.dart';
 import 'package:shagun_mobile/utils/app_widgets.dart';
 
@@ -134,6 +135,10 @@ class _WishInputScreenState extends State<WishInputScreen> {
             ),
             Form(
                 child: TextFormField(
+                  enableInteractiveSelection : false,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(r'[^\x00-\x7F]+'))
+                  ],
                   maxLength: 256,
                   controller: wishController,
                   validator: (value) {

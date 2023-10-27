@@ -112,6 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               }
               if (snapshot.hasData) {
+                print(snapshot.data!.toJson());
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -234,7 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          RadioListTile(
+                                          snapshot.data!.kycData!.docNum==null?RadioListTile(
                                             title:
                                                 const Text("New Kyc Request"),
                                             value: "New Kyc Request",
@@ -244,7 +245,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 selectedReason = value!;
                                               });
                                             },
-                                          ),
+                                          ):const SizedBox.shrink(),
                                           RadioListTile(
                                             title: const Text(
                                                 "Request to edit existing bank details"),
