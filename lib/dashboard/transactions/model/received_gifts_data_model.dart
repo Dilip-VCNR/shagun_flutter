@@ -56,6 +56,8 @@ class ReceivedGift {
   dynamic bankName;
   dynamic bankLogo;
   dynamic accNo;
+  String? wish;
+  String? onBehalfOf;
 
   ReceivedGift({
     this.receiverUid,
@@ -74,6 +76,8 @@ class ReceivedGift {
     this.bankName,
     this.bankLogo,
     this.accNo,
+    this.wish,
+    this.onBehalfOf,
   });
 
   factory ReceivedGift.fromJson(Map<String, dynamic> json) => ReceivedGift(
@@ -93,6 +97,8 @@ class ReceivedGift {
     bankName: json["bank_name"],
     bankLogo: json["bank_logo"],
     accNo: json["acc_no"],
+      wish:  json["wish"],
+      onBehalfOf:  json["on_behalf_of"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -112,5 +118,7 @@ class ReceivedGift {
     "bank_name": bankName,
     "bank_logo": bankLogo,
     "acc_no": accNo,
+    "wish":wish,
+    "on_behalf_of":onBehalfOf
   };
 }

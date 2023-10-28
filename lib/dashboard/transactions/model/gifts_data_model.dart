@@ -73,6 +73,8 @@ class SentGift {
   dynamic bankName;
   dynamic bankLogo;
   dynamic accNo;
+  String? wish;
+  String? onBehalfOf;
 
   SentGift({
     this.receiverUid,
@@ -91,6 +93,8 @@ class SentGift {
     this.bankName,
     this.bankLogo,
     this.accNo,
+    this.wish,
+    this.onBehalfOf,
   });
 
   factory SentGift.fromJson(Map<String, dynamic> json) => SentGift(
@@ -110,6 +114,8 @@ class SentGift {
     bankName: json["bank_name"],
     bankLogo: json["bank_logo"],
     accNo: json["acc_no"],
+    wish:  json["wish"],
+      onBehalfOf:  json["on_behalf_of"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -129,5 +135,7 @@ class SentGift {
     "bank_name": bankName,
     "bank_logo": bankLogo,
     "acc_no": accNo,
+    "wish":wish,
+    "on_behalf_of":onBehalfOf
   };
 }

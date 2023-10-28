@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_widgets.dart';
 import '../../../utils/url_constants.dart';
 import '../controller/gifts_controller.dart';
 import '../model/received_gifts_data_model.dart';
@@ -24,7 +25,6 @@ class _ReceivedShagunForEventScreenState
 
   late Future<ReceivedGiftsDataModel>? receivedGiftsData;
 
-
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,8 @@ class _ReceivedShagunForEventScreenState
         <String, dynamic>{}) as Map;
     String eventId = arguments['eventId'].toString();
     Size screenSize = MediaQuery.of(context).size;
-    receivedGiftsData = giftsController.fetchReceivedGiftsDataForEvent(context,prefModel.userData!.user!.userId,eventId);
+    receivedGiftsData = giftsController.fetchReceivedGiftsDataForEvent(
+        context, prefModel.userData!.user!.userId, eventId);
     return Scaffold(
       body: FutureBuilder<ReceivedGiftsDataModel>(
           future: receivedGiftsData,
@@ -92,7 +93,8 @@ class _ReceivedShagunForEventScreenState
                                       decoration: ShapeDecoration(
                                         color: const Color(0xFFD9D9D9),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
                                         ),
                                       ),
                                       child: Column(
@@ -120,8 +122,22 @@ class _ReceivedShagunForEventScreenState
                                                           Positioned(
                                                             left: i * 40,
                                                             child: ClipOval(
-                                                              child: CircleAvatar(
-                                                                backgroundImage: i==0?NetworkImage(UrlConstant.imageBaseUrl+prefModel.userData!.user!.profile!):NetworkImage(UrlConstant.imageBaseUrl+snapshot.data!.receivedGifts![index].profilePic!),
+                                                              child:
+                                                                  CircleAvatar(
+                                                                backgroundImage: i ==
+                                                                        0
+                                                                    ? NetworkImage(UrlConstant
+                                                                            .imageBaseUrl +
+                                                                        prefModel
+                                                                            .userData!
+                                                                            .user!
+                                                                            .profile!)
+                                                                    : NetworkImage(UrlConstant
+                                                                            .imageBaseUrl +
+                                                                        snapshot
+                                                                            .data!
+                                                                            .receivedGifts![index]
+                                                                            .profilePic!),
                                                                 backgroundColor: i ==
                                                                         1
                                                                     ? AppColors
@@ -140,13 +156,16 @@ class _ReceivedShagunForEventScreenState
                                                   ),
                                                   Column(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       SizedBox(
-                                                        width: screenSize.width /
-                                                            2.25,
+                                                        width:
+                                                            screenSize.width /
+                                                                2.25,
                                                         child: Text.rich(
                                                           TextSpan(
                                                             children: [
@@ -166,7 +185,8 @@ class _ReceivedShagunForEventScreenState
                                                               const TextSpan(
                                                                 text:
                                                                     ' sent you shagun',
-                                                                style: TextStyle(
+                                                                style:
+                                                                    TextStyle(
                                                                   color: Colors
                                                                       .black,
                                                                   fontSize: 16,
@@ -215,15 +235,64 @@ class _ReceivedShagunForEventScreenState
                                                               FontWeight.w400,
                                                         ),
                                                       ),
-                                                      snapshot.data!.receivedGifts![index].settlementStatus==1?
-                                                      const Text(
-                                                        'Settled to bank',
-                                                        style: TextStyle(
-                                                          color: Colors.green,
-                                                          fontSize: 12,
-                                                          fontWeight: FontWeight.w400,
+                                                      snapshot
+                                                                  .data!
+                                                                  .receivedGifts![
+                                                                      index]
+                                                                  .settlementStatus ==
+                                                              1
+                                                          ? const Text(
+                                                              'Settled to bank',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .green,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              ),
+                                                            )
+                                                          : const SizedBox
+                                                              .shrink(),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          showWishDialog(context,snapshot.data!.receivedGifts![index].wish,snapshot.data!.receivedGifts![index].onBehalfOf!);
+                                                        },
+                                                        child: Container(
+                                                          decoration:
+                                                              ShapeDecoration(
+                                                            color: AppColors
+                                                                .primaryColor,
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            7)),
+                                                          ),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical: 7,
+                                                                  horizontal:
+                                                                      15),
+                                                          child: const Center(
+                                                            child: Text(
+                                                              "View Wish",
+                                                              style: TextStyle(
+                                                                color: AppColors
+                                                                    .scaffoldBackground,
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ):const SizedBox.shrink(),
+                                                      )
                                                     ],
                                                   ),
                                                 ],
@@ -262,7 +331,8 @@ class _ReceivedShagunForEventScreenState
                   children: [
                     Text('${snapshot.error}'),
                     ElevatedButton(
-                        onPressed: ()=>_pullRefresh(eventId), child: const Text("Refresh"))
+                        onPressed: () => _pullRefresh(eventId),
+                        child: const Text("Refresh"))
                   ],
                 ),
               );
@@ -276,7 +346,8 @@ class _ReceivedShagunForEventScreenState
 
   Future<void> _pullRefresh(String eventId) async {
     setState(() {
-      receivedGiftsData = giftsController.fetchReceivedGiftsDataForEvent(context,prefModel.userData!.user!.userId,eventId);
+      receivedGiftsData = giftsController.fetchReceivedGiftsDataForEvent(
+          context, prefModel.userData!.user!.userId, eventId);
     });
   }
 }

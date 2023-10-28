@@ -791,6 +791,19 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
+                                                      "Event ID : ESHUB${snapshot
+                                                          .data!
+                                                          .myEvents![index]
+                                                          .eventId!}",
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 2.5,),
+                                                    Text(
                                                       snapshot
                                                           .data!
                                                           .myEvents![index]
@@ -802,6 +815,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                             FontWeight.w700,
                                                       ),
                                                     ),
+                                                    const SizedBox(height: 2.5,),
                                                     snapshot
                                                                 .data!
                                                                 .myEvents![
@@ -843,6 +857,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                               ),
                                                             ),
                                                           ),
+                                                    const SizedBox(height: 2.5,),
                                                     SizedBox(
                                                       width:
                                                           screenSize.width / 2,
@@ -876,6 +891,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                         ],
                                                       ),
                                                     ),
+                                                    const SizedBox(height: 2.5,),
                                                     SizedBox(
                                                       width:
                                                           screenSize.width / 2,
@@ -889,6 +905,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                         ),
                                                       ),
                                                     ),
+                                                    const SizedBox(height: 2.5,),
                                                     Row(
                                                       children: [
                                                         const Text(
@@ -920,6 +937,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                         ),
                                                       ],
                                                     ),
+                                                    const SizedBox(height: 2.5,),
                                                     SizedBox(
                                                       width:
                                                           screenSize.width / 2,

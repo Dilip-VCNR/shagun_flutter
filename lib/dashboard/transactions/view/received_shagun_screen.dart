@@ -6,6 +6,7 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_widgets.dart';
 import '../../../utils/routes.dart';
 import '../../../utils/url_constants.dart';
 import '../controller/gifts_controller.dart';
@@ -338,6 +339,44 @@ class _ReceivedShagunScreenState extends State<ReceivedShagunScreen> {
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ):const SizedBox.shrink(),
+                                              const SizedBox(height: 5,),
+                                              GestureDetector(
+                                                onTap: (){
+                                                  showWishDialog(context,snapshot.data!.receivedGifts![index].wish,snapshot.data!.receivedGifts![index].onBehalfOf!);
+                                                },
+                                                child: Container(
+                                                  decoration:
+                                                  ShapeDecoration(
+                                                    color: AppColors
+                                                        .primaryColor,
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            7)),
+                                                  ),
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .symmetric(
+                                                      vertical:
+                                                      7,horizontal: 15),
+                                                  child:
+                                                  const Center(
+                                                    child: Text(
+                                                      "View Wish",
+                                                      style:
+                                                      TextStyle(
+                                                        color: AppColors
+                                                            .scaffoldBackground,
+                                                        fontSize:
+                                                        13,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w700,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
                                             ],
                                           ),
                                         ],

@@ -6,6 +6,7 @@ import 'package:shagun_mobile/dashboard/transactions/model/received_gifts_data_m
 import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_widgets.dart';
 import '../../../utils/routes.dart';
 import '../../../utils/url_constants.dart';
 import '../model/gifts_data_model.dart';
@@ -253,6 +254,44 @@ class _SearchTransactionsScreenState extends State<SearchTransactionsScreen> {
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ) : const SizedBox.shrink(),
+                                        const SizedBox(height: 5,),
+                                        GestureDetector(
+                                          onTap: (){
+                                            showWishDialog(context,searchSentGiftsData!.sentGifts![index].wish,searchSentGiftsData!.sentGifts![index].onBehalfOf!);
+                                          },
+                                          child: Container(
+                                            decoration:
+                                            ShapeDecoration(
+                                              color: AppColors
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(
+                                                      7)),
+                                            ),
+                                            padding:
+                                            const EdgeInsets
+                                                .symmetric(
+                                                vertical:
+                                                7,horizontal: 15),
+                                            child:
+                                            const Center(
+                                              child: Text(
+                                                "View Wish",
+                                                style:
+                                                TextStyle(
+                                                  color: AppColors
+                                                      .scaffoldBackground,
+                                                  fontSize:
+                                                  13,
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w700,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ],
@@ -417,6 +456,44 @@ class _SearchTransactionsScreenState extends State<SearchTransactionsScreen> {
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ) : const SizedBox.shrink(),
+                                          const SizedBox(height: 5,),
+                                          GestureDetector(
+                                            onTap: (){
+                                              showWishDialog(context,searchReceivedGiftsData!.receivedGifts![index].wish,searchReceivedGiftsData!.receivedGifts![index].onBehalfOf!);
+                                            },
+                                            child: Container(
+                                              decoration:
+                                              ShapeDecoration(
+                                                color: AppColors
+                                                    .primaryColor,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        7)),
+                                              ),
+                                              padding:
+                                              const EdgeInsets
+                                                  .symmetric(
+                                                  vertical:
+                                                  7,horizontal: 15),
+                                              child:
+                                              const Center(
+                                                child: Text(
+                                                  "View Wish",
+                                                  style:
+                                                  TextStyle(
+                                                    color: AppColors
+                                                        .scaffoldBackground,
+                                                    fontSize:
+                                                    13,
+                                                    fontWeight:
+                                                    FontWeight
+                                                        .w700,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],

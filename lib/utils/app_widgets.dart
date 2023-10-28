@@ -37,8 +37,7 @@ showLoaderDialog(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Lottie.asset('assets/lottie/loading.json',
-                    height: 150),
+                Lottie.asset('assets/lottie/loading.json', height: 150),
                 const Text(
                   "Loading...",
                   style: TextStyle(
@@ -69,6 +68,26 @@ showForceUpdateDialog(
                 StoreRedirect.redirect(
                     androidAppId: packageInfo.packageName,
                     iOSAppId: "1633065411");
+              },
+            ),
+          ],
+        );
+      });
+}
+
+showWishDialog(BuildContext buildContext, wishText, String sender) {
+  showDialog(
+      barrierDismissible: false,
+      context: buildContext,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("By $sender"),
+          content: Text(wishText,style: const TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 16),),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+               Navigator.pop(context);
               },
             ),
           ],
