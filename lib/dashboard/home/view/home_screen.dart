@@ -412,6 +412,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       });
                                                     },
                                                   ):const SizedBox.shrink(),
+                                                  snapshot.data!.kycExist!=0?
                                                   RadioListTile(
                                                     title: const Text(
                                                         "Request to edit existing bank details"),
@@ -423,7 +424,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         selectedReason = value!;
                                                       });
                                                     },
-                                                  ),
+                                                  ):const SizedBox.shrink(),
+                                                  snapshot.data!.kycExist!=0?
                                                   RadioListTile(
                                                     title: const Text(
                                                         "Request to add a new bank account"),
@@ -435,7 +437,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         selectedReason = value!;
                                                       });
                                                     },
-                                                  ),
+                                                  ):const SizedBox.shrink(),
+                                                  snapshot.data!.kycExist!=0?
                                                   RadioListTile(
                                                     title: const Text(
                                                         "Update KYC documents"),
@@ -446,7 +449,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         selectedReason = value!;
                                                       });
                                                     },
-                                                  ),
+                                                  ):const SizedBox.shrink(),
                                                 ],
                                               ),
                                               actions: <Widget>[

@@ -33,7 +33,7 @@ class HomeDataModel {
       status: json["status"],
       kycStatus: json["kyc_status"],
       userStatus: json["user_status"],
-      kycExist: json["kyc_exist"],
+      kycExist: json["kyc_count"],
       totalSentAmount: json["total_sent_amount"].toDouble(),
       totalReceivedAmount: json["total_recieved_amount"]?.toDouble(),
       eventsInviteList: json["events_invite_list"] == null

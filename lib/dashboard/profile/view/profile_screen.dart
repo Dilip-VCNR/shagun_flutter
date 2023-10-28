@@ -246,6 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               });
                                             },
                                           ):const SizedBox.shrink(),
+                                          snapshot.data!.kycData!.docNum!=null?
                                           RadioListTile(
                                             title: const Text(
                                                 "Request to edit existing bank details"),
@@ -257,7 +258,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 selectedReason = value!;
                                               });
                                             },
-                                          ),
+                                          ):const SizedBox.shrink(),
+                                          snapshot.data!.kycData!.docNum!=null?
                                           RadioListTile(
                                             title: const Text(
                                                 "Request to add a new bank account"),
@@ -269,7 +271,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 selectedReason = value!;
                                               });
                                             },
-                                          ),
+                                          ):const SizedBox.shrink(),
+                                          snapshot.data!.kycData!.docNum!=null?
                                           RadioListTile(
                                             title: const Text(
                                                 "Update KYC documents"),
@@ -280,7 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 selectedReason = value!;
                                               });
                                             },
-                                          ),
+                                          ):const SizedBox.shrink(),
                                         ],
                                       ),
                                       actions: <Widget>[
