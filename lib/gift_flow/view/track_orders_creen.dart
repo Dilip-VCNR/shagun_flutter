@@ -67,7 +67,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                         snapshot.data!.trackTransaction![i].status==3?"Printing Completed":
                         snapshot.data!.trackTransaction![i].status==4?"Ready to Dispatch":
                         snapshot.data!.trackTransaction![i].status==5?"Dispatched": "Payment Settled",
-                        date: DateFormat("dd MMM yyyy").format(
+                        date: DateFormat("").format(
                             DateTime.parse(snapshot
                                 .data!
                                 .trackTransaction![i]

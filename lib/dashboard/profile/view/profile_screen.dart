@@ -112,7 +112,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               }
               if (snapshot.hasData) {
-                print(snapshot.data!.toJson());
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -231,59 +230,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       void Function(void Function())
                                           setState2) {
                                     return AlertDialog(
-                                      title: const Text("Please select your request"),
+                                      title: const Text(
+                                          "Please select your request"),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          snapshot.data!.kycData!.docNum==null?RadioListTile(
-                                            title:
-                                                const Text("New Kyc Request"),
-                                            value: "New Kyc Request",
-                                            groupValue: selectedReason,
-                                            onChanged: (value) {
-                                              setState2(() {
-                                                selectedReason = value!;
-                                              });
-                                            },
-                                          ):const SizedBox.shrink(),
-                                          snapshot.data!.kycData!.docNum!=null?
-                                          RadioListTile(
-                                            title: const Text(
-                                                "Request to edit existing bank details"),
-                                            value:
-                                                "Request to edit existing bank details",
-                                            groupValue: selectedReason,
-                                            onChanged: (value) {
-                                              setState2(() {
-                                                selectedReason = value!;
-                                              });
-                                            },
-                                          ):const SizedBox.shrink(),
-                                          snapshot.data!.kycData!.docNum!=null?
-                                          RadioListTile(
-                                            title: const Text(
-                                                "Request to add a new bank account"),
-                                            value:
-                                                "Request to add a new bank account",
-                                            groupValue: selectedReason,
-                                            onChanged: (value) {
-                                              setState2(() {
-                                                selectedReason = value!;
-                                              });
-                                            },
-                                          ):const SizedBox.shrink(),
-                                          snapshot.data!.kycData!.docNum!=null?
-                                          RadioListTile(
-                                            title: const Text(
-                                                "Update KYC documents"),
-                                            value: "Update KYC documents",
-                                            groupValue: selectedReason,
-                                            onChanged: (value) {
-                                              setState2(() {
-                                                selectedReason = value!;
-                                              });
-                                            },
-                                          ):const SizedBox.shrink(),
+                                          snapshot.data!.kycData!.docNum == null
+                                              ? RadioListTile(
+                                                  title: const Text(
+                                                      "New Kyc Request"),
+                                                  value: "New Kyc Request",
+                                                  groupValue: selectedReason,
+                                                  onChanged: (value) {
+                                                    setState2(() {
+                                                      selectedReason = value!;
+                                                    });
+                                                  },
+                                                )
+                                              : const SizedBox.shrink(),
+                                          snapshot.data!.kycData!.docNum != null
+                                              ? RadioListTile(
+                                                  title: const Text(
+                                                      "Request to edit existing bank details"),
+                                                  value:
+                                                      "Request to edit existing bank details",
+                                                  groupValue: selectedReason,
+                                                  onChanged: (value) {
+                                                    setState2(() {
+                                                      selectedReason = value!;
+                                                    });
+                                                  },
+                                                )
+                                              : const SizedBox.shrink(),
+                                          snapshot.data!.kycData!.docNum != null
+                                              ? RadioListTile(
+                                                  title: const Text(
+                                                      "Request to add a new bank account"),
+                                                  value:
+                                                      "Request to add a new bank account",
+                                                  groupValue: selectedReason,
+                                                  onChanged: (value) {
+                                                    setState2(() {
+                                                      selectedReason = value!;
+                                                    });
+                                                  },
+                                                )
+                                              : const SizedBox.shrink(),
+                                          snapshot.data!.kycData!.docNum != null
+                                              ? RadioListTile(
+                                                  title: const Text(
+                                                      "Update KYC documents"),
+                                                  value: "Update KYC documents",
+                                                  groupValue: selectedReason,
+                                                  onChanged: (value) {
+                                                    setState2(() {
+                                                      selectedReason = value!;
+                                                    });
+                                                  },
+                                                )
+                                              : const SizedBox.shrink(),
                                         ],
                                       ),
                                       actions: <Widget>[
@@ -295,8 +300,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                         TextButton(
                                           onPressed: () async {
-                                            Navigator.of(context).pop();
-                                            onRequestSubmitted(selectedReason);
+                                            if (selectedReason != "") {
+                                              Navigator.of(context).pop();
+                                              onRequestSubmitted(
+                                                  selectedReason);
+                                            } else {
+                                              showErrorToast(context,
+                                                  "Please select an option to proceed");
+                                            }
                                           },
                                           child: const Text("Submit"),
                                         ),
@@ -456,13 +467,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          i==0?const Text("My Bank Accounts",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: AppColors.primaryColor,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration: TextDecoration
-                                                      .underline)):const SizedBox.shrink(),
+                                          i == 0
+                                              ? const Text("My Bank Accounts",
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration: TextDecoration
+                                                          .underline))
+                                              : const SizedBox.shrink(),
                                           Row(
                                             children: [
                                               const Text(

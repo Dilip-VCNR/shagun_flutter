@@ -211,7 +211,7 @@ class _SearchTransactionsScreenState extends State<SearchTransactionsScreen> {
                                           ),
                                         ),
                                         Text(
-                                          'On his ${searchSentGiftsData!
+                                          'On their ${searchSentGiftsData!
                                               .sentGifts![index]
                                               .eventTypeName}',
                                           style: const TextStyle(

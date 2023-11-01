@@ -368,7 +368,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                                                       .width /
                                                                   2.5,
                                                               child: Text(
-                                                                '${snapshot.data!.invitedEvents![index].invitedByName} invited you to his ${snapshot.data!.invitedEvents![index].eventName}',
+                                                                '${snapshot.data!.invitedEvents![index].invitedByName} invited you to their ${snapshot.data!.invitedEvents![index].eventName}',
                                                                 style:
                                                                     const TextStyle(
                                                                   color: Colors

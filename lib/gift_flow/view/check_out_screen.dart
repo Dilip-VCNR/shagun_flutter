@@ -46,7 +46,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime.now()
-          .add(const Duration(days: 30)), // Limit to 30 days from now
+          .add(const Duration(days: 365)), // Limit to 30 days from now
     );
 
     if (pickedDate != null && pickedDate != selectedDate) {
@@ -141,7 +141,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 height: 10,
               ),
               Text(
-                'You are sending shagun to $giftToName\nfor his ${arguments['event_type']}',
+                'You are sending shagun to $giftToName\nfor their ${arguments['event_type']}',
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,

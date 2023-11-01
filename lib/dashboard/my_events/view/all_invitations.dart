@@ -167,7 +167,7 @@ class _AllInvitationsState extends State<AllInvitations> {
                                           SizedBox(
                                             width: screenSize.width / 2.5,
                                             child: Text(
-                                              '${snapshot.data!.invitedList![index].invitedByName} invited you to his ${snapshot.data!.invitedList![index].eventName}',
+                                              '${snapshot.data!.invitedList![index].invitedByName} invited you to their ${snapshot.data!.invitedList![index].eventName}',
                                               style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 16,

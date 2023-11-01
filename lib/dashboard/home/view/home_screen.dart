@@ -61,7 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
               if (snapshot.hasData) {
-                print(snapshot.data!.toJson());
                 if (snapshot.data!.userStatus == 0) {
                   widget.isBan(true);
                   return const Padding(
@@ -461,8 +460,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 TextButton(
                                                   onPressed: () async {
-                                                    Navigator.of(context).pop();
-                                                    onRequestSubmitted(selectedReason);
+                                                    if(selectedReason!=""){
+                                                      Navigator.of(context).pop();
+                                                      onRequestSubmitted(selectedReason);
+                                                    }else{
+                                                      showErrorToast(context, "Please select an option to proceed");
+                                                    }
                                                   },
                                                   child: const Text("Submit"),
                                                 ),
@@ -666,7 +669,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             screenSize.width /
                                                                 2.5,
                                                         child: Text(
-                                                          '${snapshot.data!.eventsInviteList![index].invitedByName} invited you to his ${snapshot.data!.eventsInviteList![index].eventName}',
+                                                          '${snapshot.data!.eventsInviteList![index].invitedByName} invited you to their ${snapshot.data!.eventsInviteList![index].eventName}',
                                                           style:
                                                               const TextStyle(
                                                             color: Colors.black,

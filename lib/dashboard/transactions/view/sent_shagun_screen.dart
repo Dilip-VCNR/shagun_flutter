@@ -307,7 +307,7 @@ class _SentShagunScreenState extends State<SentShagunScreen> {
                                                 ),
                                               ),
                                               Text(
-                                                'On his ${snapshot.data!.sentGifts![index].eventTypeName}',
+                                                'On their ${snapshot.data!.sentGifts![index].eventTypeName}',
                                                 style: const TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 14,
