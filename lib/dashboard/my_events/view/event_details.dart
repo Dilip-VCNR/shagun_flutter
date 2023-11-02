@@ -140,21 +140,22 @@ class _EventDetailsState extends State<EventDetails> {
                               ],
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   width: 70,
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
                                 SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    '${eventData!.event!.eventType}',
-                                    style: const TextStyle(
-                                      color: AppColors.secondaryColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
+                                  width: 90,
+                                  child: FittedBox(
+                                    child: Text(
+                                      '${eventData!.event!.eventType}',
+                                      style: const TextStyle(
+                                        color: AppColors.secondaryColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ),
                                 )
@@ -216,6 +217,7 @@ class _EventDetailsState extends State<EventDetails> {
                           ],
                         ),
                         Container(
+                          // margin: EdgeInsets.only(left: 10),
                           height: 150,
                           width: 3,
                           color: AppColors.scaffoldBackground,
@@ -227,21 +229,25 @@ class _EventDetailsState extends State<EventDetails> {
                           decoration: ShapeDecoration(
                             color: AppColors.secondaryColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(15),
                             ),
                           ),
                           padding: const EdgeInsets.all(10),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                DateFormat("d\nMMM\nEEEE").format(
-                                    DateTime.parse(eventData!.event!.eventDate
-                                        .toString())),
-                                // '13\nOCT\nFriday',
-                                style: const TextStyle(
-                                  color: AppColors.primaryColor,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
+                              FittedBox(
+                                child: Text(
+                                  DateFormat("d\nMMM\nEEE").format(
+                                      DateTime.parse(eventData!.event!.eventDate
+                                          .toString())),
+                                  // '13\nOCT\nFriday',
+                                  style: const TextStyle(
+                                    color: AppColors.primaryColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -278,7 +284,7 @@ class _EventDetailsState extends State<EventDetails> {
             const SizedBox(
               height: 10,
             ),
-            Container(
+            SizedBox(
               width: screenSize.width,
               child: Text(
                 '"${eventData!.event!.eventNote}"',
